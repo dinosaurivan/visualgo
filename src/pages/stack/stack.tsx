@@ -1,8 +1,8 @@
 // libraries
-import { FC, FormEvent, useMemo, useState } from "react";
+import { FC, FormEvent, useState } from "react";
 
 // components 
-import { Button, Circle, Input, SolutionLayout } from "../../ui";
+import { Button, Input, SolutionLayout } from "../../ui";
 
 // styles
 import styles from "./stack.module.css";
@@ -11,12 +11,8 @@ import styles from "./stack.module.css";
 import useForm from "../../hooks/use-form";
 
 // utils
-import { ElementCaptions, StackActions } from "../../utils/constants";
-import { ElementData } from "../../utils/element-data";
-
-// algorithms 
-import { pushToStack } from "../../algorithms/stack/push-to-stack";
-import { popFromStack } from "../../algorithms/stack/pop-from-stack";
+import { Delay, StackActions } from "../../utils/constants";
+import { sleep } from "../../helpers/sleep";
 
 
 
@@ -28,55 +24,19 @@ export const StackPage: FC = () => {
   
   const [action, setAction] = useState(StackActions.Push);
   const [isInProgress, setIsInProgress] = useState(false);
-  const [currentStackState, setCurrentStackState] = useState<Array<ElementData<string>>>([]);
   
   const onSubmit = (action: StackActions) => async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     setIsInProgress(true);
-    if (action === StackActions.Push) {
-      await pushToStack(inputValue, currentStackState, setCurrentStackState);
-    } else if (action === StackActions.Pop) {
-      await popFromStack(currentStackState, setCurrentStackState);
-    };
+    await sleep(Delay.Medium);
     setInputValue("");
     setIsInProgress(false);
   };  
   
-  const onReset = (event: FormEvent): void => {
-    event.preventDefault();
-    setCurrentStackState([]);
-  };
-  
-  const content = useMemo(
-    () => {
-      return (
-        <ul className={styles.list}>
-          {
-            currentStackState.map(
-              ({state, value, isHead}, index) => {
-                return (
-                  <li className={styles.item} key={index}>
-                    <Circle 
-                      state={state}
-                      value={value}
-                      index={index}
-                      above={isHead ? ElementCaptions.Top : undefined}
-                    />
-                  </li>
-                )
-              }
-            )
-          }
-        </ul>
-      );
-    },
-    [currentStackState]
-  );  
-  
   return (
     <SolutionLayout title="Стек">
       <section className={styles.container}>
-        <form className={styles.form} onSubmit={onSubmit(action)} onReset={onReset}>
+        <form className={styles.form} onSubmit={onSubmit(action)}>
           <Input 
             maxLength={4}
             isLimitText={true}     
@@ -87,26 +47,27 @@ export const StackPage: FC = () => {
           <Button
             type="submit"
             text="Добавить"
-            disabled={!isInputValid || inputValue.length === 0}
-            isLoader={isInProgress}
+            disabled={false}
+            isLoader={false}            
             onClick={() => { setAction(StackActions.Push); }}
           />
           <Button
             type="submit"
             text="Удалить"
-            disabled={currentStackState.length === 0}
-            isLoader={isInProgress}
+            disabled={false}
+            isLoader={false}               
             onClick={() => { setAction(StackActions.Pop); }}
           />          
           <Button
-            type="reset"
+            type="submit"
             text="Очистить"
-            disabled={currentStackState.length === 0}
-            isLoader={isInProgress}
+            disabled={false}
+            isLoader={false}               
+            onClick={() => { setAction(StackActions.Clear); }}
             extraClass={styles.leftMargin}
           />                    
         </form>
-        {content}
+        
       </section>            
     </SolutionLayout>
   );

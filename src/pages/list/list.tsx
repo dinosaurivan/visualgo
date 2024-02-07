@@ -1,8 +1,8 @@
 // libraries
-import { FC, FormEvent, Fragment, useMemo, useState } from "react";
+import { FC, FormEvent, useState } from "react";
 
 // components 
-import { ArrowIcon, Button, Circle, Input, SolutionLayout } from "../../ui";
+import { Button, Input, SolutionLayout } from "../../ui";
 
 // styles
 import styles from "./list.module.css";
@@ -11,12 +11,9 @@ import styles from "./list.module.css";
 import useForm from "../../hooks/use-form";
 
 // utils
-import { ElementData } from "../../utils/element-data";
-import { ElementCaptions, ElementStates, LinkedListActions } from "../../utils/constants";
+import { Delay, LinkedListActions } from "../../utils/constants";
 
-// algorithms
-import { insertToList } from "../../algorithms/list/insert-to-list";
-import { removeFromList } from "../../algorithms/list/remove-from-list";
+import { sleep } from "../../helpers/sleep";
 
 
 
@@ -28,76 +25,17 @@ export const ListPage: FC = () => {
   const [isIndexValid, setIsIndexValid] = useState(false);
   const { onChange } = useForm();
   
-  const initialList = useMemo(
-    () => [
-      new ElementData("69", ElementStates.Default, true),
-      new ElementData("420"),
-      new ElementData("21"),
-      new ElementData("666", ElementStates.Default, false, true),     
-    ],
-    []
-  );
-  
   const [action, setAction] = useState(LinkedListActions.Insert);
   const [isInProgress, setIsInProgress] = useState(false);
-  const [currentListState, setCurrentListState] = useState(initialList);
   
   const onSubmit = (action: LinkedListActions) => async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     setIsInProgress(true);
-    if (action === LinkedListActions.Push) {
-      await insertToList(valueInput, currentListState.length, currentListState, setCurrentListState);
-    } else if (action === LinkedListActions.Pop) {
-      await removeFromList(currentListState.length-1, currentListState, setCurrentListState);
-    } else if (action === LinkedListActions.Unshift) {
-      await insertToList(valueInput, 0, currentListState, setCurrentListState);
-    } else if (action === LinkedListActions.Shift) {
-      await removeFromList(0, currentListState, setCurrentListState);
-    } else if (action === LinkedListActions.Insert) {
-      await insertToList(valueInput, Number(indexInput), currentListState, setCurrentListState);
-    } else if (action === LinkedListActions.Remove) {
-      await removeFromList(Number(indexInput), currentListState, setCurrentListState);
-    };
+    await sleep(Delay.Medium);
     setValueInput("");
     setIndexInput("");
     setIsInProgress(false);
   };
-  
-  const content = useMemo(
-    () => {
-      return (
-        <ul className={styles.list}>
-          {
-            currentListState.map(
-              ({state, value, isHead, isTail, valueAbove, valueBelow}, index, array) => {
-                const above = valueAbove 
-                              ? <Circle state={ElementStates.Changing} value={valueAbove} isSmall={true} />
-                              : (isHead ? ElementCaptions.Head : undefined)
-                const below = valueBelow 
-                              ? <Circle state={ElementStates.Changing} value={valueBelow} isSmall={true} />
-                              : (isTail ? ElementCaptions.Tail : undefined)                              
-                return (
-                  <Fragment key={index}>
-                    <li className={styles.item}>
-                      <Circle
-                        state={state}
-                        value={value}
-                        index={index}
-                        above={above}
-                        below={below}
-                      />
-                    </li> 
-                    {index < array.length-1 && <ArrowIcon />}
-                  </Fragment>
-                )
-              }
-            )
-          }
-        </ul>
-      );
-    },
-    [currentListState]
-  );   
   
   return (
     <SolutionLayout title="Связный список">
@@ -114,29 +52,29 @@ export const ListPage: FC = () => {
             <Button
               type="submit"
               text="Добавить в head"
-              disabled={!isValueValid || valueInput.length === 0}
-              isLoader={isInProgress}
+              disabled={false}
+              isLoader={false}              
               onClick={() => { setAction(LinkedListActions.Unshift); }}
             />
             <Button
               type="submit"
               text="Добавить в tail"
-              disabled={!isValueValid || valueInput.length === 0}
-              isLoader={isInProgress}
+              disabled={false}
+              isLoader={false}              
               onClick={() => { setAction(LinkedListActions.Push); }}
             />
             <Button
               type="submit"
               text="Удалить из head"
-              disabled={currentListState.length === 0}
-              isLoader={isInProgress}
+              disabled={false}
+              isLoader={false}              
               onClick={() => { setAction(LinkedListActions.Shift); }}
             />          
             <Button
               type="submit"
               text="Удалить из tail"
-              disabled={currentListState.length === 0}
-              isLoader={isInProgress}
+              disabled={false}
+              isLoader={false}              
               onClick={() => { setAction(LinkedListActions.Pop); }}
             />        
           </form>
@@ -144,7 +82,7 @@ export const ListPage: FC = () => {
             <Input 
               type="number"
               min={0}
-              max={currentListState.length}
+              // todo max
               value={indexInput}
               placeholder="Введите индекс"
               onChange={onChange(setIndexInput, setIsIndexValid)}
@@ -152,20 +90,20 @@ export const ListPage: FC = () => {
             <Button
               type="submit"
               text="Добавить по индексу"
-              disabled={!isIndexValid || !isValueValid || indexInput.length === 0 || valueInput.length === 0}
-              isLoader={isInProgress}
+              disabled={false}
+              isLoader={false}                     
               onClick={() => { setAction(LinkedListActions.Insert); }}
             />
             <Button
               type="submit"
               text="Удалить по индексу"
-              disabled={!isIndexValid || indexInput.length === 0}
-              isLoader={isInProgress}
+              disabled={false}
+              isLoader={false}                     
               onClick={() => { setAction(LinkedListActions.Remove); }}
             />             
           </form>  
         </div>
-        {content}
+        
       </section>          
     </SolutionLayout>
   );
