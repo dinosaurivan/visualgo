@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./circle.module.css";
-import { ElementStates } from "../../utils/constants";
+import { ElementColors } from "../../utils/constants";
 
 interface CircleProps {
-  state?: ElementStates;
+  color?: ElementColors;
   value?: string;
   above?: string | React.ReactElement | null;
   index?: number;
@@ -14,7 +14,7 @@ interface CircleProps {
 }
 
 export const Circle: React.FC<CircleProps> = ({
-  state = ElementStates.Default,
+  color = ElementColors.Default,
   value,
   above,
   index,
@@ -35,7 +35,7 @@ export const Circle: React.FC<CircleProps> = ({
       </div>
       <div
         className={`${styles.circle}  ${isSmall ? styles.small : ""} ${
-          styles[state]
+          styles[color]
         }`}
       >
         <p

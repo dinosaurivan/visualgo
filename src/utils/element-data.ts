@@ -1,11 +1,11 @@
 // utils 
-import { ElementStates } from "./constants";
+import { ElementColors } from "./constants";
 
 
 
 type ElementDataType<T> = {
   value: T,
-  state: ElementStates,
+  state: ElementColors,
   isHead: boolean,
   isTail: boolean,
   valueAbove?: string,
@@ -14,14 +14,14 @@ type ElementDataType<T> = {
 
 export class ElementData<T> implements ElementDataType<T> {
   value: T;
-  state: ElementStates;
+  state: ElementColors;
   isHead: boolean;
   isTail: boolean;  
   valueAbove?: string;
   valueBelow?: string;
   constructor(
     value: T, 
-    state: ElementStates = ElementStates.Default,
+    state: ElementColors = ElementColors.Default,
     isHead: boolean = false,
     isTail: boolean = false,      
     valueAbove?: string,

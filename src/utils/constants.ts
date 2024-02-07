@@ -6,7 +6,7 @@ export enum Direction {
   Descending = "descending",
 };
 
-export enum ElementStates {
+export enum ElementColors {
   Default = "default",
   Selected = "selected",
   Changing = "changing",
@@ -28,11 +28,13 @@ export enum ElementCaptions {
 export enum StackActions {
   Pop = "pop",
   Push = "push",
+  Clear = "clear",
 };
 
 export enum QueueActions {
   Enqueue = "enqueue",
   Dequeue = "dequeue",
+  Clear = "clear",
 };
 
 export enum LinkedListActions {
@@ -46,6 +48,5 @@ export enum LinkedListActions {
 
 export enum Delay {
   None = 0,
-  Short = 500,
   Medium = 1000,
 };
