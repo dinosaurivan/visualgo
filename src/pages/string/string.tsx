@@ -1,5 +1,5 @@
 // libraries
-import { FC, FormEvent, useMemo, useState } from "react";
+import { FC, FormEvent, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Input, Button, Circle, SolutionLayout } from "../../ui";
@@ -12,9 +12,10 @@ import useForm from "../../hooks/use-form";
 
 // utils
 import { ElementData } from "../../utils/element-data";
+import { sequentialUpdate } from "../../utils/sequential-update";
 
-// algorithms 
-import { reverseArray } from "../../algorithms/reverse-array";
+// data structures 
+import { LettersArray } from "../../data-structures/letters-array";
 
 
 
@@ -25,44 +26,50 @@ export const StringPage: FC = () => {
   const { onChange } = useForm();
   
   const [isInProgress, setIsInProgress] = useState(false);
-  const [currentReversalState, setCurrentReversalState] = useState<Array<ElementData<string>>>([]);
   
-  const preview = useMemo(
-    () => [...inputValue].map(
-      (letter) => new ElementData(letter)
-    ),
-    [inputValue]
-  );
+  const [state, setState] = useState<Array<ElementData<string>>>([]);
+  const [history, setHistory] = useState<Array<typeof state>>([]);
   
   const onSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
-    setIsInProgress(true);
-    await reverseArray(preview, setCurrentReversalState);
-    setInputValue("");
-    setIsInProgress(false);
+    const lettersArray = new LettersArray(inputValue);
+    setHistory(lettersArray.reverse());
+    setInputValue(""); 
+    setIsInputValid(false);
   };
   
-  const content = useMemo(
+  useEffect(
     () => {
-      const state = currentReversalState.length ? currentReversalState : preview;
-      return (
-        <ul className={styles.list}>
-          {
-            state.map(
-              ({state, value}, index) => (
-                <li className={styles.item} key={index}>
-                  <Circle 
-                    state={state}
-                    value={value}
-                  />
-                </li>
-              )
+      let isMounted = true;
+      if (history.length > 0) {
+        setIsInProgress(true);
+        sequentialUpdate<string>(history, setState, setIsInProgress, () => isMounted);
+      };
+      return () => {
+        isMounted = false;
+      };
+    }, 
+    [history]
+  );
+  
+  const content = useMemo(
+    () => (
+      <ul className={styles.list}>
+        {
+          state.map(
+            ({value, color}, index) => (
+              <li className={styles.item} key={index}>
+                <Circle 
+                  value={value}
+                  color={color}
+                />
+              </li>
             )
-          }
-        </ul>
-      );
-    },
-    [currentReversalState, preview]
+          )
+        }
+      </ul>
+    ),
+    [state]
   );
   
   return (
@@ -74,12 +81,12 @@ export const StringPage: FC = () => {
             maxLength={11}
             isLimitText={true}     
             value={inputValue}
-            onChange={onChange(setInputValue, setIsInputValid)}
+            onChange={onChange(setInputValue, setIsInputValid, false)}
           />
           <Button 
+            type="submit"
             text="Развернуть"
             disabled={!isInputValid}
-            type="submit"
             isLoader={isInProgress}
           />
         </form>

@@ -1,5 +1,5 @@
 // libraries 
-import { ChangeEvent, FC, FormEvent, useCallback, useMemo, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Column, Input, RadioInput, SolutionLayout } from "../../ui";
@@ -7,14 +7,17 @@ import { Button, Column, Input, RadioInput, SolutionLayout } from "../../ui";
 // styles 
 import styles from "./sorting.module.css";
 
+// hooks 
+import useForm from "../../hooks/use-form";
+
 // utils
 import { ElementData } from "../../utils/element-data";
-import { DEFAULT_ARRAY_SIZE, Direction, SortingAlgorithms } from "../../utils/constants";
+import { randomNumbersArray } from "../../utils/random-array";
+import { sequentialUpdate } from "../../utils/sequential-update";
+import { DEFAULT_ARRAY_SIZE, Direction, SortingActions } from "../../utils/constants";
 
-// algorithms 
-import { bubbleSort } from "../../algorithms/sorting/bubble-sort";
-import { selectionSort } from "../../algorithms/sorting/selection-sort";
-import useForm from "../../hooks/use-form";
+// data structures 
+import { NumbersArray } from "../../data-structures/numbers-array";
 
 
 
@@ -24,99 +27,105 @@ export const SortingPage: FC = () => {
   const [isInputValid, setIsInputValid] = useState(true);  
   const { onChange } = useForm();
   
-  const getRandomArray = useCallback(
-    () => Array.from(
-      { length: Number(inputValue) || DEFAULT_ARRAY_SIZE }, 
-      () => new ElementData(
-        Math.floor(1 + Math.random() * 100)
-      )
-    ),
-    [inputValue]
-  );
-  
-  const [algorithm, setAlgorithm] = useState(SortingAlgorithms.Selection);
+  const [action, setAction] = useState(SortingActions.Selection);
+  const [direction, setDirection] = useState(Direction.Ascending);
   const [isInProgress, setIsInProgress] = useState(false);  
-  const [currentArray, setCurrentArray] = useState(getRandomArray());
   
   const changeAlgorithm = (event: ChangeEvent<HTMLInputElement>): void => {
-    setAlgorithm(event.target.value as SortingAlgorithms);
-  };  
+    setAction(event.target.value as SortingActions);
+  };    
   
-  const sortArray = (direction: Direction) => async (event: FormEvent): Promise<void> => {
-    event.preventDefault();
-    setIsInProgress(true);
-    if (algorithm === SortingAlgorithms.Selection) {
-      await selectionSort(currentArray, setCurrentArray, direction);
-    } else if (algorithm === SortingAlgorithms.Bubble) {
-      await bubbleSort(currentArray, setCurrentArray, direction);
-    }; 
-    setIsInProgress(false);
-  };
+  const [state, setState] = useState<Array<ElementData<number>>>(randomNumbersArray(Number(inputValue)));
+  const [history, setHistory] = useState<Array<typeof state>>([]);
   
   const onSubmit = (event: FormEvent): void => {
     event.preventDefault();
-    setCurrentArray(getRandomArray());
+    const numbersArray = new NumbersArray(state);
+    if (action === SortingActions.Bubble) {
+      setHistory(numbersArray.bubbleSort(direction));
+    } else if (action === SortingActions.Selection) {
+      setHistory(numbersArray.selectionSort(direction));
+    };
   };
   
-  const content = useMemo(
+  const onReset = (event: FormEvent): void => {
+    event.preventDefault();
+    const numbersArray = new NumbersArray(state);
+    setHistory(numbersArray.refresh(Number(inputValue) || DEFAULT_ARRAY_SIZE));
+  };
+  
+  useEffect(
     () => {
-      return (
-        <ul className={styles.list}>
-          {
-            currentArray.map(
-              ({value, state}, index) => {
-                return (
-                  <li className={styles.item} key={index}>
-                    <Column 
-                      value={value}
-                      state={state}
-                    />
-                  </li>
-                )
-              }
+      let isMounted = true;
+      if (history.length > 0) {
+        setIsInProgress(true);
+        sequentialUpdate<number>(history, setState, setIsInProgress, () => isMounted);
+      };
+      return () => {
+        isMounted = false;
+      };      
+    }, 
+    [history]
+  );  
+  
+  const content = useMemo(
+    () => (
+      <ul className={styles.list}>
+        {
+          state.map(
+            ({value, color}, index) => (
+              <li className={styles.item} key={index}>
+                <Column 
+                  value={value}
+                  color={color}
+                />
+              </li>
             )
-          }
-        </ul>
-      );
-    },
-    [currentArray]
+          )
+        }
+      </ul>
+    ),
+    [state]
   );    
   
   return (
     <SolutionLayout title="Сортировка массива">
       <section className={styles.container}>
-        <form className={styles.form} onSubmit={onSubmit}>
+        <form className={styles.form} onSubmit={onSubmit} onReset={onReset}>
           <RadioInput
             label="Выбор"
-            value={SortingAlgorithms.Selection}
-            checked={algorithm === SortingAlgorithms.Selection}
+            value={SortingActions.Selection}
+            checked={action === SortingActions.Selection}
             onChange={changeAlgorithm}            
           />
           <RadioInput
             label="Пузырёк"
-            value={SortingAlgorithms.Bubble}
-            checked={algorithm === SortingAlgorithms.Bubble}
+            value={SortingActions.Bubble}
+            checked={action === SortingActions.Bubble}
             onChange={changeAlgorithm}            
             extraClass={styles.smallLeftMargin}
           />          
           <Button
+            type="submit"
             sorting={Direction.Ascending}
             text="По возрастанию"
-            isLoader={isInProgress}
+            disabled={isInProgress && direction !== Direction.Ascending}
+            isLoader={isInProgress && direction === Direction.Ascending}            
+            onClick={() => { setDirection(Direction.Ascending); }}
             extraClass={styles.mediumLeftMargin}
-            onClick={sortArray(Direction.Ascending)}
           />
           <Button
+            type="submit"
             sorting={Direction.Descending}
             text="По убыванию"
-            isLoader={isInProgress}
-            onClick={sortArray(Direction.Descending)}
+            disabled={isInProgress && direction !== Direction.Descending}
+            isLoader={isInProgress && direction === Direction.Descending}            
+            onClick={() => { setDirection(Direction.Descending); }}
           />      
           <Button
-            type="submit"
+            type="reset"
             text="Новый массив"
-            isLoader={isInProgress}
-            disabled={!isInputValid}
+            disabled={!isInputValid || isInProgress}
             extraClass={styles.largeLeftMargin}
           />               
           <Input 
@@ -125,7 +134,7 @@ export const SortingPage: FC = () => {
             min={3}
             max={17}
             value={inputValue}
-            onChange={onChange(setInputValue, setIsInputValid)}
+            onChange={onChange(setInputValue, setIsInputValid, true)}
             extraClass={styles.exactWidth}
           />          
         </form>

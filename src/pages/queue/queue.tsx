@@ -1,8 +1,8 @@
 // libraries
-import { FC, FormEvent, useState } from "react";
+import { FC, FormEvent, useEffect, useMemo, useState } from "react";
 
 // components 
-import { Button, Input, SolutionLayout } from "../../ui";
+import { Button, Circle, Input, SolutionLayout } from "../../ui";
 
 // styles
 import styles from "./queue.module.css";
@@ -11,8 +11,12 @@ import styles from "./queue.module.css";
 import useForm from "../../hooks/use-form";
 
 // utils
-import { Delay, QueueActions } from "../../utils/constants";
-import { sleep } from "../../helpers/sleep";
+import { ElementData } from "../../utils/element-data";
+import { sequentialUpdate } from "../../utils/sequential-update";
+import { DEFAULT_QUEUE_MAX_SIZE, ElementCaptions, QueueActions } from "../../utils/constants";
+
+// data structures 
+import { Queue } from "../../data-structures/queue";
 
 
 
@@ -25,13 +29,60 @@ export const QueuePage: FC = () => {
   const [action, setAction] = useState(QueueActions.Enqueue);
   const [isInProgress, setIsInProgress] = useState(false);
   
+  const initialState = new Queue<string>(DEFAULT_QUEUE_MAX_SIZE);
+  const [state, setState] = useState<Array<ElementData<string | undefined>>>(initialState.toArray());
+  const [history, setHistory] = useState<Array<typeof state>>([]);
+  
   const onSubmit = (action: QueueActions) => async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-    setIsInProgress(true);
-    await sleep(Delay.Medium);
+    const queue = new Queue<string>(DEFAULT_QUEUE_MAX_SIZE, state);
+    if (action === QueueActions.Enqueue) {
+      setHistory(queue.enqueue(inputValue));
+    } else if (action === QueueActions.Dequeue) {
+      setHistory(queue.dequeue());
+    } else if (action === QueueActions.Clear) {
+      setHistory(queue.clear());
+    };
     setInputValue("");
-    setIsInProgress(false);
+    setIsInputValid(false);
   };  
+  
+  useEffect(
+    () => {
+      let isMounted = true;
+      if (history.length > 0) {
+        setIsInProgress(true);
+        sequentialUpdate<string | undefined>(history, setState, setIsInProgress, () => isMounted);
+      };
+      return () => {
+        isMounted = false;
+      };      
+    }, 
+    [history]
+  );  
+  
+  const content = useMemo(
+    () => (
+      <ul className={styles.list}>
+        {
+          state.map(
+            ({value, color, isHead, isTail}, index) => (
+              <li className={styles.item} key={index}>
+                <Circle
+                  value={value}
+                  color={color}
+                  index={index}
+                  above={isHead ? ElementCaptions.Head : undefined}
+                  below={isTail ? ElementCaptions.Tail : undefined}
+                />
+              </li>
+            )
+          )
+        }
+      </ul>
+    ),
+    [state]
+  );  
   
   return (
     <SolutionLayout title="Очередь">
@@ -42,32 +93,32 @@ export const QueuePage: FC = () => {
             isLimitText={true}     
             value={inputValue}
             placeholder="Введите значение"
-            onChange={onChange(setInputValue, setIsInputValid)}
+            onChange={onChange(setInputValue, setIsInputValid, false)}
           />
           <Button
             type="submit"
             text="Добавить"
-            disabled={false}
-            isLoader={false}            
+            disabled={!isInputValid || (isInProgress && action !== QueueActions.Enqueue)}
+            isLoader={isInProgress && action === QueueActions.Enqueue}            
             onClick={() => { setAction(QueueActions.Enqueue); }}
           />
           <Button
             type="submit"
             text="Удалить"
-            disabled={false}
-            isLoader={false}            
+            disabled={state.every((element) => element.value === undefined) || (isInProgress && action !== QueueActions.Dequeue)}
+            isLoader={isInProgress && action === QueueActions.Dequeue}            
             onClick={() => { setAction(QueueActions.Dequeue); }}
           />          
           <Button
             type="submit"
             text="Очистить"
-            disabled={false}
-            isLoader={false}            
+            disabled={state.every((element) => element.value === undefined) || (isInProgress && action !== QueueActions.Clear)}
+            isLoader={isInProgress && action === QueueActions.Clear}            
             onClick={() => { setAction(QueueActions.Clear); }}
             extraClass={styles.leftMargin}
           />                    
         </form>
-        
+        {content}
       </section>            
     </SolutionLayout>
   );

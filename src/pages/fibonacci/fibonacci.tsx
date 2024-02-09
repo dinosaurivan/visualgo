@@ -1,5 +1,5 @@
 // libraries
-import { FC, FormEvent, useMemo, useState } from "react";
+import { FC, FormEvent, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Circle, Input, SolutionLayout } from "../../ui";
@@ -12,9 +12,10 @@ import useForm from "../../hooks/use-form";
 
 // utils
 import { ElementData } from "../../utils/element-data";
+import { sequentialUpdate } from "../../utils/sequential-update";
 
-// algorithms
-import { fibonacciSequence } from "../../algorithms/fibonacci-sequence";
+// data structures 
+import { FibonacciSequence } from "../../data-structures/fibonacci-sequence";
 
 
 
@@ -25,37 +26,51 @@ export const FibonacciPage: FC = () => {
   const { onChange } = useForm();
   
   const [isInProgress, setIsInProgress] = useState(false);
-  const [currentSequenceState, setCurrentSequenceState] = useState<Array<ElementData<number>>>([]);
+  
+  const [state, setState] = useState<Array<ElementData<number>>>([]);
+  const [history, setHistory] = useState<Array<typeof state>>([]);
   
   const onSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
-    setIsInProgress(true);
-    await fibonacciSequence(Number(inputValue), setCurrentSequenceState);
-    setInputValue("");
-    setIsInProgress(false);
+    const sequence = new FibonacciSequence();
+    setHistory(sequence.calculate(Number(inputValue)));
+    setInputValue("");    
+    setIsInputValid(false);
   };
   
-  const content = useMemo(
+  useEffect(
     () => {
-      return (
-        <ul className={styles.list}>
-          {
-            currentSequenceState.map(
-              ({state, value}, index) => (
-                <li className={styles.item} key={index}>
-                  <Circle 
-                    state={state}
-                    value={String(value)}
-                    index={index}
-                  />
-                </li>
-              )
+      let isMounted = true;
+      if (history.length > 0) {
+        setIsInProgress(true);
+        sequentialUpdate<number>(history, setState, setIsInProgress, () => isMounted);
+      };
+      return () => {
+        isMounted = false;
+      };      
+    }, 
+    [history]
+  );  
+  
+  const content = useMemo(
+    () => (
+      <ul className={styles.list}>
+        {
+          state.map(
+            ({value, color}, index) => (
+              <li className={styles.item} key={index}>
+                <Circle 
+                  value={String(value)}
+                  color={color}
+                  index={index}
+                />
+              </li>
             )
-          }
-        </ul>
-      );
-    },
-    [currentSequenceState]
+          )
+        }
+      </ul>
+    ),
+    [state]
   );  
   
   return (
@@ -68,12 +83,12 @@ export const FibonacciPage: FC = () => {
             max={19}
             isLimitText={true}     
             value={inputValue}
-            onChange={onChange(setInputValue, setIsInputValid)}
+            onChange={onChange(setInputValue, setIsInputValid, false)}
           />
           <Button
-            text="Рассчитать"
-            disabled={!isInputValid || inputValue.length === 0}
             type="submit"
+            text="Рассчитать"
+            disabled={!isInputValid}
             isLoader={isInProgress}
           />
         </form>
