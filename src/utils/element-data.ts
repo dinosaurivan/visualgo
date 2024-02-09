@@ -3,32 +3,24 @@ import { ElementColors } from "./constants";
 
 
 
-type ElementDataType<T> = {
-  value: T,
-  state: ElementColors,
-  isHead: boolean,
-  isTail: boolean,
-  valueAbove?: string,
-  valueBelow?: string,
-};
-
-export class ElementData<T> implements ElementDataType<T> {
+export class ElementData<T> {
   value: T;
-  state: ElementColors;
+  color: ElementColors;
   isHead: boolean;
   isTail: boolean;  
-  valueAbove?: string;
-  valueBelow?: string;
+  valueAbove?: T;
+  valueBelow?: T;
+  
   constructor(
     value: T, 
-    state: ElementColors = ElementColors.Default,
+    color: ElementColors = ElementColors.Default,
     isHead: boolean = false,
     isTail: boolean = false,      
-    valueAbove?: string,
-    valueBelow?: string,    
+    valueAbove?: T, 
+    valueBelow?: T, 
   ) {
     this.value = value;
-    this.state = state;
+    this.color = color;
     this.isHead = isHead;
     this.isTail = isTail;
     this.valueAbove = valueAbove;

@@ -1,5 +1,5 @@
 export const DEFAULT_ARRAY_SIZE = 5;
-export const DEFAULT_QUEUE_SIZE = 7;
+export const DEFAULT_QUEUE_MAX_SIZE = 7;
 
 export enum Direction {
   Ascending = "ascending",
@@ -14,15 +14,15 @@ export enum ElementColors {
   Invisible = "invisible",
 };
 
-export enum SortingAlgorithms {
-  Bubble = "bubble",
-  Selection = "selection",
-};
-
 export enum ElementCaptions {
   Top = "top",
   Head = "head",
   Tail = "tail",
+};
+
+export enum SortingActions {
+  Bubble = "bubble",
+  Selection = "selection",
 };
 
 export enum StackActions {
@@ -32,9 +32,9 @@ export enum StackActions {
 };
 
 export enum QueueActions {
+  Clear = "clear",
   Enqueue = "enqueue",
   Dequeue = "dequeue",
-  Clear = "clear",
 };
 
 export enum LinkedListActions {
