@@ -1,12 +1,12 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { 
-  ListPage,
   MainPage,
   QueuePage,
   StackPage,
   StringPage,
   SortingPage,
-  FibonacciPage
+  FibonacciPage,
+  LinkedListPage,
 } from "../../pages";
 
 import styles from "./app.module.css";
@@ -35,7 +35,7 @@ function App() {
             <QueuePage />
           </Route>
           <Route path="/list">
-            <ListPage />
+            <LinkedListPage />
           </Route>
         </Switch>
       </BrowserRouter>
