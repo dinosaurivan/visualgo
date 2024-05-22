@@ -43,7 +43,7 @@ export class FibonacciSequence {
   
   private next(): number {
     if (this.isEmpty()) {
-      return 1;
+      return 0;
     };
     if (this.size() === 1) {
       return 1;
