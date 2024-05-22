@@ -14,7 +14,7 @@ import useForm from "../../hooks/use-form";
 import { ElementData } from "../../utils/element-data";
 import { randomStringsArray } from "../../utils/random-array";
 import { sequentialUpdate } from "../../utils/sequential-update";
-import { ElementCaptions, ElementColors, LinkedListActions } from "../../utils/constants";
+import { ElementCaptions, ElementColors, LinkedListActions, MAX_ELEMENT_LENGTH } from "../../utils/constants";
 
 // data structures 
 import { LinkedList } from "../../data-structures/linked-list";
@@ -112,7 +112,7 @@ export const LinkedListPage: FC = () => {
         <div className={styles.forms}>
           <form className={styles.form} onSubmit={onSubmit(action)}>
             <Input 
-              maxLength={4}
+              maxLength={MAX_ELEMENT_LENGTH}
               isLimitText={true}     
               value={valueInput}
               placeholder="Введите значение"

@@ -1,5 +1,5 @@
-import { Direction, ElementColors } from "../utils/constants";
 import { ElementData } from "../utils/element-data";
+import { Direction, ElementColors, MAX_ARRAY_VALUE, MIN_ARRAY_VALUE } from "../utils/constants";
 
 
 
@@ -51,7 +51,7 @@ export class NumbersArray {
     };        
     this.snapshot = Array.from(
       { length },
-      () => new ElementData<number>(Math.floor(1 + Math.random() * 100))
+      () => new ElementData<number>(Math.floor(MIN_ARRAY_VALUE + Math.random() * MAX_ARRAY_VALUE))
     );
     this.save();
     return this.history;

@@ -13,7 +13,7 @@ import useForm from "../../hooks/use-form";
 // utils
 import { ElementData } from "../../utils/element-data";
 import { sequentialUpdate } from "../../utils/sequential-update";
-import { ElementCaptions, StackActions } from "../../utils/constants";
+import { ElementCaptions, MAX_ELEMENT_LENGTH, StackActions } from "../../utils/constants";
 
 // data structures 
 import { Stack } from "../../data-structures/stack";
@@ -87,7 +87,7 @@ export const StackPage: FC = () => {
       <section className={styles.container}>
         <form className={styles.form} onSubmit={onSubmit(action)}>
           <Input 
-            maxLength={4}
+            maxLength={MAX_ELEMENT_LENGTH}
             isLimitText={true}     
             value={inputValue}
             placeholder="Введите значение"

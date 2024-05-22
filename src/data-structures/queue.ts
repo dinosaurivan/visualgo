@@ -6,19 +6,19 @@ import { ElementData } from "../utils/element-data";
 export class Queue<T> {
   private snapshot: Array<ElementData<T | undefined>>;
   private history: Array<typeof this.snapshot>;
-  private maxSize: number;
+  private sizeLimit: number;
   
-  constructor(maxSize: number, fromArray: Array<ElementData<T | undefined>> = []) {
-    if (maxSize < 1) {
+  constructor(sizeLimit: number, fromArray: Array<ElementData<T | undefined>> = []) {
+    if (sizeLimit < 1) {
       throw new Error("Incorrect maximum size value");
     };          
-    this.maxSize = maxSize;
+    this.sizeLimit = sizeLimit;
     
     if (fromArray.length > 0) {
       this.snapshot = [...fromArray];
     } else {
       this.snapshot = Array.from(
-        { length: maxSize },
+        { length: sizeLimit },
         () => new ElementData<T | undefined>(undefined)
       );  
     };
@@ -86,7 +86,7 @@ export class Queue<T> {
   clear(): typeof this.history {
     this.discard();
     this.snapshot = Array.from(
-      { length: this.maxSize },
+      { length: this.sizeLimit },
       () => new ElementData<T | undefined>(undefined)
     );  
     this.save();
@@ -97,7 +97,7 @@ export class Queue<T> {
     
     this.discard();
     
-    if (this.tailIndex() === this.maxSize - 1) {
+    if (this.tailIndex() === this.sizeLimit - 1) {
       throw new Error("Maximum size exceeded");
     };
     

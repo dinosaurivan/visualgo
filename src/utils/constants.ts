@@ -1,5 +1,14 @@
+export const MAX_ELEMENT_LENGTH = 4;
+
+export const DEFAULT_QUEUE_SIZE_LIMIT = 7;
+
 export const DEFAULT_ARRAY_SIZE = 5;
-export const DEFAULT_QUEUE_MAX_SIZE = 7;
+export const MIN_ARRAY_SIZE = 3;
+export const MAX_ARRAY_SIZE = 17;
+export const MIN_ARRAY_VALUE = 1;
+export const MAX_ARRAY_VALUE = 100;
+
+export const MAX_FIBONACCI_LENGTH = 19;
 
 export enum Direction {
   Ascending = "ascending",

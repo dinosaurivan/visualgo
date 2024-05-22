@@ -13,7 +13,7 @@ import useForm from "../../hooks/use-form";
 // utils
 import { ElementData } from "../../utils/element-data";
 import { sequentialUpdate } from "../../utils/sequential-update";
-import { DEFAULT_QUEUE_MAX_SIZE, ElementCaptions, QueueActions } from "../../utils/constants";
+import { DEFAULT_QUEUE_SIZE_LIMIT, ElementCaptions, MAX_ELEMENT_LENGTH, QueueActions } from "../../utils/constants";
 
 // data structures 
 import { Queue } from "../../data-structures/queue";
@@ -29,13 +29,13 @@ export const QueuePage: FC = () => {
   const [action, setAction] = useState(QueueActions.Enqueue);
   const [isInProgress, setIsInProgress] = useState(false);
   
-  const initialState = new Queue<string>(DEFAULT_QUEUE_MAX_SIZE);
+  const initialState = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT);
   const [state, setState] = useState<Array<ElementData<string | undefined>>>(initialState.toArray());
   const [history, setHistory] = useState<Array<typeof state>>([]);
   
   const onSubmit = (action: QueueActions) => async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-    const queue = new Queue<string>(DEFAULT_QUEUE_MAX_SIZE, state);
+    const queue = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT, state);
     if (action === QueueActions.Enqueue) {
       setHistory(queue.enqueue(inputValue));
     } else if (action === QueueActions.Dequeue) {
@@ -89,7 +89,7 @@ export const QueuePage: FC = () => {
       <section className={styles.container}>
         <form className={styles.form} onSubmit={onSubmit(action)}>
           <Input 
-            maxLength={4}
+            maxLength={MAX_ELEMENT_LENGTH}
             isLimitText={true}     
             value={inputValue}
             placeholder="Введите значение"

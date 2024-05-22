@@ -12,6 +12,7 @@ import useForm from "../../hooks/use-form";
 
 // utils
 import { ElementData } from "../../utils/element-data";
+import { MAX_FIBONACCI_LENGTH } from "../../utils/constants";
 import { sequentialUpdate } from "../../utils/sequential-update";
 
 // data structures 
@@ -80,7 +81,7 @@ export const FibonacciPage: FC = () => {
           <Input 
             type="number"          
             min={0}
-            max={19}
+            max={MAX_FIBONACCI_LENGTH}
             isLimitText={true}     
             value={inputValue}
             onChange={onChange(setInputValue, setIsInputValid, false)}

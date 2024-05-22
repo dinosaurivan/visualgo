@@ -14,7 +14,7 @@ import useForm from "../../hooks/use-form";
 import { ElementData } from "../../utils/element-data";
 import { randomNumbersArray } from "../../utils/random-array";
 import { sequentialUpdate } from "../../utils/sequential-update";
-import { DEFAULT_ARRAY_SIZE, Direction, SortingActions } from "../../utils/constants";
+import { DEFAULT_ARRAY_SIZE, Direction, MAX_ARRAY_SIZE, MIN_ARRAY_SIZE, SortingActions } from "../../utils/constants";
 
 // data structures 
 import { NumbersArray } from "../../data-structures/numbers-array";
@@ -131,8 +131,8 @@ export const SortingPage: FC = () => {
           <Input 
             type="number"          
             placeholder="число элементов"
-            min={3}
-            max={17}
+            min={MIN_ARRAY_SIZE}
+            max={MAX_ARRAY_SIZE}
             value={inputValue}
             onChange={onChange(setInputValue, setIsInputValid, true)}
             extraClass={styles.exactWidth}
