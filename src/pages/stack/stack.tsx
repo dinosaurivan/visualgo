@@ -16,7 +16,7 @@ import { sequentialUpdate } from "../../utils/sequential-update";
 import { ElementCaptions, MAX_ELEMENT_LENGTH, StackActions } from "../../utils/constants";
 
 // data structures 
-import { Stack } from "../../data-structures/stack";
+import { Stack } from "../../data-structures";
 
 
 

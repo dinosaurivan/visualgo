@@ -16,7 +16,7 @@ import { MAX_FIBONACCI_LENGTH } from "../../utils/constants";
 import { sequentialUpdate } from "../../utils/sequential-update";
 
 // data structures 
-import { FibonacciSequence } from "../../data-structures/fibonacci-sequence";
+import { FibonacciSequence } from "../../data-structures";
 
 
 

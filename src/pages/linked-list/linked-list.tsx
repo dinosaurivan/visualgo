@@ -17,7 +17,7 @@ import { sequentialUpdate } from "../../utils/sequential-update";
 import { ElementCaptions, ElementColors, LinkedListActions, MAX_ELEMENT_LENGTH } from "../../utils/constants";
 
 // data structures 
-import { LinkedList } from "../../data-structures/linked-list";
+import { LinkedList } from "../../data-structures";
 
 
 

@@ -1,5 +1,5 @@
-import { ElementData } from "../utils/element-data";
-import { Direction, ElementColors, MAX_ARRAY_VALUE, MIN_ARRAY_VALUE } from "../utils/constants";
+import { ElementData } from "../../utils/element-data";
+import { Direction, ElementColors, MAX_ARRAY_VALUE, MIN_ARRAY_VALUE } from "../../utils/constants";
 
 
 

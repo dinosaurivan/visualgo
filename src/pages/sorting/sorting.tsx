@@ -17,7 +17,7 @@ import { sequentialUpdate } from "../../utils/sequential-update";
 import { DEFAULT_ARRAY_SIZE, Direction, MAX_ARRAY_SIZE, MIN_ARRAY_SIZE, SortingActions } from "../../utils/constants";
 
 // data structures 
-import { NumbersArray } from "../../data-structures/numbers-array";
+import { NumbersArray } from "../../data-structures";
 
 
 

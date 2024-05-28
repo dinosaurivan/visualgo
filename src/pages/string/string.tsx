@@ -15,7 +15,7 @@ import { ElementData } from "../../utils/element-data";
 import { sequentialUpdate } from "../../utils/sequential-update";
 
 // data structures 
-import { LettersArray } from "../../data-structures/letters-array";
+import { LettersArray } from "../../data-structures";
 
 
 

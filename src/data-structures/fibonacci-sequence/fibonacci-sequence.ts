@@ -1,5 +1,5 @@
-import { ElementColors } from "../utils/constants";
-import { ElementData } from "../utils/element-data";
+import { ElementColors } from "../../utils/constants";
+import { ElementData } from "../../utils/element-data";
 
 
 

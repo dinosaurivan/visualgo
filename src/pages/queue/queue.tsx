@@ -16,7 +16,7 @@ import { sequentialUpdate } from "../../utils/sequential-update";
 import { DEFAULT_QUEUE_SIZE_LIMIT, ElementCaptions, MAX_ELEMENT_LENGTH, QueueActions } from "../../utils/constants";
 
 // data structures 
-import { Queue } from "../../data-structures/queue";
+import { Queue } from "../../data-structures";
 
 
 

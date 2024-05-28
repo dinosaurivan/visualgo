@@ -10,8 +10,6 @@ import { DescendingIcon } from "./icons/descending-icon";
 import { ReturnButton } from "./return-button/return-button";
 import { SolutionLayout } from "./solution-layout/solution-layout";
 
-
-
 export {
   Input,
   Button,
