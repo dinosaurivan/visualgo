@@ -30,18 +30,18 @@ export const QueuePage: FC = () => {
   const [isInProgress, setIsInProgress] = useState(false);
   
   const initialState = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT);
-  const [state, setState] = useState<Array<ElementData<string | undefined>>>(initialState.toArray());
-  const [history, setHistory] = useState<Array<typeof state>>([]);
+  const [step, setStep] = useState<Array<ElementData<string | undefined>>>(initialState.toArray());
+  const [steps, setSteps] = useState<Array<typeof step>>([]);
   
   const onSubmit = (action: QueueActions) => async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-    const queue = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT, state);
+    const queue = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT, step);
     if (action === QueueActions.Enqueue) {
-      setHistory(queue.getEnqueueSteps(inputValue));
+      setSteps(queue.getEnqueueSteps(inputValue));
     } else if (action === QueueActions.Dequeue) {
-      setHistory(queue.getDequeueSteps());
+      setSteps(queue.getDequeueSteps());
     } else if (action === QueueActions.Clear) {
-      setHistory(queue.clearSteps());
+      setSteps(queue.clearSteps());
     };
     setInputValue("");
     setIsInputValid(false);
@@ -50,22 +50,22 @@ export const QueuePage: FC = () => {
   useEffect(
     () => {
       let isMounted = true;
-      if (history.length > 0) {
+      if (steps.length > 0) {
         setIsInProgress(true);
-        sequentialUpdate<string | undefined>(history, setState, setIsInProgress, () => isMounted);
+        sequentialUpdate<string | undefined>(steps, setStep, setIsInProgress, () => isMounted);
       };
       return () => {
         isMounted = false;
       };      
     }, 
-    [history]
+    [steps]
   );  
   
   const content = useMemo(
     () => (
       <ul className={styles.list}>
         {
-          state.map(
+          step.map(
             ({value, color, isHead, isTail}, index) => (
               <li className={styles.item} key={index}>
                 <Circle
@@ -81,7 +81,7 @@ export const QueuePage: FC = () => {
         }
       </ul>
     ),
-    [state]
+    [step]
   );  
   
   return (
@@ -105,14 +105,14 @@ export const QueuePage: FC = () => {
           <Button
             type="submit"
             text="Удалить"
-            disabled={state.every((element) => element.value === undefined) || (isInProgress && action !== QueueActions.Dequeue)}
+            disabled={step.every((element) => element.value === undefined) || (isInProgress && action !== QueueActions.Dequeue)}
             isLoader={isInProgress && action === QueueActions.Dequeue}            
             onClick={() => { setAction(QueueActions.Dequeue); }}
           />          
           <Button
             type="submit"
             text="Очистить"
-            disabled={state.every((element) => element.value === undefined) || (isInProgress && action !== QueueActions.Clear)}
+            disabled={step.every((element) => element.value === undefined) || (isInProgress && action !== QueueActions.Clear)}
             isLoader={isInProgress && action === QueueActions.Clear}            
             onClick={() => { setAction(QueueActions.Clear); }}
             extraClass={styles.leftMargin}

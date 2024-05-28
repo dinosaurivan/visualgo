@@ -35,44 +35,44 @@ export const SortingPage: FC = () => {
     setAction(event.target.value as SortingActions);
   };    
   
-  const [state, setState] = useState<Array<ElementData<number>>>(randomNumbersArray(Number(inputValue)));
-  const [history, setHistory] = useState<Array<typeof state>>([]);
+  const [step, setStep] = useState<Array<ElementData<number>>>(randomNumbersArray(Number(inputValue)));
+  const [steps, setSteps] = useState<Array<typeof step>>([]);
   
   const onSubmit = (event: FormEvent): void => {
     event.preventDefault();
-    const numbersArray = new NumbersArray(state);
+    const numbersArray = new NumbersArray(step);
     if (action === SortingActions.Bubble) {
-      setHistory(numbersArray.getBubbleSortSteps(direction));
+      setSteps(numbersArray.getBubbleSortSteps(direction));
     } else if (action === SortingActions.Selection) {
-      setHistory(numbersArray.getSelectionSortSteps(direction));
+      setSteps(numbersArray.getSelectionSortSteps(direction));
     };
   };
   
   const onReset = (event: FormEvent): void => {
     event.preventDefault();
-    const numbersArray = new NumbersArray(state);
-    setHistory(numbersArray.getRefreshSteps(Number(inputValue) || DEFAULT_ARRAY_SIZE));
+    const numbersArray = new NumbersArray(step);
+    setSteps(numbersArray.getRefreshSteps(Number(inputValue) || DEFAULT_ARRAY_SIZE));
   };
   
   useEffect(
     () => {
       let isMounted = true;
-      if (history.length > 0) {
+      if (steps.length > 0) {
         setIsInProgress(true);
-        sequentialUpdate<number>(history, setState, setIsInProgress, () => isMounted);
+        sequentialUpdate<number>(steps, setStep, setIsInProgress, () => isMounted);
       };
       return () => {
         isMounted = false;
       };      
     }, 
-    [history]
+    [steps]
   );  
   
   const content = useMemo(
     () => (
       <ul className={styles.list}>
         {
-          state.map(
+          step.map(
             ({value, color}, index) => (
               <li className={styles.item} key={index}>
                 <Column 
@@ -85,7 +85,7 @@ export const SortingPage: FC = () => {
         }
       </ul>
     ),
-    [state]
+    [step]
   );    
   
   return (

@@ -27,13 +27,13 @@ export const StringPage: FC = () => {
   
   const [isInProgress, setIsInProgress] = useState(false);
   
-  const [state, setState] = useState<Array<ElementData<string>>>([]);
-  const [history, setHistory] = useState<Array<typeof state>>([]);
+  const [step, setStep] = useState<Array<ElementData<string>>>([]);
+  const [steps, setSteps] = useState<Array<typeof step>>([]);
   
   const onSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
     const lettersArray = new LettersArray(inputValue);
-    setHistory(lettersArray.getReversalSteps());
+    setSteps(lettersArray.getReversalSteps());
     setInputValue(""); 
     setIsInputValid(false);
   };
@@ -41,22 +41,22 @@ export const StringPage: FC = () => {
   useEffect(
     () => {
       let isMounted = true;
-      if (history.length > 0) {
+      if (steps.length > 0) {
         setIsInProgress(true);
-        sequentialUpdate<string>(history, setState, setIsInProgress, () => isMounted);
+        sequentialUpdate<string>(steps, setStep, setIsInProgress, () => isMounted);
       };
       return () => {
         isMounted = false;
       };
     }, 
-    [history]
+    [steps]
   );
   
   const content = useMemo(
     () => (
       <ul className={styles.list}>
         {
-          state.map(
+          step.map(
             ({value, color}, index) => (
               <li className={styles.item} key={index}>
                 <Circle 
@@ -69,7 +69,7 @@ export const StringPage: FC = () => {
         }
       </ul>
     ),
-    [state]
+    [step]
   );
   
   return (

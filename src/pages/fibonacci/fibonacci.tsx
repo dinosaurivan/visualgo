@@ -28,13 +28,13 @@ export const FibonacciPage: FC = () => {
   
   const [isInProgress, setIsInProgress] = useState(false);
   
-  const [state, setState] = useState<Array<ElementData<number>>>([]);
-  const [history, setHistory] = useState<Array<typeof state>>([]);
+  const [step, setStep] = useState<Array<ElementData<number>>>([]);
+  const [steps, setSteps] = useState<Array<typeof step>>([]);
   
   const onSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
     const sequence = new FibonacciSequence();
-    setHistory(sequence.getCalculationSteps(Number(inputValue)));
+    setSteps(sequence.getCalculationSteps(Number(inputValue)));
     setInputValue("");    
     setIsInputValid(false);
   };
@@ -42,22 +42,22 @@ export const FibonacciPage: FC = () => {
   useEffect(
     () => {
       let isMounted = true;
-      if (history.length > 0) {
+      if (steps.length > 0) {
         setIsInProgress(true);
-        sequentialUpdate<number>(history, setState, setIsInProgress, () => isMounted);
+        sequentialUpdate<number>(steps, setStep, setIsInProgress, () => isMounted);
       };
       return () => {
         isMounted = false;
       };      
     }, 
-    [history]
+    [steps]
   );  
   
   const content = useMemo(
     () => (
       <ul className={styles.list}>
         {
-          state.map(
+          step.map(
             ({value, color}, index) => (
               <li className={styles.item} key={index}>
                 <Circle 
@@ -71,7 +71,7 @@ export const FibonacciPage: FC = () => {
         }
       </ul>
     ),
-    [state]
+    [step]
   );  
   
   return (

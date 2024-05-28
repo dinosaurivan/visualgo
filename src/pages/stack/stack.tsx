@@ -29,18 +29,18 @@ export const StackPage: FC = () => {
   const [action, setAction] = useState(StackActions.Push);
   const [isInProgress, setIsInProgress] = useState(false);
   
-  const [state, setState] = useState<Array<ElementData<string>>>([]);
-  const [history, setHistory] = useState<Array<typeof state>>([]);
+  const [step, setStep] = useState<Array<ElementData<string>>>([]);
+  const [steps, setSteps] = useState<Array<typeof step>>([]);
   
   const onSubmit = (action: StackActions) => async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-    const stack = new Stack<string>(state);
+    const stack = new Stack<string>(step);
     if (action === StackActions.Push) {
-      setHistory(stack.getPushSteps(inputValue));
+      setSteps(stack.getPushSteps(inputValue));
     } else if (action === StackActions.Pop) {
-      setHistory(stack.getPopSteps());
+      setSteps(stack.getPopSteps());
     } else if (action === StackActions.Clear) {
-      setHistory(stack.clearSteps());
+      setSteps(stack.clearSteps());
     };
     setInputValue("");
     setIsInputValid(false);
@@ -49,22 +49,22 @@ export const StackPage: FC = () => {
   useEffect(
     () => {
       let isMounted = true;
-      if (history.length > 0) {
+      if (steps.length > 0) {
         setIsInProgress(true);
-        sequentialUpdate<string>(history, setState, setIsInProgress, () => isMounted);
+        sequentialUpdate<string>(steps, setStep, setIsInProgress, () => isMounted);
       };
       return () => {
         isMounted = false;
       };      
     }, 
-    [history]
+    [steps]
   );
   
   const content = useMemo(
     () => (
       <ul className={styles.list}>
         {
-          state.map(
+          step.map(
             ({value, color, isHead}, index) => (
               <li className={styles.item} key={index}>
                 <Circle 
@@ -79,7 +79,7 @@ export const StackPage: FC = () => {
         }
       </ul>
     ),
-    [state]
+    [step]
   );
   
   return (
@@ -103,14 +103,14 @@ export const StackPage: FC = () => {
           <Button
             type="submit"
             text="Удалить"
-            disabled={state.length === 0 || (isInProgress && action !== StackActions.Pop)}
+            disabled={step.length === 0 || (isInProgress && action !== StackActions.Pop)}
             isLoader={isInProgress && action === StackActions.Pop}            
             onClick={() => { setAction(StackActions.Pop); }}
           />          
           <Button
             type="submit"
             text="Очистить"
-            disabled={state.length === 0 || (isInProgress && action !== StackActions.Clear)}
+            disabled={step.length === 0 || (isInProgress && action !== StackActions.Clear)}
             isLoader={isInProgress && action === StackActions.Clear}            
             onClick={() => { setAction(StackActions.Clear); }}
             extraClass={styles.leftMargin}

@@ -32,24 +32,24 @@ export const LinkedListPage: FC = () => {
   const [action, setAction] = useState(LinkedListActions.Insert);
   const [isInProgress, setIsInProgress] = useState(false);
   
-  const [state, setState] = useState<Array<ElementData<string | undefined>>>(randomStringsArray());
-  const [history, setHistory] = useState<Array<typeof state>>([]);
+  const [step, setStep] = useState<Array<ElementData<string | undefined>>>(randomStringsArray());
+  const [steps, setSteps] = useState<Array<typeof step>>([]);
   
   const onSubmit = (action: LinkedListActions) => async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-    const linkedList = new LinkedList<string | undefined>(state);
+    const linkedList = new LinkedList<string | undefined>(step);
     if (action === LinkedListActions.Unshift) {
-      setHistory(linkedList.getUnshiftSteps(valueInput));
+      setSteps(linkedList.getUnshiftSteps(valueInput));
     } else if (action === LinkedListActions.Push) {
-      setHistory(linkedList.getPushSteps(valueInput));
+      setSteps(linkedList.getPushSteps(valueInput));
     } else if (action === LinkedListActions.Shift) {
-      setHistory(linkedList.getShiftSteps());
+      setSteps(linkedList.getShiftSteps());
     } else if (action === LinkedListActions.Pop) {
-      setHistory(linkedList.getPopSteps());
+      setSteps(linkedList.getPopSteps());
     } else if (action === LinkedListActions.Insert) {
-      setHistory(linkedList.getInsertionSteps(valueInput, Number(indexInput)));
+      setSteps(linkedList.getInsertionSteps(valueInput, Number(indexInput)));
     } else if (action === LinkedListActions.Remove) {
-      setHistory(linkedList.getRemovalSteps(Number(indexInput)));
+      setSteps(linkedList.getRemovalSteps(Number(indexInput)));
     };
     setValueInput("");
     setIndexInput("");
@@ -60,15 +60,15 @@ export const LinkedListPage: FC = () => {
   useEffect(
     () => {
       let isMounted = true;
-      if (history.length > 0) {
+      if (steps.length > 0) {
         setIsInProgress(true);
-        sequentialUpdate<string | undefined>(history, setState, setIsInProgress, () => isMounted);
+        sequentialUpdate<string | undefined>(steps, setStep, setIsInProgress, () => isMounted);
       };
       return () => {
         isMounted = false;
       };
     }, 
-    [history]
+    [steps]
   );  
   
   const supportiveContent = useCallback(
@@ -84,7 +84,7 @@ export const LinkedListPage: FC = () => {
     () => (
       <ul className={styles.list}>
         {
-          state.map(
+          step.map(
             ({value, color, isHead, isTail, valueAbove, valueBelow}, index, array) => (
               <Fragment key={index}>
                 <li className={styles.item}>
@@ -103,7 +103,7 @@ export const LinkedListPage: FC = () => {
         }
       </ul>
     ),
-    [state, supportiveContent]
+    [step, supportiveContent]
   );    
   
   return (
@@ -135,14 +135,14 @@ export const LinkedListPage: FC = () => {
             <Button
               type="submit"
               text="Удалить из head"
-              disabled={state.length === 0 || (isInProgress && action !== LinkedListActions.Shift)}
+              disabled={step.length === 0 || (isInProgress && action !== LinkedListActions.Shift)}
               isLoader={isInProgress && action === LinkedListActions.Shift}              
               onClick={() => { setAction(LinkedListActions.Shift); }}
             />          
             <Button
               type="submit"
               text="Удалить из tail"
-              disabled={state.length === 0 || (isInProgress && action !== LinkedListActions.Pop)}
+              disabled={step.length === 0 || (isInProgress && action !== LinkedListActions.Pop)}
               isLoader={isInProgress && action === LinkedListActions.Pop}              
               onClick={() => { setAction(LinkedListActions.Pop); }}
             />        
@@ -151,7 +151,7 @@ export const LinkedListPage: FC = () => {
             <Input 
               type="number"
               min={0}
-              max={state.length}
+              max={step.length}
               value={indexInput}
               placeholder="Введите индекс"
               onChange={onChange(setIndexInput, setIsIndexValid, false)}
@@ -166,7 +166,7 @@ export const LinkedListPage: FC = () => {
             <Button
               type="submit"
               text="Удалить по индексу"
-              disabled={!isIndexValid || Number(indexInput) >= state.length || (isInProgress && action !== LinkedListActions.Remove)}
+              disabled={!isIndexValid || Number(indexInput) >= step.length || (isInProgress && action !== LinkedListActions.Remove)}
               isLoader={isInProgress && action === LinkedListActions.Remove}            
               onClick={() => { setAction(LinkedListActions.Remove); }}
             />             
