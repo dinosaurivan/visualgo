@@ -32,7 +32,7 @@ export class LettersArray {
     this.history = [];
   };
   
-  private size(): number {
+  size(): number {
     return this.snapshot.length;
   };
   
