@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { 
   MainPage,
   QueuePage,
@@ -15,29 +15,15 @@ function App() {
   return (
     <div className={styles.app}>
       <BrowserRouter>
-        <Switch>
-          <Route path="/" exact>
-            <MainPage />
-          </Route>
-          <Route path="/string">
-            <StringPage />
-          </Route>
-          <Route path="/fibonacci">
-            <FibonacciPage />
-          </Route>
-          <Route path="/sorting">
-            <SortingPage />
-          </Route>
-          <Route path="/stack">
-            <StackPage />
-          </Route>
-          <Route path="/queue">
-            <QueuePage />
-          </Route>
-          <Route path="/list">
-            <LinkedListPage />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/string" element={<StringPage />} />
+          <Route path="/fibonacci" element={<FibonacciPage />} />
+          <Route path="/sorting" element={<SortingPage />} />
+          <Route path="/stack" element={<StackPage />} />
+          <Route path="/queue" element={<QueuePage />} />
+          <Route path="/list" element={<LinkedListPage />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );
