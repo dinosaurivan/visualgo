@@ -44,7 +44,7 @@ export class NumbersArray {
     this.snapshot[from] = temp;  
   };  
   
-  refresh(length: number): typeof this.history {
+  getRefreshSteps(length: number): typeof this.history {
     this.discard();
     if (length < 1) {
       throw new Error("Incorrect length value");
@@ -57,7 +57,7 @@ export class NumbersArray {
     return this.history;
   };
   
-  bubbleSort(direction: Direction): typeof this.history {
+  getBubbleSortSteps(direction: Direction): typeof this.history {
     
     this.discard();
     let lastUnsortedElementIndex = this.size() - 1;
@@ -102,7 +102,7 @@ export class NumbersArray {
     return this.history;
   };
   
-  selectionSort(direction: Direction): typeof this.history {
+  getSelectionSortSteps(direction: Direction): typeof this.history {
     
     this.discard();
     

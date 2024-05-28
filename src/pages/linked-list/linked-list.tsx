@@ -39,17 +39,17 @@ export const LinkedListPage: FC = () => {
     event.preventDefault();
     const linkedList = new LinkedList<string | undefined>(state);
     if (action === LinkedListActions.Unshift) {
-      setHistory(linkedList.unshift(valueInput));
+      setHistory(linkedList.getUnshiftSteps(valueInput));
     } else if (action === LinkedListActions.Push) {
-      setHistory(linkedList.push(valueInput));
+      setHistory(linkedList.getPushSteps(valueInput));
     } else if (action === LinkedListActions.Shift) {
-      setHistory(linkedList.shift());
+      setHistory(linkedList.getShiftSteps());
     } else if (action === LinkedListActions.Pop) {
-      setHistory(linkedList.pop());
+      setHistory(linkedList.getPopSteps());
     } else if (action === LinkedListActions.Insert) {
-      setHistory(linkedList.insert(valueInput, Number(indexInput)));
+      setHistory(linkedList.getInsertionSteps(valueInput, Number(indexInput)));
     } else if (action === LinkedListActions.Remove) {
-      setHistory(linkedList.remove(Number(indexInput)));
+      setHistory(linkedList.getRemovalSteps(Number(indexInput)));
     };
     setValueInput("");
     setIndexInput("");

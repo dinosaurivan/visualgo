@@ -54,7 +54,7 @@ export class LettersArray {
     this.snapshot[from] = temp;  
   };
   
-  reverse(): typeof this.history {
+  getReversalSteps(): typeof this.history {
     
     this.discard();
     

@@ -36,11 +36,11 @@ export const StackPage: FC = () => {
     event.preventDefault();
     const stack = new Stack<string>(state);
     if (action === StackActions.Push) {
-      setHistory(stack.push(inputValue));
+      setHistory(stack.getPushSteps(inputValue));
     } else if (action === StackActions.Pop) {
-      setHistory(stack.pop());
+      setHistory(stack.getPopSteps());
     } else if (action === StackActions.Clear) {
-      setHistory(stack.clear());
+      setHistory(stack.clearSteps());
     };
     setInputValue("");
     setIsInputValid(false);

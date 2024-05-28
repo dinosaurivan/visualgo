@@ -33,7 +33,7 @@ export const StringPage: FC = () => {
   const onSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
     const lettersArray = new LettersArray(inputValue);
-    setHistory(lettersArray.reverse());
+    setHistory(lettersArray.getReversalSteps());
     setInputValue(""); 
     setIsInputValid(false);
   };

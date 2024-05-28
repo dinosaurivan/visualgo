@@ -26,7 +26,7 @@ export class LinkedList<T> {
     this.size = 0;
     fromArray.forEach(
       (element) => {
-        this.push(element.value!);
+        this.getPushSteps(element.value!);
       }
     );
   };
@@ -65,7 +65,7 @@ export class LinkedList<T> {
     return this.history;
   };
   
-  unshift(value: T): typeof this.history {
+  getUnshiftSteps(value: T): typeof this.history {
     
     this.discard();
     
@@ -94,7 +94,7 @@ export class LinkedList<T> {
     return this.history;
   };
   
-  shift(): typeof this.history {
+  getShiftSteps(): typeof this.history {
     
     this.discard();
     
@@ -123,7 +123,7 @@ export class LinkedList<T> {
     return this.history;
   };  
   
-  push(value: T): typeof this.history {
+  getPushSteps(value: T): typeof this.history {
     
     this.discard();
     
@@ -174,7 +174,7 @@ export class LinkedList<T> {
     return this.history;
   };
   
-  pop(): typeof this.history {
+  getPopSteps(): typeof this.history {
     
     this.discard();
     
@@ -229,7 +229,7 @@ export class LinkedList<T> {
     return this.history;
   };  
   
-  insert(value: T, index: number): typeof this.history {
+  getInsertionSteps(value: T, index: number): typeof this.history {
     
     this.discard();
     
@@ -238,11 +238,11 @@ export class LinkedList<T> {
     };
     
     if (index === 0) {
-      return this.unshift(value);
+      return this.getUnshiftSteps(value);
     };
     
     if (index === this.size) {
-      return this.push(value);
+      return this.getPushSteps(value);
     };
     
     let current = this.head;
@@ -273,7 +273,7 @@ export class LinkedList<T> {
     return this.history;
   };
   
-  remove(index: number): typeof this.history {
+  getRemovalSteps(index: number): typeof this.history {
     
     this.discard();
     
@@ -282,11 +282,11 @@ export class LinkedList<T> {
     };
     
     if (index === 0) {
-      return this.shift();
+      return this.getShiftSteps();
     };
     
     if (index === this.size-1) {
-      return this.pop();
+      return this.getPopSteps();
     };
     
     let current = this.head;

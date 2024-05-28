@@ -83,7 +83,7 @@ export class Queue<T> {
     return this.size() === 0;
   };  
   
-  clear(): typeof this.history {
+  clearSteps(): typeof this.history {
     this.discard();
     this.snapshot = Array.from(
       { length: this.sizeLimit },
@@ -93,7 +93,7 @@ export class Queue<T> {
     return this.history;
   };  
   
-  enqueue(value: T): typeof this.history {
+  getEnqueueSteps(value: T): typeof this.history {
     
     this.discard();
     
@@ -117,7 +117,7 @@ export class Queue<T> {
     return this.history;
   };
   
-  dequeue(): typeof this.history {
+  getDequeueSteps(): typeof this.history {
     
     this.discard();
     

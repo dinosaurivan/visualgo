@@ -51,7 +51,7 @@ export class FibonacciSequence {
     return this.peak()!.value + this.subpeak()!.value;
   };
   
-  calculate(index: number): typeof this.history {
+  getCalculationSteps(index: number): typeof this.history {
     
     this.discard();
     

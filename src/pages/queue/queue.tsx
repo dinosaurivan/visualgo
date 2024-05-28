@@ -37,11 +37,11 @@ export const QueuePage: FC = () => {
     event.preventDefault();
     const queue = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT, state);
     if (action === QueueActions.Enqueue) {
-      setHistory(queue.enqueue(inputValue));
+      setHistory(queue.getEnqueueSteps(inputValue));
     } else if (action === QueueActions.Dequeue) {
-      setHistory(queue.dequeue());
+      setHistory(queue.getDequeueSteps());
     } else if (action === QueueActions.Clear) {
-      setHistory(queue.clear());
+      setHistory(queue.clearSteps());
     };
     setInputValue("");
     setIsInputValid(false);

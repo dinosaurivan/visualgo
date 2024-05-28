@@ -34,7 +34,7 @@ export const FibonacciPage: FC = () => {
   const onSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
     const sequence = new FibonacciSequence();
-    setHistory(sequence.calculate(Number(inputValue)));
+    setHistory(sequence.getCalculationSteps(Number(inputValue)));
     setInputValue("");    
     setIsInputValid(false);
   };

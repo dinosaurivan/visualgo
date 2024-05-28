@@ -42,16 +42,16 @@ export const SortingPage: FC = () => {
     event.preventDefault();
     const numbersArray = new NumbersArray(state);
     if (action === SortingActions.Bubble) {
-      setHistory(numbersArray.bubbleSort(direction));
+      setHistory(numbersArray.getBubbleSortSteps(direction));
     } else if (action === SortingActions.Selection) {
-      setHistory(numbersArray.selectionSort(direction));
+      setHistory(numbersArray.getSelectionSortSteps(direction));
     };
   };
   
   const onReset = (event: FormEvent): void => {
     event.preventDefault();
     const numbersArray = new NumbersArray(state);
-    setHistory(numbersArray.refresh(Number(inputValue) || DEFAULT_ARRAY_SIZE));
+    setHistory(numbersArray.getRefreshSteps(Number(inputValue) || DEFAULT_ARRAY_SIZE));
   };
   
   useEffect(
