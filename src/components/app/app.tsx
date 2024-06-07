@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { 
   MainPage,
   QueuePage,
@@ -9,23 +9,19 @@ import {
   LinkedListPage,
 } from "../../pages";
 
-import styles from "./app.module.css";
+
 
 function App() {
   return (
-    <div className={styles.app}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/string" element={<StringPage />} />
-          <Route path="/fibonacci" element={<FibonacciPage />} />
-          <Route path="/sorting" element={<SortingPage />} />
-          <Route path="/stack" element={<StackPage />} />
-          <Route path="/queue" element={<QueuePage />} />
-          <Route path="/list" element={<LinkedListPage />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <Routes>
+      <Route path="/" element={<MainPage />} />
+      <Route path="/queue" element={<QueuePage />} />
+      <Route path="/stack" element={<StackPage />} />
+      <Route path="/string" element={<StringPage />} />
+      <Route path="/sorting" element={<SortingPage />} />
+      <Route path="/fibonacci" element={<FibonacciPage />} />
+      <Route path="/linked-list" element={<LinkedListPage />} />
+    </Routes>
   );
 }
 

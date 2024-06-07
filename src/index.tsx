@@ -5,12 +5,15 @@ import "./fonts/fonts.css";
 import "./ui/common.css";
 import "./ui/box.css";
 import App from "./components/app/app";
+import { BrowserRouter } from "react-router-dom";
 
 const container = document.querySelector("#root")!;
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
