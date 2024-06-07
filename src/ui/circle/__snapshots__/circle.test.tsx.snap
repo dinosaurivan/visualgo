@@ -1,0 +1,511 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Circle UI component tests renders correctly with an index 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 above absolute element"
+    data-testid="above"
+  />
+  <div
+    class="circle   default"
+    data-testid="inside"
+  >
+    <p
+      class="text text_type_circle text_color_input value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+    data-testid="index"
+  >
+    42
+  </p>
+  <div
+    class="text text_type_input text_color_input mt-4 below60 absolute element"
+    data-testid="below"
+  />
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with an index 2`] = `
+<p
+  class="text text_type_input text_color_input mt-4 absolute index"
+  data-testid="index"
+>
+  42
+</p>
+`;
+
+exports[`Circle UI component tests renders correctly with color prop is set to changing 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 above absolute element"
+    data-testid="above"
+  />
+  <div
+    class="circle   changing"
+    data-testid="inside"
+  >
+    <p
+      class="text text_type_circle text_color_input value"
+    >
+      value inside
+    </p>
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+    data-testid="index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 below30 absolute element"
+    data-testid="below"
+  />
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with color prop is set to changing 2`] = `
+<div
+  class="circle   changing"
+  data-testid="inside"
+>
+  <p
+    class="text text_type_circle text_color_input value"
+  >
+    value inside
+  </p>
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with color prop is set to modified 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 above absolute element"
+    data-testid="above"
+  />
+  <div
+    class="circle   modified"
+    data-testid="inside"
+  >
+    <p
+      class="text text_type_circle text_color_input value"
+    >
+      value inside
+    </p>
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+    data-testid="index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 below30 absolute element"
+    data-testid="below"
+  />
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with color prop is set to modified 2`] = `
+<div
+  class="circle   modified"
+  data-testid="inside"
+>
+  <p
+    class="text text_type_circle text_color_input value"
+  >
+    value inside
+  </p>
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with element above 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 above absolute element"
+    data-testid="above"
+  >
+    <div
+      class="content "
+      data-testid="circle"
+    >
+      <div
+        class="text text_type_input text_color_input mb-4 above absolute element"
+        data-testid="above"
+      />
+      <div
+        class="circle   default"
+        data-testid="inside"
+      >
+        <p
+          class="text text_type_circle text_color_input value"
+        >
+          value inside
+        </p>
+      </div>
+      <p
+        class="text text_type_input text_color_input mt-4 absolute index"
+        data-testid="index"
+      />
+      <div
+        class="text text_type_input text_color_input mt-4 below30 absolute element"
+        data-testid="below"
+      />
+    </div>
+  </div>
+  <div
+    class="circle   default"
+    data-testid="inside"
+  >
+    <p
+      class="text text_type_circle text_color_input value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+    data-testid="index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 below30 absolute element"
+    data-testid="below"
+  />
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with element above 2`] = `
+<div
+  class="text text_type_input text_color_input mb-4 above absolute element"
+  data-testid="above"
+>
+  <div
+    class="content "
+    data-testid="circle"
+  >
+    <div
+      class="text text_type_input text_color_input mb-4 above absolute element"
+      data-testid="above"
+    />
+    <div
+      class="circle   default"
+      data-testid="inside"
+    >
+      <p
+        class="text text_type_circle text_color_input value"
+      >
+        value inside
+      </p>
+    </div>
+    <p
+      class="text text_type_input text_color_input mt-4 absolute index"
+      data-testid="index"
+    />
+    <div
+      class="text text_type_input text_color_input mt-4 below30 absolute element"
+      data-testid="below"
+    />
+  </div>
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with element below 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 above absolute element"
+    data-testid="above"
+  />
+  <div
+    class="circle   default"
+    data-testid="inside"
+  >
+    <p
+      class="text text_type_circle text_color_input value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+    data-testid="index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 below30 absolute element"
+    data-testid="below"
+  >
+    <div
+      class="content "
+      data-testid="circle"
+    >
+      <div
+        class="text text_type_input text_color_input mb-4 above absolute element"
+        data-testid="above"
+      />
+      <div
+        class="circle   default"
+        data-testid="inside"
+      >
+        <p
+          class="text text_type_circle text_color_input value"
+        >
+          value inside
+        </p>
+      </div>
+      <p
+        class="text text_type_input text_color_input mt-4 absolute index"
+        data-testid="index"
+      />
+      <div
+        class="text text_type_input text_color_input mt-4 below30 absolute element"
+        data-testid="below"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with element below 2`] = `
+<div
+  class="text text_type_input text_color_input mt-4 below30 absolute element"
+  data-testid="below"
+>
+  <div
+    class="content "
+    data-testid="circle"
+  >
+    <div
+      class="text text_type_input text_color_input mb-4 above absolute element"
+      data-testid="above"
+    />
+    <div
+      class="circle   default"
+      data-testid="inside"
+    >
+      <p
+        class="text text_type_circle text_color_input value"
+      >
+        value inside
+      </p>
+    </div>
+    <p
+      class="text text_type_input text_color_input mt-4 absolute index"
+      data-testid="index"
+    />
+    <div
+      class="text text_type_input text_color_input mt-4 below30 absolute element"
+      data-testid="below"
+    />
+  </div>
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with isSmall prop is set to true 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 above absolute element"
+    data-testid="above"
+  />
+  <div
+    class="circle  small default"
+    data-testid="inside"
+  >
+    <p
+      class="text text_type_circle text_color_input value"
+    >
+      value inside
+    </p>
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+    data-testid="index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 below30 absolute element"
+    data-testid="below"
+  />
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with isSmall prop is set to true 2`] = `
+<div
+  class="circle  small default"
+  data-testid="inside"
+>
+  <p
+    class="text text_type_circle text_color_input value"
+  >
+    value inside
+  </p>
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with string above 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 above absolute string"
+    data-testid="above"
+  >
+    value above
+  </div>
+  <div
+    class="circle   default"
+    data-testid="inside"
+  >
+    <p
+      class="text text_type_circle text_color_input value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+    data-testid="index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 below30 absolute element"
+    data-testid="below"
+  />
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with string above 2`] = `
+<div
+  class="text text_type_input text_color_input mb-4 above absolute string"
+  data-testid="above"
+>
+  value above
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with string below 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 above absolute element"
+    data-testid="above"
+  />
+  <div
+    class="circle   default"
+    data-testid="inside"
+  >
+    <p
+      class="text text_type_circle text_color_input value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+    data-testid="index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 below30 absolute string"
+    data-testid="below"
+  >
+    value below
+  </div>
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with string below 2`] = `
+<div
+  class="text text_type_input text_color_input mt-4 below30 absolute string"
+  data-testid="below"
+>
+  value below
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with value provided 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 above absolute element"
+    data-testid="above"
+  />
+  <div
+    class="circle   default"
+    data-testid="inside"
+  >
+    <p
+      class="text text_type_circle text_color_input value"
+    >
+      value inside
+    </p>
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+    data-testid="index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 below30 absolute element"
+    data-testid="below"
+  />
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly with value provided 2`] = `
+<div
+  class="circle   default"
+  data-testid="inside"
+>
+  <p
+    class="text text_type_circle text_color_input value"
+  >
+    value inside
+  </p>
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly without value provided 1`] = `
+<div
+  class="content "
+  data-testid="circle"
+>
+  <div
+    class="text text_type_input text_color_input mb-4 above absolute element"
+    data-testid="above"
+  />
+  <div
+    class="circle   default"
+    data-testid="inside"
+  >
+    <p
+      class="text text_type_circle text_color_input value"
+    />
+  </div>
+  <p
+    class="text text_type_input text_color_input mt-4 absolute index"
+    data-testid="index"
+  />
+  <div
+    class="text text_type_input text_color_input mt-4 below30 absolute element"
+    data-testid="below"
+  />
+</div>
+`;
+
+exports[`Circle UI component tests renders correctly without value provided 2`] = `
+<div
+  class="circle   default"
+  data-testid="inside"
+>
+  <p
+    class="text text_type_circle text_color_input value"
+  />
+</div>
+`;
