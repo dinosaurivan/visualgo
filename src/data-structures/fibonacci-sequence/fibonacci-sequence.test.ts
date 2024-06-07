@@ -8,8 +8,8 @@ import { ElementData } from "../../utils/element-data";
 
 
 describe(
-  "Fibonacci sequence calculation tests", 
-  () => {
+  "Fibonacci sequence calculation tests", () => {
+    
     let fibonacciSequence: FibonacciSequence;
     
     beforeEach(
@@ -19,8 +19,8 @@ describe(
     );
     
     test(
-      "throws an error when element index is negative", 
-      () => {
+      "throws an error when element index is negative", () => {
+        
         expect(
           () => {
             fibonacciSequence.getCalculationSteps(-1);
@@ -30,10 +30,11 @@ describe(
     );    
     
     test(
-      "returns correct steps sequence when index is 0", 
-      () => {
+      "returns correct steps sequence when index is 0", () => {
+        
         const steps = fibonacciSequence.getCalculationSteps(0);
         expect(steps.length).toBe(2);
+        
         expect(steps[0]).toEqual([
           new ElementData(0)
         ]);
@@ -44,10 +45,11 @@ describe(
     );
     
     test(
-      "returns correct steps sequence when index is 1", 
-      () => {
+      "returns correct steps sequence when index is 1", () => {
+        
         const steps = fibonacciSequence.getCalculationSteps(1);
         expect(steps.length).toBe(3);
+        
         expect(steps[0]).toEqual([
           new ElementData(0)
         ]);
@@ -63,10 +65,11 @@ describe(
     );
     
     test(
-      "returns correct steps sequence when index is 2", 
-      () => {
+      "returns correct steps sequence when index is 2", () => {
+        
         const steps = fibonacciSequence.getCalculationSteps(2);
         expect(steps.length).toBe(5);
+        
         expect(steps[0]).toEqual([
           new ElementData(0)
         ]);
@@ -92,10 +95,11 @@ describe(
     );
     
     test(
-      "returns correct steps sequence when index is 5", 
-      () => {
+      "returns correct steps sequence when index is 5", () => {
+        
         const steps = fibonacciSequence.getCalculationSteps(5);
         expect(steps.length).toBe(11);
+        
         expect(steps[0]).toEqual([
           new ElementData(0)
         ]);

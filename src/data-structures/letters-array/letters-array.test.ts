@@ -8,14 +8,12 @@ import { ElementData } from "../../utils/element-data";
 
 
 describe(
-  "Letters array reversal tests", 
-  () => {
-    let lettersArray: LettersArray;
+  "Letters array reversal tests", () => {    
     
     test(
-      "throws an error when string is empty", 
-      () => {
-        lettersArray = new LettersArray("");
+      "throws an error when string is empty", () => {
+        
+        const lettersArray = new LettersArray("");
         expect(
           () => {
             lettersArray.getReversalSteps();
@@ -25,11 +23,13 @@ describe(
     );
     
     test(
-      "returns correct steps sequence for string of length 1", 
-      () => {
-        lettersArray = new LettersArray("1");
+      "returns correct steps sequence for string of length 1", () => {
+        
+        const lettersArray = new LettersArray("1");
+        
         const steps = lettersArray.getReversalSteps();
         expect(steps.length).toBe(4);
+        
         expect(steps[0]).toEqual([
           new ElementData("1")
         ]);
@@ -44,13 +44,15 @@ describe(
         ]);
       }
     );
-
+    
     test(
-      "returns correct steps sequence for string of length 2", 
-      () => {
-        lettersArray = new LettersArray("23");
+      "returns correct steps sequence for string of length 2", () => {
+        
+        const lettersArray = new LettersArray("23");
+        
         const steps = lettersArray.getReversalSteps();
         expect(steps.length).toBe(5);
+        
         expect(steps[0]).toEqual([
           new ElementData("2"),
           new ElementData("3")
@@ -75,11 +77,13 @@ describe(
     );    
     
     test(
-      "returns correct steps sequence for string of length 3", 
-      () => {
-        lettersArray = new LettersArray("456");
+      "returns correct steps sequence for string of length 3", () => {
+        
+        const lettersArray = new LettersArray("456");
+        
         const steps = lettersArray.getReversalSteps();
         expect(steps.length).toBe(7);
+        
         expect(steps[0]).toEqual([
           new ElementData("4"),
           new ElementData("5"),
@@ -119,11 +123,13 @@ describe(
     );        
     
     test(
-      "returns correct steps sequence for string of length 4", 
-      () => {
-        lettersArray = new LettersArray("6789");
+      "returns correct steps sequence for string of length 4", () => {
+        
+        const lettersArray = new LettersArray("6789");
+        
         const steps = lettersArray.getReversalSteps();
         expect(steps.length).toBe(8);
+        
         expect(steps[0]).toEqual([
           new ElementData("6"),
           new ElementData("7"),
@@ -176,11 +182,13 @@ describe(
     );        
     
     test(
-      "returns correct steps sequence for string of length 5", 
-      () => {
-        lettersArray = new LettersArray("12345");
+      "returns correct steps sequence for string of length 5", () => {
+        
+        const lettersArray = new LettersArray("12345");
+        
         const steps = lettersArray.getReversalSteps();
         expect(steps.length).toBe(10);
+        
         expect(steps[0]).toEqual([
           new ElementData("1"),
           new ElementData("2"),
