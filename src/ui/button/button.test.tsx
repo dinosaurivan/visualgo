@@ -1,5 +1,6 @@
 // libraries 
-import { render, fireEvent, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { render, screen } from "@testing-library/react";
 
 // components
 import { Button } from "./button";
@@ -7,17 +8,14 @@ import { Button } from "./button";
 
 
 describe(
-  "Button UI component tests", 
-  () => {
+  "Button UI component tests", () => {
     
     test(
-      "renders correctly with text provided", 
-      () => {
-        // arrange & act
+      "renders correctly with text provided", () => {
+        
         render(<Button text="Click me" />);
         const component = screen.getByRole("button");
         
-        // assert
         expect(component).toBeInTheDocument();
         expect(component).toMatchSnapshot();
         
@@ -29,13 +27,11 @@ describe(
     );
     
     test(
-      "renders correctly without text provided", 
-      () => {
-        // arrange & act
+      "renders correctly without text provided", () => {
+        
         render(<Button />);
         const component = screen.getByRole("button");
         
-        // assert
         expect(component).toBeInTheDocument();
         expect(component).toMatchSnapshot();
         
@@ -47,17 +43,15 @@ describe(
     );    
     
     test(
-      "calls onClick handler when is clicked on",
-      () => {
-        // arrange
+      "calls onClick handler when is clicked on", async () => {
+        
+        const user = userEvent.setup()
         const onClickMock = jest.fn();
         render(<Button text="Click me" onClick={onClickMock} />);
         const component = screen.getByRole("button");
         
-        // act
-        fireEvent.click(component);
+        await user.click(component);
         
-        // assert
         expect(component).toBeInTheDocument();
         expect(component).toMatchSnapshot();
         
@@ -66,13 +60,11 @@ describe(
     );
     
     test(
-      "disables when disabled prop is set to true",
-      () => {
-        // arrange & act
+      "disables when disabled prop is set to true", () => {
+        
         render(<Button text="Click me" disabled />);
         const component = screen.getByRole("button");
         
-        // assert
         expect(component).toBeInTheDocument();
         expect(component).toMatchSnapshot();
         
@@ -81,13 +73,11 @@ describe(
     );
     
     test(
-      "disables when isLoader prop is set to true",
-      () => {
-        // arrange & act
+      "disables when isLoader prop is set to true", () => {
+        
         render(<Button text="Click me" isLoader={true} />);
         const component = screen.getByRole("button");
         
-        // assert
         expect(component).toBeInTheDocument();
         expect(component).toMatchSnapshot();
         
