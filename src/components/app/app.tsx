@@ -1,3 +1,6 @@
+// libraries 
+import React, { FC } from "react";
+
 // components 
 import { AppRouter } from "../../components";
 
@@ -6,7 +9,7 @@ import styles from "./app.module.css";
 
 
 
-export const App: React.FC = () => {
+export const App: FC = () => {
   return (
     <div className={styles.app}>
       <AppRouter />

@@ -1,5 +1,5 @@
 // libraries
-import { FC, FormEvent, useEffect, useMemo, useState } from "react";
+import React, { FC, FormEvent, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Circle, Input, SolutionLayout } from "../../ui";
