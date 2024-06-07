@@ -90,7 +90,7 @@ export const SortingPage: FC = () => {
   
   return (
     <SolutionLayout title="Сортировка массива">
-      <section className={styles.container}>
+      <section className={styles.container} data-testid="sorting-page">
         <form className={styles.form} onSubmit={onSubmit} onReset={onReset}>
           <RadioInput
             label="Выбор"

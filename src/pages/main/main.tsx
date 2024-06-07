@@ -10,7 +10,7 @@ interface MainPageProps {
 
 export const MainPage: React.FC<MainPageProps> = ({ extraClass = "" }) => {
   return (
-    <main className={`${styles.content} ${extraClass}`}>
+    <main className={`${styles.content} ${extraClass}`} data-testid="main-page">
       <div className={styles.title_box}>
         <h1 className={`text text_type_h1 text_color_h1 ${styles.title}`}>
           МБОУ АЛГОСОШ
@@ -22,22 +22,22 @@ export const MainPage: React.FC<MainPageProps> = ({ extraClass = "" }) => {
         </p>
       </div>
       <div className={styles.cards_box}>
-        <Link className={styles.link} to="/string">
+        <Link className={styles.link} to="/string" data-testid="string-page-link">
           <div className={`${styles.card} ${styles.string}`} />
         </Link>
-        <Link className={styles.link} to="/fibonacci">
+        <Link className={styles.link} to="/fibonacci" data-testid="fibonacci-page-link">
           <div className={`${styles.card} ${styles.fibonacci}`} />
         </Link>
-        <Link className={styles.link} to="/sorting">
+        <Link className={styles.link} to="/sorting" data-testid="sorting-page-link">
           <div className={`${styles.card} ${styles.arr}`} />
         </Link>
-        <Link className={styles.link} to="/stack">
+        <Link className={styles.link} to="/stack" data-testid="stack-page-link">
           <div className={`${styles.card} ${styles.stack}`} />
         </Link>
-        <Link className={styles.link} to="/queue">
+        <Link className={styles.link} to="/queue" data-testid="queue-page-link">
           <div className={`${styles.card} ${styles.queue}`} />
         </Link>
-        <Link className={styles.link} to="/list">
+        <Link className={styles.link} to="/linked-list" data-testid="linked-list-page-link">
           <div className={`${styles.card} ${styles.list}`} />
         </Link>
       </div>

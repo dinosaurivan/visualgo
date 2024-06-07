@@ -84,7 +84,7 @@ export const StackPage: FC = () => {
   
   return (
     <SolutionLayout title="Стек">
-      <section className={styles.container}>
+      <section className={styles.container} data-testid="stack-page">
         <form className={styles.form} onSubmit={onSubmit(action)}>
           <Input 
             maxLength={MAX_ELEMENT_LENGTH}

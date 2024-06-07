@@ -76,7 +76,7 @@ export const FibonacciPage: FC = () => {
   
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
-      <section className={styles.container}>
+      <section className={styles.container} data-testid="fibonacci-page">
         <form className={styles.form} onSubmit={onSubmit}>
           <Input 
             type="number"          

@@ -74,7 +74,7 @@ export const StringPage: FC = () => {
   
   return (
     <SolutionLayout title="Строка">
-      <section className={styles.container}>
+      <section className={styles.container} data-testid="string-page">
         <form className={styles.form} onSubmit={onSubmit}>
           <Input 
             minLength={2}

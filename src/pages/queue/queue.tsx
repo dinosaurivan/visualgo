@@ -86,7 +86,7 @@ export const QueuePage: FC = () => {
   
   return (
     <SolutionLayout title="Очередь">
-      <section className={styles.container}>
+      <section className={styles.container} data-testid="queue-page">
         <form className={styles.form} onSubmit={onSubmit(action)}>
           <Input 
             maxLength={MAX_ELEMENT_LENGTH}

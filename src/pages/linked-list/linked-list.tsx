@@ -108,7 +108,7 @@ export const LinkedListPage: FC = () => {
   
   return (
     <SolutionLayout title="Связный список">
-      <section className={styles.container}>
+      <section className={styles.container} data-testid="linked-list-page">
         <div className={styles.forms}>
           <form className={styles.form} onSubmit={onSubmit(action)}>
             <Input 
