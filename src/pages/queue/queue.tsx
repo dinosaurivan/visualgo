@@ -41,7 +41,7 @@ export const QueuePage: FC = () => {
     } else if (action === QueueActions.Dequeue) {
       setSteps(queue.getDequeueSteps());
     } else if (action === QueueActions.Clear) {
-      setSteps(queue.clearSteps());
+      setSteps(queue.getClearSteps());
     };
     setInputValue("");
     setIsInputValid(false);

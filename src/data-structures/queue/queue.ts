@@ -83,7 +83,7 @@ export class Queue<T> {
     return this.size() === 0;
   };  
   
-  clearSteps(): typeof this.history {
+  getClearSteps(): typeof this.history {
     this.discard();
     this.snapshot = Array.from(
       { length: this.sizeLimit },

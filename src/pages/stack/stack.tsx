@@ -40,7 +40,7 @@ export const StackPage: FC = () => {
     } else if (action === StackActions.Pop) {
       setSteps(stack.getPopSteps());
     } else if (action === StackActions.Clear) {
-      setSteps(stack.clearSteps());
+      setSteps(stack.getClearSteps());
     };
     setInputValue("");
     setIsInputValid(false);

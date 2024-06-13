@@ -46,7 +46,7 @@ export class Stack<T> {
     return this.snapshot[this.size() - 2];
   };  
   
-  clearSteps(): typeof this.history {
+  getClearSteps(): typeof this.history {
     this.discard();
     this.snapshot = [];
     this.save();
