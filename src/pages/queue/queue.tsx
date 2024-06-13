@@ -107,22 +107,35 @@ export const QueuePage: FC = () => {
           <Button
             type="submit"
             text="Добавить"
-            disabled={!isInputValid || (isInProgress && action !== QueueActions.Enqueue)}
+            data-testid="enqueue-button"
             isLoader={isInProgress && action === QueueActions.Enqueue}            
+            disabled={
+              !isInputValid ||
+              (isInProgress && action !== QueueActions.Enqueue) ||
+              step.every((element) => element.value !== undefined)
+            }
           />
           <Button
             type="button"
             text="Удалить"
-            disabled={step.every((element) => element.value === undefined) || (isInProgress && action !== QueueActions.Dequeue)}
-            isLoader={isInProgress && action === QueueActions.Dequeue}            
             onClick={onDequeue}
+            data-testid="dequeue-button"
+            isLoader={isInProgress && action === QueueActions.Dequeue}            
+            disabled={
+              (isInProgress && action !== QueueActions.Dequeue) ||
+              step.every((element) => element.value === undefined)
+            }
           />          
           <Button
             type="button"
             text="Очистить"
-            disabled={step.every((element) => element.value === undefined) || (isInProgress && action !== QueueActions.Clear)}
-            isLoader={isInProgress && action === QueueActions.Clear}            
             onClick={onClear}
+            data-testid="clear-button"
+            isLoader={isInProgress && action === QueueActions.Clear}            
+            disabled={
+              (isInProgress && action !== QueueActions.Clear) ||
+              step.every((element) => element.value === undefined)
+            }
             extraClass={styles.leftMargin}
           />                    
         </form>
