@@ -1,5 +1,5 @@
 // libraries
-import React, { FC, FormEvent, useEffect, useMemo, useState } from "react";
+import { FC, FormEventHandler, MouseEventHandler, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Circle, Input, SolutionLayout } from "../../ui";
@@ -32,19 +32,28 @@ export const StackPage: FC = () => {
   const [step, setStep] = useState<Array<ElementData<string>>>([]);
   const [steps, setSteps] = useState<Array<typeof step>>([]);
   
-  const onSubmit = (action: StackActions) => async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+  const onPush: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
+    setAction(StackActions.Push);
     const stack = new Stack<string>(step);
-    if (action === StackActions.Push) {
-      setSteps(stack.getPushSteps(inputValue));
-    } else if (action === StackActions.Pop) {
-      setSteps(stack.getPopSteps());
-    } else if (action === StackActions.Clear) {
-      setSteps(stack.getClearSteps());
-    };
+    setSteps(stack.getPushSteps(inputValue));
     setInputValue("");
     setIsInputValid(false);
   };  
+  
+  const onPop: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(StackActions.Pop);
+    const stack = new Stack<string>(step);
+    setSteps(stack.getPopSteps());
+  };  
+  
+  const onClear: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(StackActions.Clear);
+    const stack = new Stack<string>(step);
+    setSteps(stack.getClearSteps());
+  };    
   
   useEffect(
     () => {
@@ -85,7 +94,7 @@ export const StackPage: FC = () => {
   return (
     <SolutionLayout title="Стек">
       <section className={styles.container} data-testid="stack-page">
-        <form className={styles.form} onSubmit={onSubmit(action)}>
+        <form className={styles.form} onSubmit={onPush}>
           <Input 
             maxLength={MAX_ELEMENT_LENGTH}
             isLimitText={true}     
@@ -96,23 +105,25 @@ export const StackPage: FC = () => {
           <Button
             type="submit"
             text="Добавить"
+            data-testid="push-button"
             disabled={!isInputValid || (isInProgress && action !== StackActions.Push)}
             isLoader={isInProgress && action === StackActions.Push}            
-            onClick={() => { setAction(StackActions.Push); }}
           />
           <Button
-            type="submit"
+            type="button"
             text="Удалить"
+            onClick={onPop}
+            data-testid="pop-button"
             disabled={step.length === 0 || (isInProgress && action !== StackActions.Pop)}
             isLoader={isInProgress && action === StackActions.Pop}            
-            onClick={() => { setAction(StackActions.Pop); }}
           />          
           <Button
-            type="submit"
+            type="button"
             text="Очистить"
+            onClick={onClear}
+            data-testid="clear-button"
             disabled={step.length === 0 || (isInProgress && action !== StackActions.Clear)}
             isLoader={isInProgress && action === StackActions.Clear}            
-            onClick={() => { setAction(StackActions.Clear); }}
             extraClass={styles.leftMargin}
           />                    
         </form>

@@ -1,5 +1,5 @@
 // libraries
-import React, { FC, FormEvent, Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { FC, FormEventHandler, Fragment, MouseEventHandler, useCallback, useEffect, useMemo, useState } from "react";
 
 // components 
 import { ArrowIcon, Button, Circle, Input, SolutionLayout } from "../../ui";
@@ -35,27 +35,55 @@ export const LinkedListPage: FC = () => {
   const [step, setStep] = useState<Array<ElementData<string | undefined>>>(randomStringsArray());
   const [steps, setSteps] = useState<Array<typeof step>>([]);
   
-  const onSubmit = (action: LinkedListActions) => async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+  const onUnshift: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
+    setAction(LinkedListActions.Unshift);
     const linkedList = new LinkedList<string | undefined>(step);
-    if (action === LinkedListActions.Unshift) {
-      setSteps(linkedList.getUnshiftSteps(valueInput));
-    } else if (action === LinkedListActions.Push) {
-      setSteps(linkedList.getPushSteps(valueInput));
-    } else if (action === LinkedListActions.Shift) {
-      setSteps(linkedList.getShiftSteps());
-    } else if (action === LinkedListActions.Pop) {
-      setSteps(linkedList.getPopSteps());
-    } else if (action === LinkedListActions.Insert) {
-      setSteps(linkedList.getInsertionSteps(valueInput, Number(indexInput)));
-    } else if (action === LinkedListActions.Remove) {
-      setSteps(linkedList.getRemovalSteps(Number(indexInput)));
-    };
+    setSteps(linkedList.getUnshiftSteps(valueInput));
+    setValueInput("");
+    setIsValueValid(false);
+  };
+  
+  const onPush: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(LinkedListActions.Push);
+    const linkedList = new LinkedList<string | undefined>(step);
+    setSteps(linkedList.getPushSteps(valueInput));
+  };
+  
+  const onShift: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(LinkedListActions.Shift);
+    const linkedList = new LinkedList<string | undefined>(step);
+    setSteps(linkedList.getShiftSteps());
+  };
+  
+  const onPop: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(LinkedListActions.Pop);
+    const linkedList = new LinkedList<string | undefined>(step);
+    setSteps(linkedList.getPopSteps());
+  };
+  
+  const onInsert: FormEventHandler<HTMLFormElement> = async (event) => {
+    event.preventDefault();
+    setAction(LinkedListActions.Insert);
+    const linkedList = new LinkedList<string | undefined>(step);
+    setSteps(linkedList.getInsertionSteps(valueInput, Number(indexInput)));
     setValueInput("");
     setIndexInput("");
     setIsValueValid(false);
-    setIsIndexValid(false);
-  };
+    setIsIndexValid(false);    
+  };  
+  
+  const onRemove: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(LinkedListActions.Remove);
+    const linkedList = new LinkedList<string | undefined>(step);
+    setSteps(linkedList.getRemovalSteps(Number(indexInput)));
+    setIndexInput("");
+    setIsIndexValid(false);    
+  };  
   
   useEffect(
     () => {
@@ -110,7 +138,7 @@ export const LinkedListPage: FC = () => {
     <SolutionLayout title="Связный список">
       <section className={styles.container} data-testid="linked-list-page">
         <div className={styles.forms}>
-          <form className={styles.form} onSubmit={onSubmit(action)}>
+          <form className={styles.form} onSubmit={onUnshift}>
             <Input 
               maxLength={MAX_ELEMENT_LENGTH}
               isLimitText={true}     
@@ -121,33 +149,32 @@ export const LinkedListPage: FC = () => {
             <Button
               type="submit"
               text="Добавить в head"
-            disabled={!isValueValid || (isInProgress && action !== LinkedListActions.Unshift)}
-            isLoader={isInProgress && action === LinkedListActions.Unshift}            
-              onClick={() => { setAction(LinkedListActions.Unshift); }}
+              disabled={!isValueValid || (isInProgress && action !== LinkedListActions.Unshift)}
+              isLoader={isInProgress && action === LinkedListActions.Unshift}            
             />
             <Button
-              type="submit"
+              type="button"
               text="Добавить в tail"
-            disabled={!isValueValid || (isInProgress && action !== LinkedListActions.Push)}
-            isLoader={isInProgress && action === LinkedListActions.Push}            
-              onClick={() => { setAction(LinkedListActions.Push); }}
+              onClick={onPush}
+              disabled={!isValueValid || (isInProgress && action !== LinkedListActions.Push)}
+              isLoader={isInProgress && action === LinkedListActions.Push}            
             />
             <Button
-              type="submit"
+              type="button"
               text="Удалить из head"
+              onClick={onShift}
               disabled={step.length === 0 || (isInProgress && action !== LinkedListActions.Shift)}
               isLoader={isInProgress && action === LinkedListActions.Shift}              
-              onClick={() => { setAction(LinkedListActions.Shift); }}
             />          
             <Button
-              type="submit"
+              type="button"
               text="Удалить из tail"
+              onClick={onPop}
               disabled={step.length === 0 || (isInProgress && action !== LinkedListActions.Pop)}
               isLoader={isInProgress && action === LinkedListActions.Pop}              
-              onClick={() => { setAction(LinkedListActions.Pop); }}
             />        
           </form>
-          <form className={`${styles.form} ${styles.threeColumns}`} onSubmit={onSubmit(action)}>
+          <form className={`${styles.form} ${styles.threeColumns}`} onSubmit={onInsert}>
             <Input 
               type="number"
               min={0}
@@ -161,14 +188,13 @@ export const LinkedListPage: FC = () => {
               text="Добавить по индексу"
               disabled={!isValueValid || !isIndexValid || (isInProgress && action !== LinkedListActions.Insert)}
               isLoader={isInProgress && action === LinkedListActions.Insert}            
-              onClick={() => { setAction(LinkedListActions.Insert); }}
             />
             <Button
-              type="submit"
+              type="button"
               text="Удалить по индексу"
+              onClick={onRemove}
               disabled={!isIndexValid || Number(indexInput) >= step.length || (isInProgress && action !== LinkedListActions.Remove)}
               isLoader={isInProgress && action === LinkedListActions.Remove}            
-              onClick={() => { setAction(LinkedListActions.Remove); }}
             />             
           </form>  
         </div>

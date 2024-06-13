@@ -1,5 +1,5 @@
 // libraries 
-import React, { ChangeEvent, FC, FormEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEventHandler, FC, FormEvent, MouseEventHandler, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Column, Input, RadioInput, SolutionLayout } from "../../ui";
@@ -31,24 +31,36 @@ export const SortingPage: FC = () => {
   const [direction, setDirection] = useState(Direction.Ascending);
   const [isInProgress, setIsInProgress] = useState(false);  
   
-  const changeAlgorithm = (event: ChangeEvent<HTMLInputElement>): void => {
+  const changeAlgorithm: ChangeEventHandler<HTMLInputElement> = async (event) => {
     setAction(event.target.value as SortingActions);
   };    
   
   const [step, setStep] = useState<Array<ElementData<number>>>(randomNumbersArray(Number(inputValue)));
   const [steps, setSteps] = useState<Array<typeof step>>([]);
   
-  const onSubmit = (event: FormEvent): void => {
+  const onAscendingSort: MouseEventHandler<HTMLButtonElement> = async (event) => {
     event.preventDefault();
+    setDirection(Direction.Ascending);
     const numbersArray = new NumbersArray(step);
     if (action === SortingActions.Bubble) {
-      setSteps(numbersArray.getBubbleSortSteps(direction));
+      setSteps(numbersArray.getBubbleSortSteps(Direction.Ascending));
     } else if (action === SortingActions.Selection) {
-      setSteps(numbersArray.getSelectionSortSteps(direction));
+      setSteps(numbersArray.getSelectionSortSteps(Direction.Ascending));
     };
   };
   
-  const onReset = (event: FormEvent): void => {
+  const onDescendingSort: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setDirection(Direction.Descending);
+    const numbersArray = new NumbersArray(step);
+    if (action === SortingActions.Bubble) {
+      setSteps(numbersArray.getBubbleSortSteps(Direction.Descending));
+    } else if (action === SortingActions.Selection) {
+      setSteps(numbersArray.getSelectionSortSteps(Direction.Descending));
+    };
+  };
+  
+  const onRefresh = (event: FormEvent): void => {
     event.preventDefault();
     const numbersArray = new NumbersArray(step);
     setSteps(numbersArray.getRefreshSteps(Number(inputValue) || DEFAULT_ARRAY_SIZE));
@@ -91,7 +103,7 @@ export const SortingPage: FC = () => {
   return (
     <SolutionLayout title="Сортировка массива">
       <section className={styles.container} data-testid="sorting-page">
-        <form className={styles.form} onSubmit={onSubmit} onReset={onReset}>
+        <form className={styles.form} onSubmit={onRefresh}>
           <RadioInput
             label="Выбор"
             value={SortingActions.Selection}
@@ -106,24 +118,24 @@ export const SortingPage: FC = () => {
             extraClass={styles.smallLeftMargin}
           />          
           <Button
-            type="submit"
-            sorting={Direction.Ascending}
+            type="button"
             text="По возрастанию"
+            onClick={onAscendingSort}
+            sorting={Direction.Ascending}
             disabled={isInProgress && direction !== Direction.Ascending}
             isLoader={isInProgress && direction === Direction.Ascending}            
-            onClick={() => { setDirection(Direction.Ascending); }}
             extraClass={styles.mediumLeftMargin}
           />
           <Button
-            type="submit"
-            sorting={Direction.Descending}
+            type="button"
             text="По убыванию"
+            onClick={onDescendingSort}
+            sorting={Direction.Descending}
             disabled={isInProgress && direction !== Direction.Descending}
             isLoader={isInProgress && direction === Direction.Descending}            
-            onClick={() => { setDirection(Direction.Descending); }}
           />      
           <Button
-            type="reset"
+            type="submit"
             text="Новый массив"
             disabled={!isInputValid || isInProgress}
             extraClass={styles.largeLeftMargin}
