@@ -1,5 +1,5 @@
 // libraries
-import React, { FC, FormEvent, useEffect, useMemo, useState } from "react";
+import { FC, FormEventHandler, MouseEventHandler, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Circle, Input, SolutionLayout } from "../../ui";
@@ -33,18 +33,27 @@ export const QueuePage: FC = () => {
   const [step, setStep] = useState<Array<ElementData<string | undefined>>>(initialState.toArray());
   const [steps, setSteps] = useState<Array<typeof step>>([]);
   
-  const onSubmit = (action: QueueActions) => async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+  const onEnqueue: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
+    setAction(QueueActions.Enqueue);
     const queue = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT, step);
-    if (action === QueueActions.Enqueue) {
-      setSteps(queue.getEnqueueSteps(inputValue));
-    } else if (action === QueueActions.Dequeue) {
-      setSteps(queue.getDequeueSteps());
-    } else if (action === QueueActions.Clear) {
-      setSteps(queue.getClearSteps());
-    };
+    setSteps(queue.getEnqueueSteps(inputValue));
     setInputValue("");
     setIsInputValid(false);
+  };  
+  
+  const onDequeue: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(QueueActions.Dequeue);
+    const queue = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT, step);
+    setSteps(queue.getDequeueSteps());
+  };  
+  
+  const onClear: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(QueueActions.Clear);
+    const queue = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT, step);
+    setSteps(queue.getClearSteps());
   };  
   
   useEffect(
@@ -87,7 +96,7 @@ export const QueuePage: FC = () => {
   return (
     <SolutionLayout title="Очередь">
       <section className={styles.container} data-testid="queue-page">
-        <form className={styles.form} onSubmit={onSubmit(action)}>
+        <form className={styles.form} onSubmit={onEnqueue}>
           <Input 
             maxLength={MAX_ELEMENT_LENGTH}
             isLimitText={true}     
@@ -100,21 +109,20 @@ export const QueuePage: FC = () => {
             text="Добавить"
             disabled={!isInputValid || (isInProgress && action !== QueueActions.Enqueue)}
             isLoader={isInProgress && action === QueueActions.Enqueue}            
-            onClick={() => { setAction(QueueActions.Enqueue); }}
           />
           <Button
-            type="submit"
+            type="button"
             text="Удалить"
             disabled={step.every((element) => element.value === undefined) || (isInProgress && action !== QueueActions.Dequeue)}
             isLoader={isInProgress && action === QueueActions.Dequeue}            
-            onClick={() => { setAction(QueueActions.Dequeue); }}
+            onClick={onDequeue}
           />          
           <Button
-            type="submit"
+            type="button"
             text="Очистить"
             disabled={step.every((element) => element.value === undefined) || (isInProgress && action !== QueueActions.Clear)}
             isLoader={isInProgress && action === QueueActions.Clear}            
-            onClick={() => { setAction(QueueActions.Clear); }}
+            onClick={onClear}
             extraClass={styles.leftMargin}
           />                    
         </form>
