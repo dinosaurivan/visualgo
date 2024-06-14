@@ -20,6 +20,7 @@ describe(
         
         // check states with 1 symbol
         cy.get("input").type("a");
+        cy.get("input").should("have.value", "a");
         cy.get('[type="submit"]').should("be.disabled");
         
         // check states with 2 symbols
@@ -40,17 +41,24 @@ describe(
         
         // check states with various input values
         cy.get("input").type(" ");
+        cy.get("input").should("have.value", " ");
         cy.get('[type="submit"]').should("be.disabled");      
         
-        cy.get("input").type("  ");
+        cy.get("input").type(" ");
+        cy.get("input").should("have.value", "  ");
         cy.get('[type="submit"]').should("be.enabled");        
         
-        cy.get("input").type("   ");
+        cy.get("input").type(" ");
+        cy.get("input").should("have.value", "   ");
         cy.get('[type="submit"]').should("be.enabled");        
         
         cy.get("input").clear();
         cy.get("input").should("be.empty");
-        cy.get('[type="submit"]').should("be.disabled");        
+        cy.get('[type="submit"]').should("be.disabled");   
+        
+        cy.get("input").type("123412341234");
+        cy.get("input").should("have.value", "12341234123");
+        cy.get('[type="submit"]').should("be.enabled");   
       }
     );
     
