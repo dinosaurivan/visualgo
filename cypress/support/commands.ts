@@ -35,3 +35,15 @@
 //     }
 //   }
 // }
+
+declare namespace Cypress {
+  interface Chainable {
+    getByTestId(dataTestIdAttribute: string): Chainable<JQuery<HTMLElement>>
+  }
+};
+
+Cypress.Commands.add(
+  "getByTestId", (selector) => {
+    return cy.get(`[data-testid=${selector}]`)
+  }
+);
