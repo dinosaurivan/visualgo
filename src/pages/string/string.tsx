@@ -1,5 +1,5 @@
 // libraries
-import React, { FC, FormEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEventHandler, FC, FormEvent, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Input, Button, Circle, SolutionLayout } from "../../ui";
@@ -7,12 +7,10 @@ import { Input, Button, Circle, SolutionLayout } from "../../ui";
 // styles
 import styles from "./string.module.css";
 
-// hooks
-import useForm from "../../hooks/use-form";
-
 // utils
 import { ElementData } from "../../utils/element-data";
 import { sequentialUpdate } from "../../utils/sequential-update";
+import { MAX_STRING_LENGTH, MIN_STRING_LENGTH } from "../../utils/constants";
 
 // data structures 
 import { LettersArray } from "../../data-structures";
@@ -23,7 +21,11 @@ export const StringPage: FC = () => {
   
   const [inputValue, setInputValue] = useState("");
   const [isInputValid, setIsInputValid] = useState(false);
-  const { onChange } = useForm();
+  
+  const onChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
+    setInputValue(target.value);
+    setIsInputValid(target.validity.valid && (target.value.length >= MIN_STRING_LENGTH));
+  };
   
   const [isInProgress, setIsInProgress] = useState(false);
   
@@ -77,11 +79,11 @@ export const StringPage: FC = () => {
       <section className={styles.container} data-testid="string-page">
         <form className={styles.form} onSubmit={onSubmit}>
           <Input 
-            minLength={2}
-            maxLength={11}
+            minLength={MIN_STRING_LENGTH}
+            maxLength={MAX_STRING_LENGTH}
             isLimitText={true}     
             value={inputValue}
-            onChange={onChange(setInputValue, setIsInputValid, false)}
+            onChange={onChange}
           />
           <Button 
             type="submit"

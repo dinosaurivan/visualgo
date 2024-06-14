@@ -10,6 +10,9 @@ export const MAX_ARRAY_VALUE = 100;
 
 export const MAX_FIBONACCI_LENGTH = 19;
 
+export const MIN_STRING_LENGTH = 2;
+export const MAX_STRING_LENGTH = 11;
+
 export enum Direction {
   Ascending = "ascending",
   Descending = "descending",
