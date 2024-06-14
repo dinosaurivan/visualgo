@@ -24,11 +24,7 @@ export const StringPage: FC = () => {
   
   const onChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     setInputValue(target.value);
-    setIsInputValid(
-      target.validity.valid
-      && (target.value.length >= MIN_STRING_LENGTH)
-      && (target.value.length <= MAX_STRING_LENGTH)
-    );
+    setIsInputValid(target.validity.valid && (target.value.length >= MIN_STRING_LENGTH));
   };
   
   const [isInProgress, setIsInProgress] = useState(false);
