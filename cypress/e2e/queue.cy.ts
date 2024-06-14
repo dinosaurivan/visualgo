@@ -54,50 +54,50 @@ describe(
         // add first element
         cy.get("input").type("11");
         cy.get('[data-testid="enqueue-button"]').click();
-        cy.get("[class*=circle_content]").first().as("firstElement");
+        cy.get("[class*=circle_content]").first().as("element1");
+        cy.get("[class*=circle_content]").eq(1).as("element2");
+        cy.get("[class*=circle_content]").eq(2).as("element3");
         
         // check initial change
-        cy.get("@firstElement").contains("11");
-        cy.get("@firstElement").contains("head");
-        cy.get("@firstElement").contains("tail");
-        cy.get("@firstElement").children("[class*=circle_modified]");
+        cy.get("@element1").contains("11");
+        cy.get("@element1").contains("head");
+        cy.get("@element1").contains("tail");
+        cy.get("@element1").children("[class*=circle_modified]");
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("@firstElement").children("[class*=circle_default]");
+        cy.get("@element1").children("[class*=circle_default]");
         
         // add second element
         cy.get("input").type("22");
         cy.get('[data-testid="enqueue-button"]').click();
-        cy.get("[class*=circle_content]").eq(1).as("secondElement");
         
         // check initial change
-        cy.get("@secondElement").contains("22");
-        cy.get("@secondElement").contains("tail");    
-        cy.get("@secondElement").should("not.contain", "head");
-        cy.get("@secondElement").children("[class*=circle_modified]");
+        cy.get("@element2").contains("22");
+        cy.get("@element2").contains("tail");    
+        cy.get("@element2").should("not.contain", "head");
+        cy.get("@element2").children("[class*=circle_modified]");
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("@secondElement").children("[class*=circle_default]");
+        cy.get("@element2").children("[class*=circle_default]");
         
         // add third element
         cy.get("input").type("33");
         cy.get('[data-testid="enqueue-button"]').click();
-        cy.get("[class*=circle_content]").eq(2).as("thirdElement");
         
         // check initial change
-        cy.get("@thirdElement").contains("33");
-        cy.get("@thirdElement").contains("tail");    
-        cy.get("@thirdElement").should("not.contain", "head");
-        cy.get("@thirdElement").children("[class*=circle_modified]");
+        cy.get("@element3").contains("33");
+        cy.get("@element3").contains("tail");    
+        cy.get("@element3").should("not.contain", "head");
+        cy.get("@element3").children("[class*=circle_modified]");
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("@thirdElement").children("[class*=circle_default]");        
+        cy.get("@element3").children("[class*=circle_default]");        
         
         // check whole queue
         cy.get("[class*=circle_content]").should("have.length", 7).each(
@@ -142,51 +142,51 @@ describe(
         
         // remove first element
         cy.get('[data-testid="dequeue-button"]').click();
-        cy.get("[class*=circle_content]").first().as("firstElement");
+        cy.get("[class*=circle_content]").first().as("element1");
+        cy.get("[class*=circle_content]").eq(1).as("element2");
+        cy.get("[class*=circle_content]").eq(2).as("element3");
         
         // check initial change
-        cy.get("@firstElement").contains("12");
-        cy.get("@firstElement").should("not.contain", "head");
-        cy.get("@firstElement").should("not.contain", "tail");
-        cy.get("@firstElement").children("[class*=circle_changing]");
+        cy.get("@element1").contains("12");
+        cy.get("@element1").should("not.contain", "head");
+        cy.get("@element1").should("not.contain", "tail");
+        cy.get("@element1").children("[class*=circle_changing]");
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("@firstElement").should("not.contain.text");
-        cy.get("@firstElement").children("[class*=circle_default]");  
+        cy.get("@element1").should("not.contain.text");
+        cy.get("@element1").children("[class*=circle_default]");  
         
         // remove second element
         cy.get('[data-testid="dequeue-button"]').click();
-        cy.get("[class*=circle_content]").eq(1).as("secondElement");
         
         // check initial change
-        cy.get("@secondElement").contains("34");
-        cy.get("@secondElement").should("not.contain", "head");
-        cy.get("@secondElement").should("not.contain", "tail");
-        cy.get("@secondElement").children("[class*=circle_changing]");
+        cy.get("@element2").contains("34");
+        cy.get("@element2").should("not.contain", "head");
+        cy.get("@element2").should("not.contain", "tail");
+        cy.get("@element2").children("[class*=circle_changing]");
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("@secondElement").should("not.contain.text");
-        cy.get("@secondElement").children("[class*=circle_default]");          
+        cy.get("@element2").should("not.contain.text");
+        cy.get("@element2").children("[class*=circle_default]");          
         
         // remove third element
         cy.get('[data-testid="dequeue-button"]').click();
-        cy.get("[class*=circle_content]").eq(2).as("thirdElement");
         
         // check initial change
-        cy.get("@thirdElement").contains("56");
-        cy.get("@thirdElement").should("not.contain", "head");
-        cy.get("@thirdElement").should("not.contain", "tail");
-        cy.get("@thirdElement").children("[class*=circle_changing]");
+        cy.get("@element3").contains("56");
+        cy.get("@element3").should("not.contain", "head");
+        cy.get("@element3").should("not.contain", "tail");
+        cy.get("@element3").children("[class*=circle_changing]");
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("@thirdElement").should("not.contain.text");
-        cy.get("@thirdElement").children("[class*=circle_default]");    
+        cy.get("@element3").should("not.contain.text");
+        cy.get("@element3").children("[class*=circle_default]");    
         
         // check whole queue
         cy.get("[class*=circle_content]").should("have.length", 7).each(

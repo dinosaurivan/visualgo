@@ -121,15 +121,15 @@ describe(
         
         // check changes
         cy.get("@element1").contains("1");
-        cy.get("@element1").children("[class*=circle_default]");
         cy.get("@element2").contains("2");
-        cy.get("@element2").children("[class*=circle_default]");
         cy.get("@element3").contains("3");
-        cy.get("@element3").children("[class*=circle_default]");
         cy.get("@element4").contains("4");
-        cy.get("@element4").children("[class*=circle_default]");
         cy.get("@element5").contains("5");
-        cy.get("@element5").children("[class*=circle_default]");
+        cy.get("[class*=circle_content]").should("have.length", 5).each(
+          ($el) => {
+            cy.wrap($el).children("[class*=circle_default]");               
+          }
+        );        
         cy.wait(Delay.Medium);        
         
         // check changes
@@ -225,29 +225,28 @@ describe(
         
         // check changes
         cy.get("@element1").contains("5");
-        cy.get("@element1").children("[class*=circle_modified]");
         cy.get("@element2").contains("4");
-        cy.get("@element2").children("[class*=circle_modified]");
         cy.get("@element3").contains("3");
-        cy.get("@element3").children("[class*=circle_modified]");
         cy.get("@element4").contains("2");
-        cy.get("@element4").children("[class*=circle_modified]");
         cy.get("@element5").contains("1");
-        cy.get("@element5").children("[class*=circle_modified]");
+        cy.get("[class*=circle_content]").should("have.length", 5).each(
+          ($el) => {
+            cy.wrap($el).children("[class*=circle_modified]");               
+          }
+        );          
         cy.wait(Delay.Medium);        
         
         // check changes
         cy.get("@element1").contains("5");
-        cy.get("@element1").children("[class*=circle_default]");
         cy.get("@element2").contains("4");
-        cy.get("@element2").children("[class*=circle_default]");
         cy.get("@element3").contains("3");
-        cy.get("@element3").children("[class*=circle_default]");
         cy.get("@element4").contains("2");
-        cy.get("@element4").children("[class*=circle_default]");
         cy.get("@element5").contains("1");
-        cy.get("@element5").children("[class*=circle_default]");
-        cy.wait(Delay.Medium);        
+        cy.get("[class*=circle_content]").should("have.length", 5).each(
+          ($el) => {
+            cy.wrap($el).children("[class*=circle_default]");               
+          }
+        );             
       }
     );
   }
