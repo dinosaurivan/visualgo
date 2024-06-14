@@ -23,6 +23,8 @@ describe(
         // add element
         cy.get("input").type("42");
         cy.get('[data-testid="enqueue-button"]').should("be.enabled");
+        cy.get('[data-testid="dequeue-button"]').should("be.disabled");
+        cy.get('[data-testid="clear-button"]').should("be.disabled");
         cy.get("form").submit();
         
         cy.wait(Delay.Medium);
@@ -39,6 +41,11 @@ describe(
         cy.get("input").clear();
         cy.get("input").should("be.empty");
         cy.get('[data-testid="enqueue-button"]').should("be.disabled");
+        cy.get("input").clear();
+        cy.get("input").should("be.empty");        
+        cy.get("input").type("12345");
+        cy.get("input").should("have.value", "1234");
+        cy.get('[type="submit"]').should("be.enabled");           
         
         // check empty queue
         cy.get('[data-testid="dequeue-button"]').click();

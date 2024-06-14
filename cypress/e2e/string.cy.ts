@@ -56,8 +56,8 @@ describe(
         cy.get("input").should("be.empty");
         cy.get('[type="submit"]').should("be.disabled");   
         
-        cy.get("input").type("123412341234");
-        cy.get("input").should("have.value", "12341234123");
+        cy.get("input").type("123456123456");
+        cy.get("input").should("have.value", "12345612345");
         cy.get('[type="submit"]').should("be.enabled");   
       }
     );
