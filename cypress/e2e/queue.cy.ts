@@ -5,10 +5,14 @@ import { Delay } from "../../src/utils/constants";
 describe(
   "Queue page tests", () => {
     
+    beforeEach(
+      () => {
+        cy.visit("http://localhost:3000/queue");
+      }
+    );
+    
     it(
       "enables and disables buttons based on input content and queue state", () => {
-        
-        cy.visit("http://localhost:3000/queue");
         
         // check states with empty queue
         cy.get("input").should("be.empty");
@@ -46,8 +50,6 @@ describe(
     
     it(
       "should add new elements correctly", () => {
-        
-        cy.visit("http://localhost:3000/queue");
         
         // add first element
         cy.get("input").type("11");
@@ -127,8 +129,6 @@ describe(
     it(
       "should remove existing elements correctly", () => {
         
-        cy.visit("http://localhost:3000/queue");
-        
         // add elements to remove them later
         cy.get("input").type("12");
         cy.get('[data-testid="enqueue-button"]').click();
@@ -201,8 +201,6 @@ describe(
     it(
       "should clear the queue correctly", () => {
           
-          cy.visit("http://localhost:3000/queue");
-          
           // add elements to clear them later
           for (let i = 0; i < 3; i++) {
             cy.get("input").type("333");
@@ -225,8 +223,6 @@ describe(
     
     it(
       "disables adding if size limit is exceeded", () => {
-        
-        cy.visit("http://localhost:3000/queue");
         
         // add elements to fill up the queue
         for (let i = 0; i < 7; i++) {
