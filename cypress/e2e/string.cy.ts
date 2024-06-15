@@ -15,50 +15,50 @@ describe(
       "enables and disables button based on input content and string state", () => {
         
         // check states with empty input
-        cy.get("input").should("be.empty");
-        cy.get('[type="submit"]').should("be.disabled");
+        cy.getByTestId("input").should("be.empty");
+        cy.getByTestId("reverse-button").should("be.disabled");
         
         // check states with 1 symbol
-        cy.get("input").type("a");
-        cy.get("input").should("have.value", "a");
-        cy.get('[type="submit"]').should("be.disabled");
+        cy.getByTestId("input").type("a");
+        cy.getByTestId("input").should("have.value", "a");
+        cy.getByTestId("reverse-button").should("be.disabled");
         
         // check states with 2 symbols
-        cy.get("input").type("b");
-        cy.get("input").should("have.value", "ab");
-        cy.get('[type="submit"]').should("be.enabled");
-        cy.get("form").submit();
+        cy.getByTestId("input").type("b");
+        cy.getByTestId("input").should("have.value", "ab");
+        cy.getByTestId("reverse-button").should("be.enabled");
+        cy.getByTestId("form").submit();
         
         // check initial changes
-        cy.get("input").should("be.empty");
-        cy.get('[type="submit"]').should("be.disabled");
+        cy.getByTestId("input").should("be.empty");
+        cy.getByTestId("reverse-button").should("be.disabled");
         
         cy.wait(Delay.Medium * 5);
         
         // check delayed changes
-        cy.get("input").should("be.empty");
-        cy.get('[type="submit"]').should("be.disabled");
+        cy.getByTestId("input").should("be.empty");
+        cy.getByTestId("reverse-button").should("be.disabled");
         
         // check states with various input values
-        cy.get("input").type(" ");
-        cy.get("input").should("have.value", " ");
-        cy.get('[type="submit"]').should("be.disabled");      
+        cy.getByTestId("input").type(" ");
+        cy.getByTestId("input").should("have.value", " ");
+        cy.getByTestId("reverse-button").should("be.disabled");      
         
-        cy.get("input").type(" ");
-        cy.get("input").should("have.value", "  ");
-        cy.get('[type="submit"]').should("be.enabled");        
+        cy.getByTestId("input").type(" ");
+        cy.getByTestId("input").should("have.value", "  ");
+        cy.getByTestId("reverse-button").should("be.enabled");        
         
-        cy.get("input").type(" ");
-        cy.get("input").should("have.value", "   ");
-        cy.get('[type="submit"]').should("be.enabled");        
+        cy.getByTestId("input").type(" ");
+        cy.getByTestId("input").should("have.value", "   ");
+        cy.getByTestId("reverse-button").should("be.enabled");        
         
-        cy.get("input").clear();
-        cy.get("input").should("be.empty");
-        cy.get('[type="submit"]').should("be.disabled");   
+        cy.getByTestId("input").clear();
+        cy.getByTestId("input").should("be.empty");
+        cy.getByTestId("reverse-button").should("be.disabled");   
         
-        cy.get("input").type("123456123456");
-        cy.get("input").should("have.value", "12345612345");
-        cy.get('[type="submit"]').should("be.enabled");   
+        cy.getByTestId("input").type("123456123456");
+        cy.getByTestId("input").should("have.value", "12345612345");
+        cy.getByTestId("reverse-button").should("be.enabled");   
       }
     );
     
@@ -66,8 +66,8 @@ describe(
       "reverses a string of length 2 correctly", () => {
         
         // reverse a string of 2
-        cy.get("input").type("12");
-        cy.get("form").submit();
+        cy.getByTestId("input").type("12");
+        cy.getByTestId("form").submit();
         cy.get("[class*=circle_content]").first().as("element1");
         cy.get("[class*=circle_content]").eq(1).as("element2");
         
@@ -111,8 +111,8 @@ describe(
       "reverses a string of length 5 correctly", () => {
         
         // reverse a string of 5
-        cy.get("input").type("12345");
-        cy.get("form").submit();
+        cy.getByTestId("input").type("12345");
+        cy.getByTestId("form").submit();
         cy.get("[class*=circle_content]").first().as("element1");
         cy.get("[class*=circle_content]").eq(1).as("element2");        
         cy.get("[class*=circle_content]").eq(2).as("element3");        

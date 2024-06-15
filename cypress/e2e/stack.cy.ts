@@ -15,41 +15,41 @@ describe(
       "enables and disables buttons based on input content and stack state", () => {
         
         // check states with empty stack
-        cy.get("input").should("be.empty");
-        cy.get('[data-testid="push-button"]').should("be.disabled");
-        cy.get('[data-testid="pop-button"]').should("be.disabled");
-        cy.get('[data-testid="clear-button"]').should("be.disabled");
+        cy.getByTestId("input").should("be.empty");
+        cy.getByTestId("push-button").should("be.disabled");
+        cy.getByTestId("pop-button").should("be.disabled");
+        cy.getByTestId("clear-button").should("be.disabled");
         
         // add element
-        cy.get("input").type("42");
-        cy.get('[data-testid="push-button"]').should("be.enabled");
-        cy.get('[data-testid="pop-button"]').should("be.disabled");
-        cy.get('[data-testid="clear-button"]').should("be.disabled");
-        cy.get("form").submit();
+        cy.getByTestId("input").type("42");
+        cy.getByTestId("push-button").should("be.enabled");
+        cy.getByTestId("pop-button").should("be.disabled");
+        cy.getByTestId("clear-button").should("be.disabled");
+        cy.getByTestId("form").submit();
         
         cy.wait(Delay.Medium);
         
         // check states with loaded stack
-        cy.get("input").should("be.empty");
-        cy.get('[data-testid="push-button"]').should("be.disabled");
-        cy.get('[data-testid="pop-button"]').should("be.enabled");
-        cy.get('[data-testid="clear-button"]').should("be.enabled");        
+        cy.getByTestId("input").should("be.empty");
+        cy.getByTestId("push-button").should("be.disabled");
+        cy.getByTestId("pop-button").should("be.enabled");
+        cy.getByTestId("clear-button").should("be.enabled");        
         
         // check states with various input values
-        cy.get("input").type(" ");
-        cy.get('[data-testid="push-button"]').should("be.enabled");
-        cy.get("input").clear();
-        cy.get("input").should("be.empty");
-        cy.get('[data-testid="push-button"]').should("be.disabled");
-        cy.get("input").type("12345");
-        cy.get("input").should("have.value", "1234");
-        cy.get('[type="submit"]').should("be.enabled");     
+        cy.getByTestId("input").type(" ");
+        cy.getByTestId("push-button").should("be.enabled");
+        cy.getByTestId("input").clear();
+        cy.getByTestId("input").should("be.empty");
+        cy.getByTestId("push-button").should("be.disabled");
+        cy.getByTestId("input").type("12345");
+        cy.getByTestId("input").should("have.value", "1234");
+        cy.getByTestId("push-button").should("be.enabled");     
         
         // check empty stack
-        cy.get('[data-testid="pop-button"]').click();
-        cy.get('[data-testid="push-button"]').should("be.disabled");
-        cy.get('[data-testid="pop-button"]').should("be.disabled");
-        cy.get('[data-testid="clear-button"]').should("be.disabled");
+        cy.getByTestId("pop-button").click();
+        cy.getByTestId("push-button").should("be.disabled");
+        cy.getByTestId("pop-button").should("be.disabled");
+        cy.getByTestId("clear-button").should("be.disabled");
       }
     ); 
     
@@ -57,8 +57,8 @@ describe(
       "should add new elements correctly", () => {
         
         // add first element
-        cy.get("input").type("11");
-        cy.get('[data-testid="push-button"]').click();
+        cy.getByTestId("input").type("11");
+        cy.getByTestId("push-button").click();
         cy.get("[class*=circle_content]").first().as("element1");
         
         // check initial change
@@ -72,8 +72,8 @@ describe(
         cy.get("@element1").children("[class*=circle_default]");
         
         // add second element
-        cy.get("input").type("22");
-        cy.get('[data-testid="push-button"]').click();
+        cy.getByTestId("input").type("22");
+        cy.getByTestId("push-button").click();
         cy.get("[class*=circle_content]").eq(1).as("element2");
         
         // check initial change
@@ -88,8 +88,8 @@ describe(
         cy.get("@element2").children("[class*=circle_default]");
         
         // add third element
-        cy.get("input").type("33");
-        cy.get('[data-testid="push-button"]').click();
+        cy.getByTestId("input").type("33");
+        cy.getByTestId("push-button").click();
         cy.get("[class*=circle_content]").eq(2).as("element3");
         
         // check initial change
@@ -127,18 +127,18 @@ describe(
       "should remove existing elements correctly", () => {
         
         // add elements to remove them later
-        cy.get("input").type("12");
-        cy.get('[data-testid="push-button"]').click();
+        cy.getByTestId("input").type("12");
+        cy.getByTestId("push-button").click();
         cy.wait(Delay.Medium);
-        cy.get("input").type("34");
-        cy.get('[data-testid="push-button"]').click();
+        cy.getByTestId("input").type("34");
+        cy.getByTestId("push-button").click();
         cy.wait(Delay.Medium);
-        cy.get("input").type("56");
-        cy.get('[data-testid="push-button"]').click();
+        cy.getByTestId("input").type("56");
+        cy.getByTestId("push-button").click();
         cy.wait(Delay.Medium);
         
         // remove first element
-        cy.get('[data-testid="pop-button"]').click();
+        cy.getByTestId("pop-button").click();
         cy.get("[class*=circle_content]").first().as("element1");
         cy.get("[class*=circle_content]").eq(1).as("element2");
         cy.get("[class*=circle_content]").eq(2).as("element3");
@@ -155,7 +155,7 @@ describe(
         cy.get("@element2").contains("top");
         
         // remove second element
-        cy.get('[data-testid="pop-button"]').click();
+        cy.getByTestId("pop-button").click();
         
         // check initial change
         cy.get("@element2").contains("34");
@@ -169,7 +169,7 @@ describe(
         cy.get("@element1").contains("top");
         
         // remove third element
-        cy.get('[data-testid="pop-button"]').click();
+        cy.getByTestId("pop-button").click();
         
         // check initial change
         cy.get("@element1").contains("12");
@@ -188,13 +188,13 @@ describe(
           
           // add elements to clear them later
           for (let i = 0; i < 3; i++) {
-            cy.get("input").type("333");
-            cy.get('[data-testid="push-button"]').click();
+            cy.getByTestId("input").type("333");
+            cy.getByTestId("push-button").click();
             cy.wait(Delay.Medium);
           };
           
           // clear the stack
-          cy.get('[data-testid="clear-button"]').click();
+          cy.getByTestId("clear-button").click();
           
           // check whole stack
           cy.get("[class*=circle_content]").should("have.length", 0);

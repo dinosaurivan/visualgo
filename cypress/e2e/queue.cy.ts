@@ -15,43 +15,41 @@ describe(
       "enables and disables buttons based on input content and queue state", () => {
         
         // check states with empty queue
-        cy.get("input").should("be.empty");
-        cy.get('[data-testid="enqueue-button"]').should("be.disabled");
-        cy.get('[data-testid="dequeue-button"]').should("be.disabled");
-        cy.get('[data-testid="clear-button"]').should("be.disabled");
+        cy.getByTestId("input").should("be.empty");
+        cy.getByTestId("enqueue-button").should("be.disabled");
+        cy.getByTestId("dequeue-button").should("be.disabled");
+        cy.getByTestId("clear-button").should("be.disabled");
         
         // add element
-        cy.get("input").type("42");
-        cy.get('[data-testid="enqueue-button"]').should("be.enabled");
-        cy.get('[data-testid="dequeue-button"]').should("be.disabled");
-        cy.get('[data-testid="clear-button"]').should("be.disabled");
-        cy.get("form").submit();
+        cy.getByTestId("input").type("42");
+        cy.getByTestId("enqueue-button").should("be.enabled");
+        cy.getByTestId("dequeue-button").should("be.disabled");
+        cy.getByTestId("clear-button").should("be.disabled");
+        cy.getByTestId("form").submit();
         
         cy.wait(Delay.Medium);
         
         // check states with loaded queue
-        cy.get("input").should("be.empty");
-        cy.get('[data-testid="enqueue-button"]').should("be.disabled");
-        cy.get('[data-testid="dequeue-button"]').should("be.enabled");
-        cy.get('[data-testid="clear-button"]').should("be.enabled");        
+        cy.getByTestId("input").should("be.empty");
+        cy.getByTestId("enqueue-button").should("be.disabled");
+        cy.getByTestId("dequeue-button").should("be.enabled");
+        cy.getByTestId("clear-button").should("be.enabled");        
         
         // check states with various input values
-        cy.get("input").type(" ");
-        cy.get('[data-testid="enqueue-button"]').should("be.enabled");
-        cy.get("input").clear();
-        cy.get("input").should("be.empty");
-        cy.get('[data-testid="enqueue-button"]').should("be.disabled");
-        cy.get("input").clear();
-        cy.get("input").should("be.empty");        
-        cy.get("input").type("12345");
-        cy.get("input").should("have.value", "1234");
-        cy.get('[type="submit"]').should("be.enabled");           
+        cy.getByTestId("input").type(" ");
+        cy.getByTestId("enqueue-button").should("be.enabled");
+        cy.getByTestId("input").clear();
+        cy.getByTestId("input").should("be.empty");
+        cy.getByTestId("enqueue-button").should("be.disabled");
+        cy.getByTestId("input").type("12345");
+        cy.getByTestId("input").should("have.value", "1234");
+        cy.getByTestId("enqueue-button").should("be.enabled");           
         
         // check empty queue
-        cy.get('[data-testid="dequeue-button"]').click();
-        cy.get('[data-testid="enqueue-button"]').should("be.disabled");
-        cy.get('[data-testid="dequeue-button"]').should("be.disabled");
-        cy.get('[data-testid="clear-button"]').should("be.disabled");        
+        cy.getByTestId("dequeue-button").click();
+        cy.getByTestId("enqueue-button").should("be.disabled");
+        cy.getByTestId("dequeue-button").should("be.disabled");
+        cy.getByTestId("clear-button").should("be.disabled");        
       }
     ); 
     
@@ -59,8 +57,8 @@ describe(
       "should add new elements correctly", () => {
         
         // add first element
-        cy.get("input").type("11");
-        cy.get('[data-testid="enqueue-button"]').click();
+        cy.getByTestId("input").type("11");
+        cy.getByTestId("enqueue-button").click();
         cy.get("[class*=circle_content]").first().as("element1");
         cy.get("[class*=circle_content]").eq(1).as("element2");
         cy.get("[class*=circle_content]").eq(2).as("element3");
@@ -77,8 +75,8 @@ describe(
         cy.get("@element1").children("[class*=circle_default]");
         
         // add second element
-        cy.get("input").type("22");
-        cy.get('[data-testid="enqueue-button"]').click();
+        cy.getByTestId("input").type("22");
+        cy.getByTestId("enqueue-button").click();
         
         // check initial change
         cy.get("@element2").contains("22");
@@ -92,8 +90,8 @@ describe(
         cy.get("@element2").children("[class*=circle_default]");
         
         // add third element
-        cy.get("input").type("33");
-        cy.get('[data-testid="enqueue-button"]').click();
+        cy.getByTestId("input").type("33");
+        cy.getByTestId("enqueue-button").click();
         
         // check initial change
         cy.get("@element3").contains("33");
@@ -137,18 +135,18 @@ describe(
       "should remove existing elements correctly", () => {
         
         // add elements to remove them later
-        cy.get("input").type("12");
-        cy.get('[data-testid="enqueue-button"]').click();
+        cy.getByTestId("input").type("12");
+        cy.getByTestId("enqueue-button").click();
         cy.wait(Delay.Medium);
-        cy.get("input").type("34");
-        cy.get('[data-testid="enqueue-button"]').click();
+        cy.getByTestId("input").type("34");
+        cy.getByTestId("enqueue-button").click();
         cy.wait(Delay.Medium);
-        cy.get("input").type("56");
-        cy.get('[data-testid="enqueue-button"]').click();
+        cy.getByTestId("input").type("56");
+        cy.getByTestId("enqueue-button").click();
         cy.wait(Delay.Medium);
         
         // remove first element
-        cy.get('[data-testid="dequeue-button"]').click();
+        cy.getByTestId("dequeue-button").click();
         cy.get("[class*=circle_content]").first().as("element1");
         cy.get("[class*=circle_content]").eq(1).as("element2");
         cy.get("[class*=circle_content]").eq(2).as("element3");
@@ -166,7 +164,7 @@ describe(
         cy.get("@element1").children("[class*=circle_default]");  
         
         // remove second element
-        cy.get('[data-testid="dequeue-button"]').click();
+        cy.getByTestId("dequeue-button").click();
         
         // check initial change
         cy.get("@element2").contains("34");
@@ -181,7 +179,7 @@ describe(
         cy.get("@element2").children("[class*=circle_default]");          
         
         // remove third element
-        cy.get('[data-testid="dequeue-button"]').click();
+        cy.getByTestId("dequeue-button").click();
         
         // check initial change
         cy.get("@element3").contains("56");
@@ -210,13 +208,13 @@ describe(
           
           // add elements to clear them later
           for (let i = 0; i < 3; i++) {
-            cy.get("input").type("333");
-            cy.get('[data-testid="enqueue-button"]').click();
+            cy.getByTestId("input").type("333");
+            cy.getByTestId("enqueue-button").click();
             cy.wait(Delay.Medium);
           };
           
           // clear the queue
-          cy.get('[data-testid="clear-button"]').click();
+          cy.getByTestId("clear-button").click();
           
           // check whole queue
           cy.get("[class*=circle_content]").should("have.length", 7).each(
@@ -233,14 +231,14 @@ describe(
         
         // add elements to fill up the queue
         for (let i = 0; i < 7; i++) {
-          cy.get("input").type("777");
-          cy.get('[data-testid="enqueue-button"]').click();
+          cy.getByTestId("input").type("777");
+          cy.getByTestId("enqueue-button").click();
           cy.wait(Delay.Medium);
         };
         
         // check that button is disabled even with filled input
-        cy.get("input").type("42");
-        cy.get('[data-testid="enqueue-button"]').should("be.disabled");
+        cy.getByTestId("input").type("42");
+        cy.getByTestId("enqueue-button").should("be.disabled");
       }
     );
   }
