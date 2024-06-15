@@ -138,17 +138,19 @@ export const LinkedListPage: FC = () => {
     <SolutionLayout title="Связный список">
       <section className={styles.container} data-testid="linked-list-page">
         <div className={styles.forms}>
-          <form className={styles.form} onSubmit={onUnshift}>
+          <form className={styles.form} onSubmit={onUnshift} data-testid="value-form">
             <Input 
               maxLength={MAX_ELEMENT_LENGTH}
               isLimitText={true}     
               value={valueInput}
               placeholder="Введите значение"
+              data-testid="value-input"
               onChange={onChange(setValueInput, setIsValueValid, false)}
             />
             <Button
               type="submit"
               text="Добавить в head"
+              data-testid="unshift-button"
               disabled={!isValueValid || (isInProgress && action !== LinkedListActions.Unshift)}
               isLoader={isInProgress && action === LinkedListActions.Unshift}            
             />
@@ -156,6 +158,7 @@ export const LinkedListPage: FC = () => {
               type="button"
               text="Добавить в tail"
               onClick={onPush}
+              data-testid="push-button"
               disabled={!isValueValid || (isInProgress && action !== LinkedListActions.Push)}
               isLoader={isInProgress && action === LinkedListActions.Push}            
             />
@@ -163,6 +166,7 @@ export const LinkedListPage: FC = () => {
               type="button"
               text="Удалить из head"
               onClick={onShift}
+              data-testid="shift-button"
               disabled={step.length === 0 || (isInProgress && action !== LinkedListActions.Shift)}
               isLoader={isInProgress && action === LinkedListActions.Shift}              
             />          
@@ -170,22 +174,25 @@ export const LinkedListPage: FC = () => {
               type="button"
               text="Удалить из tail"
               onClick={onPop}
+              data-testid="pop-button"
               disabled={step.length === 0 || (isInProgress && action !== LinkedListActions.Pop)}
               isLoader={isInProgress && action === LinkedListActions.Pop}              
             />        
           </form>
-          <form className={`${styles.form} ${styles.threeColumns}`} onSubmit={onInsert}>
+          <form className={`${styles.form} ${styles.threeColumns}`} onSubmit={onInsert} data-testid="index-form">
             <Input 
               type="number"
               min={0}
               max={step.length}
               value={indexInput}
               placeholder="Введите индекс"
+              data-testid="index-input"
               onChange={onChange(setIndexInput, setIsIndexValid, false)}
             />
             <Button
               type="submit"
               text="Добавить по индексу"
+              data-testid="insert-button"
               disabled={!isValueValid || !isIndexValid || (isInProgress && action !== LinkedListActions.Insert)}
               isLoader={isInProgress && action === LinkedListActions.Insert}            
             />
@@ -193,6 +200,7 @@ export const LinkedListPage: FC = () => {
               type="button"
               text="Удалить по индексу"
               onClick={onRemove}
+              data-testid="remove-button"
               disabled={!isIndexValid || Number(indexInput) >= step.length || (isInProgress && action !== LinkedListActions.Remove)}
               isLoader={isInProgress && action === LinkedListActions.Remove}            
             />             
