@@ -77,17 +77,19 @@ export const StringPage: FC = () => {
   return (
     <SolutionLayout title="Строка">
       <section className={styles.container} data-testid="string-page">
-        <form className={styles.form} onSubmit={onSubmit}>
+        <form className={styles.form} onSubmit={onSubmit} data-testid="form">
           <Input 
             minLength={MIN_STRING_LENGTH}
             maxLength={MAX_STRING_LENGTH}
             isLimitText={true}     
             value={inputValue}
+            data-testid="input"            
             onChange={onChange}
           />
           <Button 
             type="submit"
             text="Развернуть"
+            data-testid="reverse-button"            
             disabled={!isInputValid}
             isLoader={isInProgress}
           />

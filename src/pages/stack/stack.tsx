@@ -94,12 +94,13 @@ export const StackPage: FC = () => {
   return (
     <SolutionLayout title="Стек">
       <section className={styles.container} data-testid="stack-page">
-        <form className={styles.form} onSubmit={onPush}>
+        <form className={styles.form} onSubmit={onPush} data-testid="form">
           <Input 
             maxLength={MAX_ELEMENT_LENGTH}
             isLimitText={true}     
             value={inputValue}
             placeholder="Введите значение"
+            data-testid="input"
             onChange={onChange(setInputValue, setIsInputValid, false)}
           />
           <Button

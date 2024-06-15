@@ -77,18 +77,20 @@ export const FibonacciPage: FC = () => {
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
       <section className={styles.container} data-testid="fibonacci-page">
-        <form className={styles.form} onSubmit={onSubmit}>
+        <form className={styles.form} onSubmit={onSubmit} data-testid="form">
           <Input 
             type="number"          
             min={0}
             max={MAX_FIBONACCI_LENGTH}
             isLimitText={true}     
             value={inputValue}
+            data-testid="input"
             onChange={onChange(setInputValue, setIsInputValid, false)}
           />
           <Button
             type="submit"
             text="Рассчитать"
+            data-testid="calculate-button"
             disabled={!isInputValid}
             isLoader={isInProgress}
           />

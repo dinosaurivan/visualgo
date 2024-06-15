@@ -96,12 +96,13 @@ export const QueuePage: FC = () => {
   return (
     <SolutionLayout title="Очередь">
       <section className={styles.container} data-testid="queue-page">
-        <form className={styles.form} onSubmit={onEnqueue}>
+        <form className={styles.form} onSubmit={onEnqueue} data-testid="form">
           <Input 
             maxLength={MAX_ELEMENT_LENGTH}
             isLimitText={true}     
             value={inputValue}
             placeholder="Введите значение"
+            data-testid="input"
             onChange={onChange(setInputValue, setIsInputValid, false)}
           />
           <Button
