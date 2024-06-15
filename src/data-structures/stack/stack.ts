@@ -1,10 +1,11 @@
+import ElementData from "../../utils/element-data";
 import { ElementColors } from "../../utils/constants";
-import { ElementData } from "../../utils/element-data";
 
 
 
-export class Stack<T> {
+class Stack<T> {
   private snapshot: Array<ElementData<T>>;
+  
   private history: Array<typeof this.snapshot>;
   
   constructor(fromArray: Array<ElementData<T>> = []) {
@@ -91,3 +92,5 @@ export class Stack<T> {
     return this.history;
   };
 };
+
+export default Stack;

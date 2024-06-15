@@ -1,9 +1,9 @@
 // data structures
-import { NumbersArray } from "./numbers-array";
+import NumbersArray from "./numbers-array";
 
 // utils
+import ElementData from "../../utils/element-data";
 import { Direction, ElementColors } from "../../utils/constants";
-import { ElementData } from "../../utils/element-data";
 
 
 

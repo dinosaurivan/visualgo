@@ -1,10 +1,11 @@
+import ElementData from "../../utils/element-data";
 import { ElementColors } from "../../utils/constants";
-import { ElementData } from "../../utils/element-data";
 
 
 
-export class LettersArray {
+class LettersArray {
   private snapshot: Array<ElementData<string>>;
+
   private history: Array<typeof this.snapshot>;
   
   constructor(fromString: string) {
@@ -64,7 +65,7 @@ export class LettersArray {
     
     this.save();
     
-    for (let i = 0; i < this.medianIndex(); i++) {
+    for (let i = 0; i < this.medianIndex(); i += 1) {
       this.snapshot[i].color = ElementColors.Changing;
       this.snapshot[this.opposite(i)].color = ElementColors.Changing;
       this.save();
@@ -87,3 +88,5 @@ export class LettersArray {
     return this.history;
   };
 };
+
+export default LettersArray;

@@ -1,5 +1,5 @@
 // libraries 
-import React, { FC } from "react";
+import React, { JSX } from "react";
 import { Route, Routes } from "react-router-dom";
 
 // pages
@@ -15,7 +15,7 @@ import {
 
 
 
-export const AppRouter: FC = () => {
+export default function AppRouter(): JSX.Element {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />

@@ -1,5 +1,5 @@
 // libraries
-import { FC, FormEventHandler, MouseEventHandler, useEffect, useMemo, useState } from "react";
+import React, { JSX, FormEventHandler, MouseEventHandler, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Circle, Input, SolutionLayout } from "../../ui";
@@ -11,8 +11,8 @@ import styles from "./stack.module.css";
 import useForm from "../../hooks/use-form";
 
 // utils
-import { ElementData } from "../../utils/element-data";
-import { sequentialUpdate } from "../../utils/sequential-update";
+import ElementData from "../../utils/element-data";
+import sequentialUpdate from "../../utils/sequential-update";
 import { ElementCaptions, MAX_ELEMENT_LENGTH, StackActions } from "../../utils/constants";
 
 // data structures 
@@ -20,7 +20,7 @@ import { Stack } from "../../data-structures";
 
 
 
-export const StackPage: FC = () => {
+export default function StackPage(): JSX.Element {
   
   const [inputValue, setInputValue] = useState("");
   const [isInputValid, setIsInputValid] = useState(false);

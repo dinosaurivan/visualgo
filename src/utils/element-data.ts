@@ -3,12 +3,17 @@ import { ElementColors } from "./constants";
 
 
 
-export class ElementData<T> {
+class ElementData<T> {
   value: T;
+  
   color: ElementColors;
+  
   isHead: boolean;
+  
   isTail: boolean;  
+  
   valueAbove?: T;
+  
   valueBelow?: T;
   
   constructor(
@@ -27,3 +32,5 @@ export class ElementData<T> {
     this.valueBelow = valueBelow;
   };
 };
+
+export default ElementData;

@@ -1,5 +1,5 @@
 // libraries
-import { ChangeEventHandler, FC, FormEvent, useEffect, useMemo, useState } from "react";
+import React, { ChangeEventHandler, JSX, FormEvent, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Input, Button, Circle, SolutionLayout } from "../../ui";
@@ -8,8 +8,8 @@ import { Input, Button, Circle, SolutionLayout } from "../../ui";
 import styles from "./string.module.css";
 
 // utils
-import { ElementData } from "../../utils/element-data";
-import { sequentialUpdate } from "../../utils/sequential-update";
+import ElementData from "../../utils/element-data";
+import sequentialUpdate from "../../utils/sequential-update";
 import { MAX_STRING_LENGTH, MIN_STRING_LENGTH } from "../../utils/constants";
 
 // data structures 
@@ -17,7 +17,7 @@ import { LettersArray } from "../../data-structures";
 
 
 
-export const StringPage: FC = () => {
+export default function StringPage(): JSX.Element {
   
   const [inputValue, setInputValue] = useState("");
   const [isInputValid, setIsInputValid] = useState(false);

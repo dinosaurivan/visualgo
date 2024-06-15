@@ -1,5 +1,5 @@
-export const sleep = (milliseconds: number) => new Promise<void>(
-  (resolve, reject) => {
+const sleep = (milliseconds: number) => new Promise<void>(
+  (resolve) => {
     setTimeout(
       () => {
         resolve();
@@ -8,3 +8,5 @@ export const sleep = (milliseconds: number) => new Promise<void>(
     );
   }
 );  
+
+export default sleep;

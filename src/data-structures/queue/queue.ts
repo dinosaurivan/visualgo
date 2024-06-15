@@ -1,11 +1,13 @@
+import ElementData from "../../utils/element-data";
 import { ElementColors } from "../../utils/constants";
-import { ElementData } from "../../utils/element-data";
 
 
 
-export class Queue<T> {
+class Queue<T> {
   private snapshot: Array<ElementData<T | undefined>>;
+  
   private history: Array<typeof this.snapshot>;
+  
   private sizeLimit: number;
   
   constructor(sizeLimit: number, fromArray: Array<ElementData<T | undefined>> = []) {
@@ -142,3 +144,5 @@ export class Queue<T> {
     return this.history
   };
 };
+
+export default Queue;

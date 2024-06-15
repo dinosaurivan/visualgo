@@ -2,13 +2,13 @@
 import { Dispatch, SetStateAction } from "react";
 
 // utils 
-import { sleep } from "./sleep";
+import sleep from "./sleep";
 import { Delay } from "./constants";
-import { ElementData } from "./element-data";
+import ElementData from "./element-data";
 
 
 
-export const sequentialUpdate = async <T>(
+const sequentialUpdate = async <T>(
   
   steps: Array<Array<ElementData<T>>>, 
   stepSetter: Dispatch<SetStateAction<Array<ElementData<T>>>>,
@@ -31,3 +31,5 @@ export const sequentialUpdate = async <T>(
   
   inProgressSetter(false);
 };
+
+export default sequentialUpdate;

@@ -1,5 +1,5 @@
 // libraries
-import { FC, FormEventHandler, MouseEventHandler, useEffect, useMemo, useState } from "react";
+import React, { JSX, FormEventHandler, MouseEventHandler, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Circle, Input, SolutionLayout } from "../../ui";
@@ -11,8 +11,8 @@ import styles from "./queue.module.css";
 import useForm from "../../hooks/use-form";
 
 // utils
-import { ElementData } from "../../utils/element-data";
-import { sequentialUpdate } from "../../utils/sequential-update";
+import ElementData from "../../utils/element-data";
+import sequentialUpdate from "../../utils/sequential-update";
 import { DEFAULT_QUEUE_SIZE_LIMIT, ElementCaptions, MAX_ELEMENT_LENGTH, QueueActions } from "../../utils/constants";
 
 // data structures 
@@ -20,7 +20,7 @@ import { Queue } from "../../data-structures";
 
 
 
-export const QueuePage: FC = () => {
+export default function QueuePage(): JSX.Element {
   
   const [inputValue, setInputValue] = useState("");
   const [isInputValid, setIsInputValid] = useState(false);

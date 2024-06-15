@@ -1,23 +1,14 @@
+import ListNode from "./list-node";
+import ElementData from "../../utils/element-data";
 import { ElementColors } from "../../utils/constants";
-import { ElementData } from "../../utils/element-data";
 
 
 
-class ListNode<T> {
-  element: ElementData<T | undefined>;
-  next?: ListNode<T>;
-  
-  constructor(element: ElementData<T | undefined>, next?: ListNode<T>) {
-    this.element = element;
-    this.next = next;
-  };
-};
-
-
-
-export class LinkedList<T> {
+class LinkedList<T> {
   private head?: ListNode<T>;
+  
   private history: Array<Array<ElementData<T | undefined>>>;
+  
   private size: number;
   
   constructor(fromArray: Array<ElementData<T>> = []) {
@@ -32,7 +23,7 @@ export class LinkedList<T> {
   };
   
   toArray(): Array<ElementData<T | undefined>> {
-    let result: Array<ElementData<T | undefined>> = [];
+    const result: Array<ElementData<T | undefined>> = [];
     let current = this.head;
     while (current !== undefined) {
       const deepCopy = new ElementData<T | undefined>(
@@ -89,7 +80,7 @@ export class LinkedList<T> {
     
     this.head.element.color = ElementColors.Default;
     this.save();
-    this.size++;
+    this.size += 1;
     
     return this.history;
   };
@@ -118,7 +109,7 @@ export class LinkedList<T> {
     
     this.head = this.head.next;
     this.save();
-    this.size--;
+    this.size -= 1;
     
     return this.history;
   };  
@@ -169,7 +160,7 @@ export class LinkedList<T> {
       this.save();      
     };    
     
-    this.size++;
+    this.size += 1;
     
     return this.history;
   };
@@ -224,7 +215,7 @@ export class LinkedList<T> {
       
     };
     
-    this.size--;
+    this.size -= 1;
     
     return this.history;
   };  
@@ -249,7 +240,7 @@ export class LinkedList<T> {
     current!.element.valueAbove = value;
     this.save();
     
-    for (let i = 0; i < index-1; i++) {
+    for (let i = 0; i < index-1; i += 1) {
       current!.element.valueAbove = undefined;        
       current = current!.next;
       current!.element.valueAbove = value;
@@ -268,7 +259,7 @@ export class LinkedList<T> {
     current!.next.element.color = ElementColors.Default;
     this.save();
     
-    this.size++;
+    this.size += 1;
     
     return this.history;
   };
@@ -294,7 +285,7 @@ export class LinkedList<T> {
     this.save();    
     current!.element.color = ElementColors.Default;
     
-    for (let i = 0; i < index-1; i++) {
+    for (let i = 0; i < index-1; i += 1) {
       current = current!.next;
       current!.element.color = ElementColors.Changing;
       this.save();
@@ -311,8 +302,10 @@ export class LinkedList<T> {
     current!.next = current!.next!.next;
     this.save();
     
-    this.size++;
+    this.size += 1;
     
     return this.history;    
   };
 };
+
+export default LinkedList;

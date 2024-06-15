@@ -1,15 +1,15 @@
 // libraries 
-import React, { FC } from "react";
+import React, { JSX } from "react";
 
 // components 
-import { AppRouter } from "../../components";
+import { AppRouter } from "..";
 
 // styles
 import styles from "./app.module.css";
 
 
 
-export const App: FC = () => {
+export default function App(): JSX.Element {
   return (
     <div className={styles.app}>
       <AppRouter />

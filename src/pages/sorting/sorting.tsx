@@ -1,5 +1,5 @@
 // libraries 
-import { ChangeEventHandler, FC, FormEvent, MouseEventHandler, useEffect, useMemo, useState } from "react";
+import React, { ChangeEventHandler, JSX, FormEvent, MouseEventHandler, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Column, Input, RadioInput, SolutionLayout } from "../../ui";
@@ -11,9 +11,9 @@ import styles from "./sorting.module.css";
 import useForm from "../../hooks/use-form";
 
 // utils
-import { ElementData } from "../../utils/element-data";
+import ElementData from "../../utils/element-data";
+import sequentialUpdate from "../../utils/sequential-update";
 import { randomNumbersArray } from "../../utils/random-array";
-import { sequentialUpdate } from "../../utils/sequential-update";
 import { DEFAULT_ARRAY_SIZE, Direction, MAX_ARRAY_SIZE, MIN_ARRAY_SIZE, SortingActions } from "../../utils/constants";
 
 // data structures 
@@ -21,7 +21,7 @@ import { NumbersArray } from "../../data-structures";
 
 
 
-export const SortingPage: FC = () => {
+export default function SortingPage(): JSX.Element {
   
   const [inputValue, setInputValue] = useState("");
   const [isInputValid, setIsInputValid] = useState(true);  

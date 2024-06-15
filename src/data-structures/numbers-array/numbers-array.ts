@@ -1,10 +1,11 @@
-import { ElementData } from "../../utils/element-data";
+import ElementData from "../../utils/element-data";
 import { Direction, ElementColors, MAX_ARRAY_VALUE, MIN_ARRAY_VALUE } from "../../utils/constants";
 
 
 
-export class NumbersArray {
+class NumbersArray {
   private snapshot: Array<ElementData<number>>;
+  
   private history: Array<typeof this.snapshot>;
   
   constructor(fromArray: Array<ElementData<number>>) {
@@ -64,7 +65,7 @@ export class NumbersArray {
     
     while (lastUnsortedElementIndex > 0) {
       
-      for (let i = 0; i < lastUnsortedElementIndex; i++) {
+      for (let i = 0; i < lastUnsortedElementIndex; i += 1) {
         this.snapshot[i].color = ElementColors.Changing;
         this.snapshot[i+1].color = ElementColors.Changing;
         this.save();
@@ -86,7 +87,7 @@ export class NumbersArray {
       };
       
       this.snapshot[lastUnsortedElementIndex].color = ElementColors.Modified;
-      lastUnsortedElementIndex--;
+      lastUnsortedElementIndex -= 1;
       this.save();
     };
     
@@ -106,12 +107,12 @@ export class NumbersArray {
     
     this.discard();
     
-    for (let i = 0; i < this.size() - 1; i++) {
+    for (let i = 0; i < this.size() - 1; i += 1) {
       this.snapshot[i].color = ElementColors.Changing;
       let indexOfExtremum = i;
       this.save();
       
-      for (let j = i + 1; j < this.size(); j++) {
+      for (let j = i + 1; j < this.size(); j += 1) {
         this.snapshot[j].color = ElementColors.Selected;
         this.save();
         
@@ -161,3 +162,5 @@ export class NumbersArray {
     return this.history;
   };
 };
+
+export default NumbersArray;

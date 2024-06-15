@@ -1,5 +1,5 @@
 // libraries
-import React, { FC, FormEvent, useEffect, useMemo, useState } from "react";
+import React, { JSX, FormEvent, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Circle, Input, SolutionLayout } from "../../ui";
@@ -11,16 +11,16 @@ import styles from "./fibonacci.module.css";
 import useForm from "../../hooks/use-form";
 
 // utils
-import { ElementData } from "../../utils/element-data";
+import ElementData from "../../utils/element-data";
 import { MAX_FIBONACCI_LENGTH } from "../../utils/constants";
-import { sequentialUpdate } from "../../utils/sequential-update";
+import sequentialUpdate from "../../utils/sequential-update";
 
 // data structures 
 import { FibonacciSequence } from "../../data-structures";
 
 
 
-export const FibonacciPage: FC = () => {
+export default function FibonacciPage(): JSX.Element {
   
   const [inputValue, setInputValue] = useState("");
   const [isInputValid, setIsInputValid] = useState(false);

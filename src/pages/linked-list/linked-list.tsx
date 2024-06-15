@@ -1,5 +1,5 @@
 // libraries
-import { FC, FormEventHandler, Fragment, MouseEventHandler, useCallback, useEffect, useMemo, useState } from "react";
+import React, { JSX, FormEventHandler, Fragment, MouseEventHandler, useCallback, useEffect, useMemo, useState } from "react";
 
 // components 
 import { ArrowIcon, Button, Circle, Input, SolutionLayout } from "../../ui";
@@ -11,9 +11,9 @@ import styles from "./linked-list.module.css";
 import useForm from "../../hooks/use-form";
 
 // utils
-import { ElementData } from "../../utils/element-data";
+import ElementData from "../../utils/element-data";
+import sequentialUpdate from "../../utils/sequential-update";
 import { randomStringsArray } from "../../utils/random-array";
-import { sequentialUpdate } from "../../utils/sequential-update";
 import { ElementCaptions, ElementColors, LinkedListActions, MAX_ELEMENT_LENGTH } from "../../utils/constants";
 
 // data structures 
@@ -21,7 +21,7 @@ import { LinkedList } from "../../data-structures";
 
 
 
-export const LinkedListPage: FC = () => {
+export default function LinkedListPage(): JSX.Element {
   
   const [valueInput, setValueInput] = useState("");
   const [indexInput, setIndexInput] = useState("");
