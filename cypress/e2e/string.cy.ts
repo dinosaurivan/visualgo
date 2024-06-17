@@ -1,3 +1,9 @@
+import { 
+  allCirclesSelector, 
+  defaultCircleSelector, 
+  changingCircleSelector, 
+  modifiedCircleSelector 
+} from "./constants";
 import { Delay } from "../../src/utils/constants";
 
 
@@ -68,42 +74,42 @@ describe(
         // reverse a string of 2
         cy.getByTestId("input").type("12");
         cy.getByTestId("form").submit();
-        cy.get("[class*=circle_content]").first().as("element1");
-        cy.get("[class*=circle_content]").eq(1).as("element2");
+        cy.get(allCirclesSelector).first().as("element1");
+        cy.get(allCirclesSelector).eq(1).as("element2");
         
         // check changes
         cy.get("@element1").contains("1");
-        cy.get("@element1").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
         cy.get("@element2").contains("2");
-        cy.get("@element2").children("[class*=circle_default]");
+        cy.get("@element2").children(defaultCircleSelector);
         cy.wait(Delay.Medium);
         
         // check changes
         cy.get("@element1").contains("1");
-        cy.get("@element1").children("[class*=circle_changing]");
+        cy.get("@element1").children(changingCircleSelector);
         cy.get("@element2").contains("2");
-        cy.get("@element2").children("[class*=circle_changing]");
+        cy.get("@element2").children(changingCircleSelector);
         cy.wait(Delay.Medium);
         
         // check changes
         cy.get("@element1").contains("2");
-        cy.get("@element1").children("[class*=circle_changing]");
+        cy.get("@element1").children(changingCircleSelector);
         cy.get("@element2").contains("1");
-        cy.get("@element2").children("[class*=circle_changing]");
+        cy.get("@element2").children(changingCircleSelector);
         cy.wait(Delay.Medium);        
         
         // check changes
         cy.get("@element1").contains("2");
-        cy.get("@element1").children("[class*=circle_modified]");
+        cy.get("@element1").children(modifiedCircleSelector);
         cy.get("@element2").contains("1");
-        cy.get("@element2").children("[class*=circle_modified]");
+        cy.get("@element2").children(modifiedCircleSelector);
         cy.wait(Delay.Medium);        
         
         // check changes
         cy.get("@element1").contains("2");
-        cy.get("@element1").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
         cy.get("@element2").contains("1");
-        cy.get("@element2").children("[class*=circle_default]");;
+        cy.get("@element2").children(defaultCircleSelector);;
       }
     );
     
@@ -113,11 +119,11 @@ describe(
         // reverse a string of 5
         cy.getByTestId("input").type("12345");
         cy.getByTestId("form").submit();
-        cy.get("[class*=circle_content]").first().as("element1");
-        cy.get("[class*=circle_content]").eq(1).as("element2");        
-        cy.get("[class*=circle_content]").eq(2).as("element3");        
-        cy.get("[class*=circle_content]").eq(3).as("element4");        
-        cy.get("[class*=circle_content]").eq(4).as("element5");        
+        cy.get(allCirclesSelector).first().as("element1");
+        cy.get(allCirclesSelector).eq(1).as("element2");        
+        cy.get(allCirclesSelector).eq(2).as("element3");        
+        cy.get(allCirclesSelector).eq(3).as("element4");        
+        cy.get(allCirclesSelector).eq(4).as("element5");        
         
         // check changes
         cy.get("@element1").contains("1");
@@ -125,102 +131,102 @@ describe(
         cy.get("@element3").contains("3");
         cy.get("@element4").contains("4");
         cy.get("@element5").contains("5");
-        cy.get("[class*=circle_content]").should("have.length", 5).each(
+        cy.get(allCirclesSelector).should("have.length", 5).each(
           ($el) => {
-            cy.wrap($el).children("[class*=circle_default]");               
+            cy.wrap($el).children(defaultCircleSelector);               
           }
         );        
         cy.wait(Delay.Medium);        
         
         // check changes
         cy.get("@element1").contains("1");
-        cy.get("@element1").children("[class*=circle_changing]");
+        cy.get("@element1").children(changingCircleSelector);
         cy.get("@element2").contains("2");
-        cy.get("@element2").children("[class*=circle_default]");
+        cy.get("@element2").children(defaultCircleSelector);
         cy.get("@element3").contains("3");
-        cy.get("@element3").children("[class*=circle_default]");
+        cy.get("@element3").children(defaultCircleSelector);
         cy.get("@element4").contains("4");
-        cy.get("@element4").children("[class*=circle_default]");
+        cy.get("@element4").children(defaultCircleSelector);
         cy.get("@element5").contains("5");
-        cy.get("@element5").children("[class*=circle_changing]");
+        cy.get("@element5").children(changingCircleSelector);
         cy.wait(Delay.Medium);        
         
         // check changes
         cy.get("@element1").contains("5");
-        cy.get("@element1").children("[class*=circle_changing]");
+        cy.get("@element1").children(changingCircleSelector);
         cy.get("@element2").contains("2");
-        cy.get("@element2").children("[class*=circle_default]");
+        cy.get("@element2").children(defaultCircleSelector);
         cy.get("@element3").contains("3");
-        cy.get("@element3").children("[class*=circle_default]");
+        cy.get("@element3").children(defaultCircleSelector);
         cy.get("@element4").contains("4");
-        cy.get("@element4").children("[class*=circle_default]");
+        cy.get("@element4").children(defaultCircleSelector);
         cy.get("@element5").contains("1");
-        cy.get("@element5").children("[class*=circle_changing]");
+        cy.get("@element5").children(changingCircleSelector);
         cy.wait(Delay.Medium);        
         
         // check changes
         cy.get("@element1").contains("5");
-        cy.get("@element1").children("[class*=circle_modified]");
+        cy.get("@element1").children(modifiedCircleSelector);
         cy.get("@element2").contains("2");
-        cy.get("@element2").children("[class*=circle_default]");
+        cy.get("@element2").children(defaultCircleSelector);
         cy.get("@element3").contains("3");
-        cy.get("@element3").children("[class*=circle_default]");
+        cy.get("@element3").children(defaultCircleSelector);
         cy.get("@element4").contains("4");
-        cy.get("@element4").children("[class*=circle_default]");
+        cy.get("@element4").children(defaultCircleSelector);
         cy.get("@element5").contains("1");
-        cy.get("@element5").children("[class*=circle_modified]");
+        cy.get("@element5").children(modifiedCircleSelector);
         cy.wait(Delay.Medium);        
         
         // check changes
         cy.get("@element1").contains("5");
-        cy.get("@element1").children("[class*=circle_modified]");
+        cy.get("@element1").children(modifiedCircleSelector);
         cy.get("@element2").contains("2");
-        cy.get("@element2").children("[class*=circle_changing]");
+        cy.get("@element2").children(changingCircleSelector);
         cy.get("@element3").contains("3");
-        cy.get("@element3").children("[class*=circle_default]");
+        cy.get("@element3").children(defaultCircleSelector);
         cy.get("@element4").contains("4");
-        cy.get("@element4").children("[class*=circle_changing]");
+        cy.get("@element4").children(changingCircleSelector);
         cy.get("@element5").contains("1");
-        cy.get("@element5").children("[class*=circle_modified]");
+        cy.get("@element5").children(modifiedCircleSelector);
         cy.wait(Delay.Medium);        
         
         // check changes
         cy.get("@element1").contains("5");
-        cy.get("@element1").children("[class*=circle_modified]");
+        cy.get("@element1").children(modifiedCircleSelector);
         cy.get("@element2").contains("4");
-        cy.get("@element2").children("[class*=circle_changing]");
+        cy.get("@element2").children(changingCircleSelector);
         cy.get("@element3").contains("3");
-        cy.get("@element3").children("[class*=circle_default]");
+        cy.get("@element3").children(defaultCircleSelector);
         cy.get("@element4").contains("2");
-        cy.get("@element4").children("[class*=circle_changing]");
+        cy.get("@element4").children(changingCircleSelector);
         cy.get("@element5").contains("1");
-        cy.get("@element5").children("[class*=circle_modified]");
+        cy.get("@element5").children(modifiedCircleSelector);
         cy.wait(Delay.Medium);        
         
         // check changes
         cy.get("@element1").contains("5");
-        cy.get("@element1").children("[class*=circle_modified]");
+        cy.get("@element1").children(modifiedCircleSelector);
         cy.get("@element2").contains("4");
-        cy.get("@element2").children("[class*=circle_modified]");
+        cy.get("@element2").children(modifiedCircleSelector);
         cy.get("@element3").contains("3");
-        cy.get("@element3").children("[class*=circle_default]");
+        cy.get("@element3").children(defaultCircleSelector);
         cy.get("@element4").contains("2");
-        cy.get("@element4").children("[class*=circle_modified]");
+        cy.get("@element4").children(modifiedCircleSelector);
         cy.get("@element5").contains("1");
-        cy.get("@element5").children("[class*=circle_modified]");
+        cy.get("@element5").children(modifiedCircleSelector);
         cy.wait(Delay.Medium);        
         
         // check changes
         cy.get("@element1").contains("5");
-        cy.get("@element1").children("[class*=circle_modified]");
+        cy.get("@element1").children(modifiedCircleSelector);
         cy.get("@element2").contains("4");
-        cy.get("@element2").children("[class*=circle_modified]");
+        cy.get("@element2").children(modifiedCircleSelector);
         cy.get("@element3").contains("3");
-        cy.get("@element3").children("[class*=circle_changing]");
+        cy.get("@element3").children(changingCircleSelector);
         cy.get("@element4").contains("2");
-        cy.get("@element4").children("[class*=circle_modified]");
+        cy.get("@element4").children(modifiedCircleSelector);
         cy.get("@element5").contains("1");
-        cy.get("@element5").children("[class*=circle_modified]");
+        cy.get("@element5").children(modifiedCircleSelector);
         cy.wait(Delay.Medium);        
         
         // check changes
@@ -229,9 +235,9 @@ describe(
         cy.get("@element3").contains("3");
         cy.get("@element4").contains("2");
         cy.get("@element5").contains("1");
-        cy.get("[class*=circle_content]").should("have.length", 5).each(
+        cy.get(allCirclesSelector).should("have.length", 5).each(
           ($el) => {
-            cy.wrap($el).children("[class*=circle_modified]");               
+            cy.wrap($el).children(modifiedCircleSelector);               
           }
         );          
         cy.wait(Delay.Medium);        
@@ -242,9 +248,9 @@ describe(
         cy.get("@element3").contains("3");
         cy.get("@element4").contains("2");
         cy.get("@element5").contains("1");
-        cy.get("[class*=circle_content]").should("have.length", 5).each(
+        cy.get(allCirclesSelector).should("have.length", 5).each(
           ($el) => {
-            cy.wrap($el).children("[class*=circle_default]");               
+            cy.wrap($el).children(defaultCircleSelector);               
           }
         );             
       }

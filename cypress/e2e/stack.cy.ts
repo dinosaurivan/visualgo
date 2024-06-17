@@ -1,3 +1,9 @@
+import { 
+  allCirclesSelector, 
+  defaultCircleSelector, 
+  changingCircleSelector, 
+  modifiedCircleSelector 
+} from "./constants";
 import { Delay } from "../../src/utils/constants";
 
 
@@ -59,55 +65,55 @@ describe(
         // add first element
         cy.getByTestId("input").type("11");
         cy.getByTestId("push-button").click();
-        cy.get("[class*=circle_content]").first().as("element1");
+        cy.get(allCirclesSelector).first().as("element1");
         
         // check initial change
         cy.get("@element1").contains("11");
         cy.get("@element1").contains("top");
-        cy.get("@element1").children("[class*=circle_modified]");
+        cy.get("@element1").children(modifiedCircleSelector);
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("@element1").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
         
         // add second element
         cy.getByTestId("input").type("22");
         cy.getByTestId("push-button").click();
-        cy.get("[class*=circle_content]").eq(1).as("element2");
+        cy.get(allCirclesSelector).eq(1).as("element2");
         
         // check initial change
         cy.get("@element2").contains("22");
         cy.get("@element2").contains("top");    
-        cy.get("@element2").children("[class*=circle_modified]");
+        cy.get("@element2").children(modifiedCircleSelector);
         cy.get("@element1").should("not.contain", "top");
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("@element2").children("[class*=circle_default]");
+        cy.get("@element2").children(defaultCircleSelector);
         
         // add third element
         cy.getByTestId("input").type("33");
         cy.getByTestId("push-button").click();
-        cy.get("[class*=circle_content]").eq(2).as("element3");
+        cy.get(allCirclesSelector).eq(2).as("element3");
         
         // check initial change
         cy.get("@element3").contains("33");
         cy.get("@element3").contains("top");    
-        cy.get("@element3").children("[class*=circle_modified]");
+        cy.get("@element3").children(modifiedCircleSelector);
         cy.get("@element2").should("not.contain", "top");
         cy.get("@element1").should("not.contain", "top");
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("@element3").children("[class*=circle_default]");        
+        cy.get("@element3").children(defaultCircleSelector);        
         
         // check whole stack
-        cy.get("[class*=circle_content]").should("have.length", 3).each(
+        cy.get(allCirclesSelector).should("have.length", 3).each(
           ($el, index) => {
-            cy.wrap($el).children("[class*=circle_default]");
+            cy.wrap($el).children(defaultCircleSelector);
             if (index === 0) {
               cy.wrap($el).contains("11");
               cy.wrap($el).should("not.contain", "top");
@@ -139,14 +145,14 @@ describe(
         
         // remove first element
         cy.getByTestId("pop-button").click();
-        cy.get("[class*=circle_content]").first().as("element1");
-        cy.get("[class*=circle_content]").eq(1).as("element2");
-        cy.get("[class*=circle_content]").eq(2).as("element3");
+        cy.get(allCirclesSelector).first().as("element1");
+        cy.get(allCirclesSelector).eq(1).as("element2");
+        cy.get(allCirclesSelector).eq(2).as("element3");
         
         // check initial change
         cy.get("@element3").contains("56");
         cy.get("@element3").should("not.contain", "top");
-        cy.get("@element3").children("[class*=circle_changing]");
+        cy.get("@element3").children(changingCircleSelector);
         
         cy.wait(Delay.Medium);
         
@@ -160,7 +166,7 @@ describe(
         // check initial change
         cy.get("@element2").contains("34");
         cy.get("@element2").should("not.contain", "top");
-        cy.get("@element2").children("[class*=circle_changing]");
+        cy.get("@element2").children(changingCircleSelector);
         
         cy.wait(Delay.Medium);
         
@@ -174,12 +180,12 @@ describe(
         // check initial change
         cy.get("@element1").contains("12");
         cy.get("@element1").should("not.contain", "top");
-        cy.get("@element1").children("[class*=circle_changing]");
+        cy.get("@element1").children(changingCircleSelector);
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("[class*=circle_content]").should("have.length", 0);
+        cy.get(allCirclesSelector).should("have.length", 0);
       }
     );    
     
@@ -197,7 +203,7 @@ describe(
           cy.getByTestId("clear-button").click();
           
           // check whole stack
-          cy.get("[class*=circle_content]").should("have.length", 0);
+          cy.get(allCirclesSelector).should("have.length", 0);
       }
     );
   }

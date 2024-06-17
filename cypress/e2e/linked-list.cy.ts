@@ -1,3 +1,9 @@
+import { 
+  allCirclesSelector, 
+  defaultCircleSelector, 
+  changingCircleSelector, 
+  modifiedCircleSelector 
+} from "./constants";
 import { Delay } from "../../src/utils/constants";
 
 
@@ -165,9 +171,9 @@ describe(
     it(
       "renders default list of 5 elements with random numbers", () => {
         
-        cy.get("[class*=circle_content]").should("have.length", 5).each(
+        cy.get(allCirclesSelector).should("have.length", 5).each(
           ($el, index) => {
-            cy.wrap($el).children("[class*=circle_default]"); 
+            cy.wrap($el).children(defaultCircleSelector); 
             const digit = index === 0
                           ? $el[0].innerText.split("\n")[2]
                           : $el[0].innerText.split("\n")[0]
@@ -186,31 +192,31 @@ describe(
         cy.getByTestId("unshift-button").click();
         
         // define getters
-        cy.get("[class*=circle_content]").first().as("element1");
-        cy.get("[class*=circle_content]").eq(1).as("element2");
+        cy.get(allCirclesSelector).first().as("element1");
+        cy.get(allCirclesSelector).eq(1).as("element2");
         
         // check initial change
-        cy.get("[class*=circle_content]").should("have.length", 7);
+        cy.get(allCirclesSelector).should("have.length", 7);
         cy.get("@element1").should("not.contain.text");
-        cy.get("@element1").children("[class*=circle_modified]");
+        cy.get("@element1").children(modifiedCircleSelector);
         cy.get("@element2").contains("111");
-        cy.get("@element2").children("[class*=circle_changing]");
+        cy.get("@element2").children(changingCircleSelector);
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("[class*=circle_content]").should("have.length", 6);
+        cy.get(allCirclesSelector).should("have.length", 6);
         cy.get("@element1").contains("111");
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_modified]");
+        cy.get("@element1").children(modifiedCircleSelector);
         
         cy.wait(Delay.Medium);
         
         // check delayed change
         cy.get("@element1").contains("111");
         cy.get("@element1").contains("head");
-        cy.get("[class*=circle_content]").should("have.length", 6).each(($el) => {
-          cy.wrap($el).children("[class*=circle_default]"); 
+        cy.get(allCirclesSelector).should("have.length", 6).each(($el) => {
+          cy.wrap($el).children(defaultCircleSelector); 
         });
       }
     );
@@ -223,103 +229,103 @@ describe(
         cy.getByTestId("push-button").click();
         
         // define getters
-        cy.get("[class*=circle_content]").first().as("element1");
-        cy.get("[class*=circle_content]").eq(1).as("element2");
-        cy.get("[class*=circle_content]").eq(2).as("element3");
-        cy.get("[class*=circle_content]").eq(3).as("element4");
-        cy.get("[class*=circle_content]").eq(4).as("element5");
+        cy.get(allCirclesSelector).first().as("element1");
+        cy.get(allCirclesSelector).eq(1).as("element2");
+        cy.get(allCirclesSelector).eq(2).as("element3");
+        cy.get(allCirclesSelector).eq(3).as("element4");
+        cy.get(allCirclesSelector).eq(4).as("element5");
         
         // check initial change
-        cy.get("[class*=circle_content]").should("have.length", 6);
-        cy.get("[class*=circle_content]").eq(5).as("element6");
+        cy.get(allCirclesSelector).should("have.length", 6);
+        cy.get(allCirclesSelector).eq(5).as("element6");
         cy.get("@element1").should("not.contain", "head");
-        cy.get("@element1").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
         cy.get("@element2").contains("999");
-        cy.get("@element2").children("[class*=circle_changing]");
+        cy.get("@element2").children(changingCircleSelector);
         cy.get("@element6").contains("tail");
-        cy.get("@element6").children("[class*=circle_default]");
+        cy.get("@element6").children(defaultCircleSelector);
         
         cy.wait(Delay.Medium);
         
         // check delayed change      
-        cy.get("[class*=circle_content]").should("have.length", 6);     
+        cy.get(allCirclesSelector).should("have.length", 6);     
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);
         cy.get("@element3").contains("999");
-        cy.get("@element3").children("[class*=circle_changing]");
+        cy.get("@element3").children(changingCircleSelector);
         cy.get("@element6").contains("tail");
-        cy.get("@element6").children("[class*=circle_default]");        
+        cy.get("@element6").children(defaultCircleSelector);        
         
         cy.wait(Delay.Medium);
         
         // check delayed change      
-        cy.get("[class*=circle_content]").should("have.length", 6);     
+        cy.get(allCirclesSelector).should("have.length", 6);     
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");
-        cy.get("@element3").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);
+        cy.get("@element3").children(defaultCircleSelector);
         cy.get("@element4").contains("999");
-        cy.get("@element4").children("[class*=circle_changing]");     
+        cy.get("@element4").children(changingCircleSelector);     
         cy.get("@element6").contains("tail");
-        cy.get("@element6").children("[class*=circle_default]");           
+        cy.get("@element6").children(defaultCircleSelector);           
         
         cy.wait(Delay.Medium);
         
         // check delayed change      
-        cy.get("[class*=circle_content]").should("have.length", 6);     
+        cy.get(allCirclesSelector).should("have.length", 6);     
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");
-        cy.get("@element3").children("[class*=circle_default]");
-        cy.get("@element4").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);
+        cy.get("@element3").children(defaultCircleSelector);
+        cy.get("@element4").children(defaultCircleSelector);
         cy.get("@element5").contains("999");
-        cy.get("@element5").children("[class*=circle_changing]");    
+        cy.get("@element5").children(changingCircleSelector);    
         cy.get("@element6").contains("tail");
-        cy.get("@element6").children("[class*=circle_default]");
+        cy.get("@element6").children(defaultCircleSelector);
         
         cy.wait(Delay.Medium);
         
         // check delayed change      
-        cy.get("[class*=circle_content]").should("have.length", 6);     
+        cy.get(allCirclesSelector).should("have.length", 6);     
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");
-        cy.get("@element3").children("[class*=circle_default]");
-        cy.get("@element4").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);
+        cy.get("@element3").children(defaultCircleSelector);
+        cy.get("@element4").children(defaultCircleSelector);
         cy.get("@element5").contains("tail");
-        cy.get("@element5").children("[class*=circle_default]");
+        cy.get("@element5").children(defaultCircleSelector);
         cy.get("@element6").contains("999");
-        cy.get("@element6").children("[class*=circle_changing]");            
+        cy.get("@element6").children(changingCircleSelector);            
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("[class*=circle_content]").should("have.length", 7).eq(6).as("element7");
+        cy.get(allCirclesSelector).should("have.length", 7).eq(6).as("element7");
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");
-        cy.get("@element3").children("[class*=circle_default]");
-        cy.get("@element4").children("[class*=circle_default]");
-        cy.get("@element5").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);
+        cy.get("@element3").children(defaultCircleSelector);
+        cy.get("@element4").children(defaultCircleSelector);
+        cy.get("@element5").children(defaultCircleSelector);
         cy.get("@element6").contains("tail");
-        cy.get("@element6").children("[class*=circle_modified]");
+        cy.get("@element6").children(modifiedCircleSelector);
         cy.get("@element7").contains("999");
-        cy.get("@element7").children("[class*=circle_changing]");             
+        cy.get("@element7").children(changingCircleSelector);             
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("[class*=circle_content]").should("have.length", 6);
+        cy.get(allCirclesSelector).should("have.length", 6);
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");
-        cy.get("@element3").children("[class*=circle_default]");
-        cy.get("@element4").children("[class*=circle_default]");
-        cy.get("@element5").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);
+        cy.get("@element3").children(defaultCircleSelector);
+        cy.get("@element4").children(defaultCircleSelector);
+        cy.get("@element5").children(defaultCircleSelector);
         cy.get("@element6").contains("999");
         cy.get("@element6").contains("tail");
-        cy.get("@element6").children("[class*=circle_modified]");
+        cy.get("@element6").children(modifiedCircleSelector);
         
         cy.wait(Delay.Medium);
         
@@ -327,8 +333,8 @@ describe(
         cy.get("@element1").contains("head");
         cy.get("@element6").contains("999");
         cy.get("@element6").contains("tail");     
-        cy.get("[class*=circle_content]").should("have.length", 6).each(($el) => {
-          cy.wrap($el).children("[class*=circle_default]"); 
+        cy.get(allCirclesSelector).should("have.length", 6).each(($el) => {
+          cy.wrap($el).children(defaultCircleSelector); 
         });
       }
     );    
@@ -340,29 +346,29 @@ describe(
         cy.getByTestId("shift-button").click();
         
         // define getters
-        cy.get("[class*=circle_content]").first().as("element1");
-        cy.get("[class*=circle_content]").eq(1).as("element2");
+        cy.get(allCirclesSelector).first().as("element1");
+        cy.get(allCirclesSelector).eq(1).as("element2");
         
         // check initial change
-        cy.get("[class*=circle_content]").should("have.length", 5);
+        cy.get(allCirclesSelector).should("have.length", 5);
         cy.get("@element1").should("not.contain", "head");
-        cy.get("@element1").children("[class*=circle_changing]");
+        cy.get("@element1").children(changingCircleSelector);
         
         cy.wait(Delay.Medium);
         
         // check delayed change      
-        cy.get("[class*=circle_content]").should("have.length", 6);
+        cy.get(allCirclesSelector).should("have.length", 6);
         cy.get("@element1").should("not.contain.text");
         cy.get("@element1").should("not.contain", "head");
-        cy.get("@element1").children("[class*=circle_changing]");
-        cy.get("@element2").children("[class*=circle_changing]");
+        cy.get("@element1").children(changingCircleSelector);
+        cy.get("@element2").children(changingCircleSelector);
         
         cy.wait(Delay.Medium);
         
         // check delayed change  
-        cy.get("[class*=circle_content]").should("have.length", 4);
+        cy.get(allCirclesSelector).should("have.length", 4);
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");           
+        cy.get("@element1").children(defaultCircleSelector);           
       }
     );    
     
@@ -373,91 +379,91 @@ describe(
         cy.getByTestId("pop-button").click();
         
         // define getters
-        cy.get("[class*=circle_content]").first().as("element1");
-        cy.get("[class*=circle_content]").eq(1).as("element2");
-        cy.get("[class*=circle_content]").eq(2).as("element3");
-        cy.get("[class*=circle_content]").eq(3).as("element4");
-        cy.get("[class*=circle_content]").eq(4).as("element5");
+        cy.get(allCirclesSelector).first().as("element1");
+        cy.get(allCirclesSelector).eq(1).as("element2");
+        cy.get(allCirclesSelector).eq(2).as("element3");
+        cy.get(allCirclesSelector).eq(3).as("element4");
+        cy.get(allCirclesSelector).eq(4).as("element5");
         
         // check initial change
-        cy.get("[class*=circle_content]").should("have.length", 5);  
+        cy.get(allCirclesSelector).should("have.length", 5);  
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_changing]");
-        cy.get("@element2").children("[class*=circle_default]");              
-        cy.get("@element3").children("[class*=circle_default]");              
-        cy.get("@element4").children("[class*=circle_default]");     
+        cy.get("@element1").children(changingCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);              
+        cy.get("@element3").children(defaultCircleSelector);              
+        cy.get("@element4").children(defaultCircleSelector);     
         cy.get("@element5").contains("tail");
-        cy.get("@element5").children("[class*=circle_default]");  
+        cy.get("@element5").children(defaultCircleSelector);  
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("[class*=circle_content]").should("have.length", 5);  
+        cy.get(allCirclesSelector).should("have.length", 5);  
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_changing]");              
-        cy.get("@element3").children("[class*=circle_default]");              
-        cy.get("@element4").children("[class*=circle_default]");    
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(changingCircleSelector);              
+        cy.get("@element3").children(defaultCircleSelector);              
+        cy.get("@element4").children(defaultCircleSelector);    
         cy.get("@element5").contains("tail");
-        cy.get("@element5").children("[class*=circle_default]");  
+        cy.get("@element5").children(defaultCircleSelector);  
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("[class*=circle_content]").should("have.length", 5);  
+        cy.get(allCirclesSelector).should("have.length", 5);  
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");              
-        cy.get("@element3").children("[class*=circle_changing]");              
-        cy.get("@element4").children("[class*=circle_default]"); 
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);              
+        cy.get("@element3").children(changingCircleSelector);              
+        cy.get("@element4").children(defaultCircleSelector); 
         cy.get("@element5").contains("tail");
-        cy.get("@element5").children("[class*=circle_default]");  
+        cy.get("@element5").children(defaultCircleSelector);  
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("[class*=circle_content]").should("have.length", 5);  
+        cy.get(allCirclesSelector).should("have.length", 5);  
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");              
-        cy.get("@element3").children("[class*=circle_default]");              
-        cy.get("@element4").children("[class*=circle_changing]");      
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);              
+        cy.get("@element3").children(defaultCircleSelector);              
+        cy.get("@element4").children(changingCircleSelector);      
         cy.get("@element5").contains("tail");
-        cy.get("@element5").children("[class*=circle_default]");  
+        cy.get("@element5").children(defaultCircleSelector);  
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("[class*=circle_content]").should("have.length", 5);  
+        cy.get(allCirclesSelector).should("have.length", 5);  
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");              
-        cy.get("@element3").children("[class*=circle_default]");   
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);              
+        cy.get("@element3").children(defaultCircleSelector);   
         cy.get("@element4").contains("tail");
-        cy.get("@element4").children("[class*=circle_default]");              
-        cy.get("@element5").children("[class*=circle_changing]");  
+        cy.get("@element4").children(defaultCircleSelector);              
+        cy.get("@element5").children(changingCircleSelector);  
         
         cy.wait(Delay.Medium);
         
         // check delayed change
-        cy.get("[class*=circle_content]").should("have.length", 6).eq(5).as("element6");  
+        cy.get(allCirclesSelector).should("have.length", 6).eq(5).as("element6");  
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");              
-        cy.get("@element3").children("[class*=circle_default]");   
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);              
+        cy.get("@element3").children(defaultCircleSelector);   
         cy.get("@element4").contains("tail");
-        cy.get("@element4").children("[class*=circle_default]");              
+        cy.get("@element4").children(defaultCircleSelector);              
         cy.get("@element5").should("not.contain.text");
-        cy.get("@element5").children("[class*=circle_changing]");          
-        cy.get("@element6").children("[class*=circle_changing]");
+        cy.get("@element5").children(changingCircleSelector);          
+        cy.get("@element6").children(changingCircleSelector);
         
         cy.wait(Delay.Medium);
         
         // check delayed change
         cy.get("@element1").contains("head");
         cy.get("@element4").contains("tail");
-        cy.get("[class*=circle_content]").should("have.length", 4).each(($el) => {
-          cy.wrap($el).children("[class*=circle_default]");
+        cy.get(allCirclesSelector).should("have.length", 4).each(($el) => {
+          cy.wrap($el).children(defaultCircleSelector);
         });  
       }
     );    
@@ -471,59 +477,59 @@ describe(
         cy.getByTestId("insert-button").click();
         
         // define getters
-        cy.get("[class*=circle_content]").first().as("element1");
-        cy.get("[class*=circle_content]").eq(1).as("element2");
-        cy.get("[class*=circle_content]").eq(2).as("element3");
-        cy.get("[class*=circle_content]").eq(3).as("element4");
-        cy.get("[class*=circle_content]").eq(4).as("element5");
+        cy.get(allCirclesSelector).first().as("element1");
+        cy.get(allCirclesSelector).eq(1).as("element2");
+        cy.get(allCirclesSelector).eq(2).as("element3");
+        cy.get(allCirclesSelector).eq(3).as("element4");
+        cy.get(allCirclesSelector).eq(4).as("element5");
         
         // check initial change
-        cy.get("[class*=circle_content]").should("have.length", 6);
-        cy.get("[class*=circle_content]").eq(5).as("element6");
+        cy.get(allCirclesSelector).should("have.length", 6);
+        cy.get(allCirclesSelector).eq(5).as("element6");
         cy.get("@element1").should("not.contain", "head");
-        cy.get("@element1").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
         cy.get("@element2").contains("555");
-        cy.get("@element2").children("[class*=circle_changing]");
+        cy.get("@element2").children(changingCircleSelector);
         cy.get("@element6").contains("tail");
-        cy.get("@element6").children("[class*=circle_default]");
+        cy.get("@element6").children(defaultCircleSelector);
         
         cy.wait(Delay.Medium);
         
         // check delayed change             
-        cy.get("[class*=circle_content]").should("have.length", 6);
+        cy.get(allCirclesSelector).should("have.length", 6);
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);
         cy.get("@element3").contains("555");
-        cy.get("@element3").children("[class*=circle_changing]");
+        cy.get("@element3").children(changingCircleSelector);
         cy.get("@element6").contains("tail");
-        cy.get("@element6").children("[class*=circle_default]");
+        cy.get("@element6").children(defaultCircleSelector);
         
         cy.wait(Delay.Medium);         
         
         // check delayed change             
-        cy.get("[class*=circle_content]").should("have.length", 7).eq(6).as("element7");
+        cy.get(allCirclesSelector).should("have.length", 7).eq(6).as("element7");
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);
         cy.get("@element3").should("not.contain.text");
-        cy.get("@element3").children("[class*=circle_modified]");
+        cy.get("@element3").children(modifiedCircleSelector);
         cy.get("@element4").contains("555");
-        cy.get("@element4").children("[class*=circle_changing]");
+        cy.get("@element4").children(changingCircleSelector);
         cy.get("@element7").contains("tail");
-        cy.get("@element7").children("[class*=circle_default]");
+        cy.get("@element7").children(defaultCircleSelector);
         
         cy.wait(Delay.Medium);              
         
         // check delayed change             
-        cy.get("[class*=circle_content]").should("have.length", 6);
+        cy.get(allCirclesSelector).should("have.length", 6);
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);
         cy.get("@element3").contains("555");
-        cy.get("@element3").children("[class*=circle_modified]");
+        cy.get("@element3").children(modifiedCircleSelector);
         cy.get("@element6").contains("tail");
-        cy.get("@element6").children("[class*=circle_default]");
+        cy.get("@element6").children(defaultCircleSelector);
         
         cy.wait(Delay.Medium);              
         
@@ -531,8 +537,8 @@ describe(
         cy.get("@element1").contains("head");
         cy.get("@element3").contains("555");
         cy.get("@element6").contains("tail");
-        cy.get("[class*=circle_content]").should("have.length", 6).each(($el) => {
-          cy.wrap($el).children("[class*=circle_default]");
+        cy.get(allCirclesSelector).should("have.length", 6).each(($el) => {
+          cy.wrap($el).children(defaultCircleSelector);
         });
       }
     );    
@@ -545,65 +551,65 @@ describe(
         cy.getByTestId("remove-button").click();
         
         // define getters
-        cy.get("[class*=circle_content]").first().as("element1");
-        cy.get("[class*=circle_content]").eq(1).as("element2");
-        cy.get("[class*=circle_content]").eq(2).as("element3");
-        cy.get("[class*=circle_content]").eq(3).as("element4");
-        cy.get("[class*=circle_content]").eq(4).as("element5");
+        cy.get(allCirclesSelector).first().as("element1");
+        cy.get(allCirclesSelector).eq(1).as("element2");
+        cy.get(allCirclesSelector).eq(2).as("element3");
+        cy.get(allCirclesSelector).eq(3).as("element4");
+        cy.get(allCirclesSelector).eq(4).as("element5");
         
         // check initial change
-        cy.get("[class*=circle_content]").should("have.length", 5);  
+        cy.get(allCirclesSelector).should("have.length", 5);  
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_changing]");
-        cy.get("@element2").children("[class*=circle_default]");              
-        cy.get("@element3").children("[class*=circle_default]");              
-        cy.get("@element4").children("[class*=circle_default]");     
+        cy.get("@element1").children(changingCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);              
+        cy.get("@element3").children(defaultCircleSelector);              
+        cy.get("@element4").children(defaultCircleSelector);     
         cy.get("@element5").contains("tail");
-        cy.get("@element5").children("[class*=circle_default]");  
+        cy.get("@element5").children(defaultCircleSelector);  
         
         cy.wait(Delay.Medium);
         
         // check delayed change        
-        cy.get("[class*=circle_content]").should("have.length", 5);  
+        cy.get(allCirclesSelector).should("have.length", 5);  
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_changing]");              
-        cy.get("@element3").children("[class*=circle_default]");              
-        cy.get("@element4").children("[class*=circle_default]");     
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(changingCircleSelector);              
+        cy.get("@element3").children(defaultCircleSelector);              
+        cy.get("@element4").children(defaultCircleSelector);     
         cy.get("@element5").contains("tail");
-        cy.get("@element5").children("[class*=circle_default]");          
+        cy.get("@element5").children(defaultCircleSelector);          
         
         cy.wait(Delay.Medium);
         
         // check delayed change        
-        cy.get("[class*=circle_content]").should("have.length", 5);  
+        cy.get(allCirclesSelector).should("have.length", 5);  
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");              
-        cy.get("@element3").children("[class*=circle_changing]");              
-        cy.get("@element4").children("[class*=circle_default]");     
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);              
+        cy.get("@element3").children(changingCircleSelector);              
+        cy.get("@element4").children(defaultCircleSelector);     
         cy.get("@element5").contains("tail");
-        cy.get("@element5").children("[class*=circle_default]");               
+        cy.get("@element5").children(defaultCircleSelector);               
         
         cy.wait(Delay.Medium);
         
         // check delayed change        
-        cy.get("[class*=circle_content]").should("have.length", 6).eq(5).as("element6");  
+        cy.get(allCirclesSelector).should("have.length", 6).eq(5).as("element6");  
         cy.get("@element1").contains("head");
-        cy.get("@element1").children("[class*=circle_default]");
-        cy.get("@element2").children("[class*=circle_default]");              
-        cy.get("@element3").children("[class*=circle_changing]");              
-        cy.get("@element4").children("[class*=circle_changing]");     
+        cy.get("@element1").children(defaultCircleSelector);
+        cy.get("@element2").children(defaultCircleSelector);              
+        cy.get("@element3").children(changingCircleSelector);              
+        cy.get("@element4").children(changingCircleSelector);     
         cy.get("@element6").contains("tail");
-        cy.get("@element6").children("[class*=circle_default]");                
+        cy.get("@element6").children(defaultCircleSelector);                
         
         cy.wait(Delay.Medium);
         
         // check delayed change        
         cy.get("@element1").contains("head");
         cy.get("@element4").contains("tail");
-        cy.get("[class*=circle_content]").should("have.length", 4).each(($el) => {
-          cy.wrap($el).children("[class*=circle_default]");
+        cy.get(allCirclesSelector).should("have.length", 4).each(($el) => {
+          cy.wrap($el).children(defaultCircleSelector);
         });  
       }
     );    
