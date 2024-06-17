@@ -21,150 +21,150 @@ describe(
       "enables and disables buttons based on inputs content and list state", () => {
         
         // check input states with default list
-        cy.getByTestId("value-input").should("be.empty");
-        cy.getByTestId("index-input").should("be.empty");
+        cy.getByTestId("value-input").should("be.empty").as("valueInput");
+        cy.getByTestId("index-input").should("be.empty").as("indexInput");
         
         // check button states with default list
-        cy.getByTestId("unshift-button").should("be.disabled");
-        cy.getByTestId("push-button").should("be.disabled");
-        cy.getByTestId("shift-button").should("be.enabled");
-        cy.getByTestId("pop-button").should("be.enabled");
-        cy.getByTestId("insert-button").should("be.disabled");
-        cy.getByTestId("remove-button").should("be.disabled");
+        cy.getByTestId("unshift-button").should("be.disabled").as("unshiftButton");
+        cy.getByTestId("push-button").should("be.disabled").as("pushButton");
+        cy.getByTestId("shift-button").should("be.enabled").as("shiftButton");
+        cy.getByTestId("pop-button").should("be.enabled").as("popButton");
+        cy.getByTestId("insert-button").should("be.disabled").as("insertButton");
+        cy.getByTestId("remove-button").should("be.disabled").as("removeButton");
         
         // unshift element
-        cy.getByTestId("value-input").type("42");
-        cy.getByTestId("unshift-button").should("be.enabled");
-        cy.getByTestId("push-button").should("be.enabled");
-        cy.getByTestId("shift-button").should("be.enabled");
-        cy.getByTestId("pop-button").should("be.enabled");
-        cy.getByTestId("insert-button").should("be.disabled");
-        cy.getByTestId("remove-button").should("be.disabled");
+        cy.get("@valueInput").type("42");
+        cy.get("@unshiftButton").should("be.enabled");
+        cy.get("@pushButton").should("be.enabled");
+        cy.get("@shiftButton").should("be.enabled");
+        cy.get("@popButton").should("be.enabled");
+        cy.get("@insertButton").should("be.disabled");
+        cy.get("@removeButton").should("be.disabled");
         cy.getByTestId("value-form").submit();
         
         // check initial changes to inputs 
-        cy.getByTestId("value-input").should("be.empty");
-        cy.getByTestId("index-input").should("be.empty");
+        cy.get("@valueInput").should("be.empty");
+        cy.get("@indexInput").should("be.empty");
         
         // check initial changes to buttons
-        cy.getByTestId("unshift-button").should("be.disabled");
-        cy.getByTestId("push-button").should("be.disabled");
-        cy.getByTestId("shift-button").should("be.disabled");
-        cy.getByTestId("pop-button").should("be.disabled");
-        cy.getByTestId("insert-button").should("be.disabled");
-        cy.getByTestId("remove-button").should("be.disabled");   
+        cy.get("@unshiftButton").should("be.disabled");
+        cy.get("@pushButton").should("be.disabled");
+        cy.get("@shiftButton").should("be.disabled");
+        cy.get("@popButton").should("be.disabled");
+        cy.get("@insertButton").should("be.disabled");
+        cy.get("@removeButton").should("be.disabled");   
         
         cy.wait(Delay.Medium * 3);
         
         // insert element
-        cy.getByTestId("value-input").type("69");
-        cy.getByTestId("index-input").type("3");
-        cy.getByTestId("unshift-button").should("be.enabled");
-        cy.getByTestId("push-button").should("be.enabled");
-        cy.getByTestId("shift-button").should("be.enabled");
-        cy.getByTestId("pop-button").should("be.enabled");
-        cy.getByTestId("insert-button").should("be.enabled");
-        cy.getByTestId("remove-button").should("be.enabled");
+        cy.get("@valueInput").type("69");
+        cy.get("@indexInput").type("3");
+        cy.get("@unshiftButton").should("be.enabled");
+        cy.get("@pushButton").should("be.enabled");
+        cy.get("@shiftButton").should("be.enabled");
+        cy.get("@popButton").should("be.enabled");
+        cy.get("@insertButton").should("be.enabled");
+        cy.get("@removeButton").should("be.enabled");
         cy.getByTestId("index-form").submit();
         
         // check initial changes to inputs 
-        cy.getByTestId("value-input").should("be.empty");
-        cy.getByTestId("index-input").should("be.empty");
+        cy.get("@valueInput").should("be.empty");
+        cy.get("@indexInput").should("be.empty");
         
         // check initial changes to buttons
-        cy.getByTestId("unshift-button").should("be.disabled");
-        cy.getByTestId("push-button").should("be.disabled");
-        cy.getByTestId("shift-button").should("be.disabled");
-        cy.getByTestId("pop-button").should("be.disabled");
-        cy.getByTestId("insert-button").should("be.disabled");
-        cy.getByTestId("remove-button").should("be.disabled");   
+        cy.get("@unshiftButton").should("be.disabled");
+        cy.get("@pushButton").should("be.disabled");
+        cy.get("@shiftButton").should("be.disabled");
+        cy.get("@popButton").should("be.disabled");
+        cy.get("@insertButton").should("be.disabled");
+        cy.get("@removeButton").should("be.disabled");   
         
         cy.wait(Delay.Medium * 6);        
         
         // check states with various value input values
-        cy.getByTestId("value-input").type(" ");
-        cy.getByTestId("unshift-button").should("be.enabled");
-        cy.getByTestId("push-button").should("be.enabled");
-        cy.getByTestId("shift-button").should("be.enabled");
-        cy.getByTestId("pop-button").should("be.enabled");
+        cy.get("@valueInput").type(" ");
+        cy.get("@unshiftButton").should("be.enabled");
+        cy.get("@pushButton").should("be.enabled");
+        cy.get("@shiftButton").should("be.enabled");
+        cy.get("@popButton").should("be.enabled");
         
-        cy.getByTestId("value-input").clear();
-        cy.getByTestId("value-input").should("be.empty");
-        cy.getByTestId("unshift-button").should("be.disabled");
-        cy.getByTestId("push-button").should("be.disabled");
-        cy.getByTestId("shift-button").should("be.enabled");
-        cy.getByTestId("pop-button").should("be.enabled");
+        cy.get("@valueInput").clear();
+        cy.get("@valueInput").should("be.empty");
+        cy.get("@unshiftButton").should("be.disabled");
+        cy.get("@pushButton").should("be.disabled");
+        cy.get("@shiftButton").should("be.enabled");
+        cy.get("@popButton").should("be.enabled");
         
-        cy.getByTestId("value-input").type("12345");
-        cy.getByTestId("value-input").should("have.value", "1234");
-        cy.getByTestId("unshift-button").should("be.enabled");
-        cy.getByTestId("push-button").should("be.enabled");
-        cy.getByTestId("shift-button").should("be.enabled");
-        cy.getByTestId("pop-button").should("be.enabled");
+        cy.get("@valueInput").type("12345");
+        cy.get("@valueInput").should("have.value", "1234");
+        cy.get("@unshiftButton").should("be.enabled");
+        cy.get("@pushButton").should("be.enabled");
+        cy.get("@shiftButton").should("be.enabled");
+        cy.get("@popButton").should("be.enabled");
         
         // check states with various index input values
-        cy.getByTestId("index-input").type("-1");
-        cy.getByTestId("insert-button").should("be.disabled");
-        cy.getByTestId("remove-button").should("be.disabled");
+        cy.get("@indexInput").type("-1");
+        cy.get("@insertButton").should("be.disabled");
+        cy.get("@removeButton").should("be.disabled");
         
-        cy.getByTestId("index-input").clear();
-        cy.getByTestId("index-input").should("be.empty");
-        cy.getByTestId("insert-button").should("be.disabled");
-        cy.getByTestId("remove-button").should("be.disabled");
+        cy.get("@indexInput").clear();
+        cy.get("@indexInput").should("be.empty");
+        cy.get("@insertButton").should("be.disabled");
+        cy.get("@removeButton").should("be.disabled");
         
-        cy.getByTestId("index-input").type("0");
-        cy.getByTestId("index-input").should("have.value", "0");
-        cy.getByTestId("insert-button").should("be.enabled");
-        cy.getByTestId("remove-button").should("be.enabled");        
+        cy.get("@indexInput").type("0");
+        cy.get("@indexInput").should("have.value", "0");
+        cy.get("@insertButton").should("be.enabled");
+        cy.get("@removeButton").should("be.enabled");        
         
-        cy.getByTestId("index-input").clear();
-        cy.getByTestId("index-input").should("be.empty");
-        cy.getByTestId("index-input").type("6");
-        cy.getByTestId("index-input").should("have.value", "6");
-        cy.getByTestId("insert-button").should("be.enabled");
-        cy.getByTestId("remove-button").should("be.enabled");        
+        cy.get("@indexInput").clear();
+        cy.get("@indexInput").should("be.empty");
+        cy.get("@indexInput").type("6");
+        cy.get("@indexInput").should("have.value", "6");
+        cy.get("@insertButton").should("be.enabled");
+        cy.get("@removeButton").should("be.enabled");        
         
-        cy.getByTestId("index-input").clear();
-        cy.getByTestId("index-input").should("be.empty");
-        cy.getByTestId("index-input").type("7");
-        cy.getByTestId("index-input").should("have.value", "7");
-        cy.getByTestId("insert-button").should("be.enabled");
-        cy.getByTestId("remove-button").should("be.disabled");        
+        cy.get("@indexInput").clear();
+        cy.get("@indexInput").should("be.empty");
+        cy.get("@indexInput").type("7");
+        cy.get("@indexInput").should("have.value", "7");
+        cy.get("@insertButton").should("be.enabled");
+        cy.get("@removeButton").should("be.disabled");        
         
-        cy.getByTestId("index-input").clear();
-        cy.getByTestId("index-input").should("be.empty");
-        cy.getByTestId("index-input").type("8");
-        cy.getByTestId("index-input").should("have.value", "8");
-        cy.getByTestId("insert-button").should("be.disabled");
-        cy.getByTestId("remove-button").should("be.disabled");          
+        cy.get("@indexInput").clear();
+        cy.get("@indexInput").should("be.empty");
+        cy.get("@indexInput").type("8");
+        cy.get("@indexInput").should("have.value", "8");
+        cy.get("@insertButton").should("be.disabled");
+        cy.get("@removeButton").should("be.disabled");          
         
         // erase the list 
         for (let i = 0; i < 7; i++) {
-          cy.getByTestId("shift-button").click();
+          cy.get("@shiftButton").click();
           cy.wait(Delay.Medium * 3);
         };
         
         // check button states with empty list
-        cy.getByTestId("unshift-button").should("be.enabled");
-        cy.getByTestId("push-button").should("be.enabled");
-        cy.getByTestId("shift-button").should("be.disabled");
-        cy.getByTestId("pop-button").should("be.disabled");
-        cy.getByTestId("insert-button").should("be.disabled");
-        cy.getByTestId("remove-button").should("be.disabled");       
+        cy.get("@unshiftButton").should("be.enabled");
+        cy.get("@pushButton").should("be.enabled");
+        cy.get("@shiftButton").should("be.disabled");
+        cy.get("@popButton").should("be.disabled");
+        cy.get("@insertButton").should("be.disabled");
+        cy.get("@removeButton").should("be.disabled");       
         
         // erase the content in inputs
-        cy.getByTestId("index-input").clear();
-        cy.getByTestId("index-input").should("be.empty");
-        cy.getByTestId("value-input").clear();
-        cy.getByTestId("value-input").should("be.empty");
+        cy.get("@indexInput").clear();
+        cy.get("@indexInput").should("be.empty");
+        cy.get("@valueInput").clear();
+        cy.get("@valueInput").should("be.empty");
         
         // check button states with empty inputs
-        cy.getByTestId("unshift-button").should("be.disabled");
-        cy.getByTestId("push-button").should("be.disabled");
-        cy.getByTestId("shift-button").should("be.disabled");
-        cy.getByTestId("pop-button").should("be.disabled");
-        cy.getByTestId("insert-button").should("be.disabled");
-        cy.getByTestId("remove-button").should("be.disabled");           
+        cy.get("@unshiftButton").should("be.disabled");
+        cy.get("@pushButton").should("be.disabled");
+        cy.get("@shiftButton").should("be.disabled");
+        cy.get("@popButton").should("be.disabled");
+        cy.get("@insertButton").should("be.disabled");
+        cy.get("@removeButton").should("be.disabled");           
       }
     );
     

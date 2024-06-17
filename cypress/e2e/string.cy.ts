@@ -21,50 +21,50 @@ describe(
       "enables and disables button based on input content and string state", () => {
         
         // check states with empty input
-        cy.getByTestId("input").should("be.empty");
-        cy.getByTestId("reverse-button").should("be.disabled");
+        cy.getByTestId("input").should("be.empty").as("input");
+        cy.getByTestId("reverse-button").should("be.disabled").as("reverseButton");
         
         // check states with 1 symbol
-        cy.getByTestId("input").type("a");
-        cy.getByTestId("input").should("have.value", "a");
-        cy.getByTestId("reverse-button").should("be.disabled");
+        cy.get("@input").type("a");
+        cy.get("@input").should("have.value", "a");
+        cy.get("@reverseButton").should("be.disabled");
         
         // check states with 2 symbols
-        cy.getByTestId("input").type("b");
-        cy.getByTestId("input").should("have.value", "ab");
-        cy.getByTestId("reverse-button").should("be.enabled");
+        cy.get("@input").type("b");
+        cy.get("@input").should("have.value", "ab");
+        cy.get("@reverseButton").should("be.enabled");
         cy.getByTestId("form").submit();
         
         // check initial changes
-        cy.getByTestId("input").should("be.empty");
-        cy.getByTestId("reverse-button").should("be.disabled");
+        cy.get("@input").should("be.empty");
+        cy.get("@reverseButton").should("be.disabled");
         
         cy.wait(Delay.Medium * 5);
         
         // check delayed changes
-        cy.getByTestId("input").should("be.empty");
-        cy.getByTestId("reverse-button").should("be.disabled");
+        cy.get("@input").should("be.empty");
+        cy.get("@reverseButton").should("be.disabled");
         
         // check states with various input values
-        cy.getByTestId("input").type(" ");
-        cy.getByTestId("input").should("have.value", " ");
-        cy.getByTestId("reverse-button").should("be.disabled");      
+        cy.get("@input").type(" ");
+        cy.get("@input").should("have.value", " ");
+        cy.get("@reverseButton").should("be.disabled");      
         
-        cy.getByTestId("input").type(" ");
-        cy.getByTestId("input").should("have.value", "  ");
-        cy.getByTestId("reverse-button").should("be.enabled");        
+        cy.get("@input").type(" ");
+        cy.get("@input").should("have.value", "  ");
+        cy.get("@reverseButton").should("be.enabled");        
         
-        cy.getByTestId("input").type(" ");
-        cy.getByTestId("input").should("have.value", "   ");
-        cy.getByTestId("reverse-button").should("be.enabled");        
+        cy.get("@input").type(" ");
+        cy.get("@input").should("have.value", "   ");
+        cy.get("@reverseButton").should("be.enabled");        
         
-        cy.getByTestId("input").clear();
-        cy.getByTestId("input").should("be.empty");
-        cy.getByTestId("reverse-button").should("be.disabled");   
+        cy.get("@input").clear();
+        cy.get("@input").should("be.empty");
+        cy.get("@reverseButton").should("be.disabled");   
         
-        cy.getByTestId("input").type("123456123456");
-        cy.getByTestId("input").should("have.value", "12345612345");
-        cy.getByTestId("reverse-button").should("be.enabled");   
+        cy.get("@input").type("123456123456");
+        cy.get("@input").should("have.value", "12345612345");
+        cy.get("@reverseButton").should("be.enabled");   
       }
     );
     
