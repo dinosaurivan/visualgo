@@ -8,7 +8,7 @@ import { render, screen } from "@testing-library/react";
 import { App } from "../../components";
 
 // mock ResizeObserver
-import ResizeObserver from 'resize-observer-polyfill';
+import ResizeObserver from "resize-observer-polyfill";
 global.ResizeObserver = ResizeObserver;
 
 
