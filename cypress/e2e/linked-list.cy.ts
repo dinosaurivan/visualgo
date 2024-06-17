@@ -7,11 +7,7 @@ describe(
     
     beforeEach(
       () => {
-        cy.visit("http://localhost:3000/linked-list");
-        
-        cy.get("[class*=circle_content]").should("have.length", 5).each(($el) => {
-          cy.wrap($el).children("[class*=circle_default]"); 
-        });        
+        cy.visit("linked-list");
       }
     );
     
