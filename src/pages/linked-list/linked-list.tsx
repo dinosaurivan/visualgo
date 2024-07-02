@@ -1,5 +1,5 @@
 // libraries
-import { FC, FormEvent, Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import React, { JSX, FormEventHandler, Fragment, MouseEventHandler, useCallback, useEffect, useMemo, useState } from "react";
 
 // components 
 import { ArrowIcon, Button, Circle, Input, SolutionLayout } from "../../ui";
@@ -11,17 +11,17 @@ import styles from "./linked-list.module.css";
 import useForm from "../../hooks/use-form";
 
 // utils
-import { ElementData } from "../../utils/element-data";
+import ElementData from "../../utils/element-data";
+import sequentialUpdate from "../../utils/sequential-update";
 import { randomStringsArray } from "../../utils/random-array";
-import { sequentialUpdate } from "../../utils/sequential-update";
 import { ElementCaptions, ElementColors, LinkedListActions, MAX_ELEMENT_LENGTH } from "../../utils/constants";
 
 // data structures 
-import { LinkedList } from "../../data-structures/linked-list";
+import { LinkedList } from "../../data-structures";
 
 
 
-export const LinkedListPage: FC = () => {
+export default function LinkedListPage(): JSX.Element {
   
   const [valueInput, setValueInput] = useState("");
   const [indexInput, setIndexInput] = useState("");
@@ -32,43 +32,71 @@ export const LinkedListPage: FC = () => {
   const [action, setAction] = useState(LinkedListActions.Insert);
   const [isInProgress, setIsInProgress] = useState(false);
   
-  const [state, setState] = useState<Array<ElementData<string | undefined>>>(randomStringsArray());
-  const [history, setHistory] = useState<Array<typeof state>>([]);
+  const [step, setStep] = useState<Array<ElementData<string | undefined>>>(randomStringsArray());
+  const [steps, setSteps] = useState<Array<typeof step>>([]);
   
-  const onSubmit = (action: LinkedListActions) => async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+  const onUnshift: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
-    const linkedList = new LinkedList<string | undefined>(state);
-    if (action === LinkedListActions.Unshift) {
-      setHistory(linkedList.unshift(valueInput));
-    } else if (action === LinkedListActions.Push) {
-      setHistory(linkedList.push(valueInput));
-    } else if (action === LinkedListActions.Shift) {
-      setHistory(linkedList.shift());
-    } else if (action === LinkedListActions.Pop) {
-      setHistory(linkedList.pop());
-    } else if (action === LinkedListActions.Insert) {
-      setHistory(linkedList.insert(valueInput, Number(indexInput)));
-    } else if (action === LinkedListActions.Remove) {
-      setHistory(linkedList.remove(Number(indexInput)));
-    };
+    setAction(LinkedListActions.Unshift);
+    const linkedList = new LinkedList<string | undefined>(step);
+    setSteps(linkedList.getUnshiftSteps(valueInput));
+    setValueInput("");
+    setIsValueValid(false);
+  };
+  
+  const onPush: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(LinkedListActions.Push);
+    const linkedList = new LinkedList<string | undefined>(step);
+    setSteps(linkedList.getPushSteps(valueInput));
+  };
+  
+  const onShift: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(LinkedListActions.Shift);
+    const linkedList = new LinkedList<string | undefined>(step);
+    setSteps(linkedList.getShiftSteps());
+  };
+  
+  const onPop: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(LinkedListActions.Pop);
+    const linkedList = new LinkedList<string | undefined>(step);
+    setSteps(linkedList.getPopSteps());
+  };
+  
+  const onInsert: FormEventHandler<HTMLFormElement> = async (event) => {
+    event.preventDefault();
+    setAction(LinkedListActions.Insert);
+    const linkedList = new LinkedList<string | undefined>(step);
+    setSteps(linkedList.getInsertionSteps(valueInput, Number(indexInput)));
     setValueInput("");
     setIndexInput("");
     setIsValueValid(false);
-    setIsIndexValid(false);
-  };
+    setIsIndexValid(false);    
+  };  
+  
+  const onRemove: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(LinkedListActions.Remove);
+    const linkedList = new LinkedList<string | undefined>(step);
+    setSteps(linkedList.getRemovalSteps(Number(indexInput)));
+    setIndexInput("");
+    setIsIndexValid(false);    
+  };  
   
   useEffect(
     () => {
       let isMounted = true;
-      if (history.length > 0) {
+      if (steps.length > 0) {
         setIsInProgress(true);
-        sequentialUpdate<string | undefined>(history, setState, setIsInProgress, () => isMounted);
+        sequentialUpdate<string | undefined>(steps, setStep, setIsInProgress, () => isMounted);
       };
       return () => {
         isMounted = false;
       };
     }, 
-    [history]
+    [steps]
   );  
   
   const supportiveContent = useCallback(
@@ -84,7 +112,7 @@ export const LinkedListPage: FC = () => {
     () => (
       <ul className={styles.list}>
         {
-          state.map(
+          step.map(
             ({value, color, isHead, isTail, valueAbove, valueBelow}, index, array) => (
               <Fragment key={index}>
                 <li className={styles.item}>
@@ -103,72 +131,78 @@ export const LinkedListPage: FC = () => {
         }
       </ul>
     ),
-    [state, supportiveContent]
+    [step, supportiveContent]
   );    
   
   return (
     <SolutionLayout title="Связный список">
-      <section className={styles.container}>
+      <section className={styles.container} data-testid="linked-list-page">
         <div className={styles.forms}>
-          <form className={styles.form} onSubmit={onSubmit(action)}>
+          <form className={styles.form} onSubmit={onUnshift} data-testid="value-form">
             <Input 
               maxLength={MAX_ELEMENT_LENGTH}
               isLimitText={true}     
               value={valueInput}
               placeholder="Введите значение"
+              data-testid="value-input"
               onChange={onChange(setValueInput, setIsValueValid, false)}
             />
             <Button
               type="submit"
               text="Добавить в head"
-            disabled={!isValueValid || (isInProgress && action !== LinkedListActions.Unshift)}
-            isLoader={isInProgress && action === LinkedListActions.Unshift}            
-              onClick={() => { setAction(LinkedListActions.Unshift); }}
+              data-testid="unshift-button"
+              disabled={!isValueValid || (isInProgress && action !== LinkedListActions.Unshift)}
+              isLoader={isInProgress && action === LinkedListActions.Unshift}            
             />
             <Button
-              type="submit"
+              type="button"
               text="Добавить в tail"
-            disabled={!isValueValid || (isInProgress && action !== LinkedListActions.Push)}
-            isLoader={isInProgress && action === LinkedListActions.Push}            
-              onClick={() => { setAction(LinkedListActions.Push); }}
+              onClick={onPush}
+              data-testid="push-button"
+              disabled={!isValueValid || (isInProgress && action !== LinkedListActions.Push)}
+              isLoader={isInProgress && action === LinkedListActions.Push}            
             />
             <Button
-              type="submit"
+              type="button"
               text="Удалить из head"
-              disabled={state.length === 0 || (isInProgress && action !== LinkedListActions.Shift)}
+              onClick={onShift}
+              data-testid="shift-button"
+              disabled={step.length === 0 || (isInProgress && action !== LinkedListActions.Shift)}
               isLoader={isInProgress && action === LinkedListActions.Shift}              
-              onClick={() => { setAction(LinkedListActions.Shift); }}
             />          
             <Button
-              type="submit"
+              type="button"
               text="Удалить из tail"
-              disabled={state.length === 0 || (isInProgress && action !== LinkedListActions.Pop)}
+              onClick={onPop}
+              data-testid="pop-button"
+              disabled={step.length === 0 || (isInProgress && action !== LinkedListActions.Pop)}
               isLoader={isInProgress && action === LinkedListActions.Pop}              
-              onClick={() => { setAction(LinkedListActions.Pop); }}
             />        
           </form>
-          <form className={`${styles.form} ${styles.threeColumns}`} onSubmit={onSubmit(action)}>
+          <form className={`${styles.form} ${styles.threeColumns}`} onSubmit={onInsert} data-testid="index-form">
             <Input 
               type="number"
               min={0}
-              max={state.length}
+              max={step.length}
               value={indexInput}
               placeholder="Введите индекс"
+              data-testid="index-input"
               onChange={onChange(setIndexInput, setIsIndexValid, false)}
             />
             <Button
               type="submit"
               text="Добавить по индексу"
+              data-testid="insert-button"
               disabled={!isValueValid || !isIndexValid || (isInProgress && action !== LinkedListActions.Insert)}
               isLoader={isInProgress && action === LinkedListActions.Insert}            
-              onClick={() => { setAction(LinkedListActions.Insert); }}
             />
             <Button
-              type="submit"
+              type="button"
               text="Удалить по индексу"
-              disabled={!isIndexValid || Number(indexInput) >= state.length || (isInProgress && action !== LinkedListActions.Remove)}
+              onClick={onRemove}
+              data-testid="remove-button"
+              disabled={!isIndexValid || Number(indexInput) >= step.length || (isInProgress && action !== LinkedListActions.Remove)}
               isLoader={isInProgress && action === LinkedListActions.Remove}            
-              onClick={() => { setAction(LinkedListActions.Remove); }}
             />             
           </form>  
         </div>

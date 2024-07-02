@@ -1,11 +1,13 @@
-import { ElementColors } from "../utils/constants";
-import { ElementData } from "../utils/element-data";
+import ElementData from "../../utils/element-data";
+import { ElementColors } from "../../utils/constants";
 
 
 
-export class Queue<T> {
+class Queue<T> {
   private snapshot: Array<ElementData<T | undefined>>;
+  
   private history: Array<typeof this.snapshot>;
+  
   private sizeLimit: number;
   
   constructor(sizeLimit: number, fromArray: Array<ElementData<T | undefined>> = []) {
@@ -83,7 +85,7 @@ export class Queue<T> {
     return this.size() === 0;
   };  
   
-  clear(): typeof this.history {
+  getClearSteps(): typeof this.history {
     this.discard();
     this.snapshot = Array.from(
       { length: this.sizeLimit },
@@ -93,7 +95,7 @@ export class Queue<T> {
     return this.history;
   };  
   
-  enqueue(value: T): typeof this.history {
+  getEnqueueSteps(value: T): typeof this.history {
     
     this.discard();
     
@@ -117,7 +119,7 @@ export class Queue<T> {
     return this.history;
   };
   
-  dequeue(): typeof this.history {
+  getDequeueSteps(): typeof this.history {
     
     this.discard();
     
@@ -142,3 +144,5 @@ export class Queue<T> {
     return this.history
   };
 };
+
+export default Queue;

@@ -1,46 +1,18 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { 
-  MainPage,
-  QueuePage,
-  StackPage,
-  StringPage,
-  SortingPage,
-  FibonacciPage,
-  LinkedListPage,
-} from "../../pages";
+// libraries 
+import React, { JSX } from "react";
 
+// components 
+import { AppRouter } from "..";
+
+// styles
 import styles from "./app.module.css";
 
-function App() {
+
+
+export default function App(): JSX.Element {
   return (
     <div className={styles.app}>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/" exact>
-            <MainPage />
-          </Route>
-          <Route path="/string">
-            <StringPage />
-          </Route>
-          <Route path="/fibonacci">
-            <FibonacciPage />
-          </Route>
-          <Route path="/sorting">
-            <SortingPage />
-          </Route>
-          <Route path="/stack">
-            <StackPage />
-          </Route>
-          <Route path="/queue">
-            <QueuePage />
-          </Route>
-          <Route path="/list">
-            <LinkedListPage />
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      <AppRouter />
     </div>
   );
-}
-
-export default App;
+};

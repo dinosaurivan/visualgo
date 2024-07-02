@@ -9,11 +9,6 @@
   justify-content: center;
 }
 
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
 .title_box {
   display: flex;
   justify-content: center;

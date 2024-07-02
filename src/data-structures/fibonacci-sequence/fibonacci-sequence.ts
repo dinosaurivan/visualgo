@@ -1,10 +1,11 @@
-import { ElementColors } from "../utils/constants";
-import { ElementData } from "../utils/element-data";
+import ElementData from "../../utils/element-data";
+import { ElementColors } from "../../utils/constants";
 
 
 
-export class FibonacciSequence {
+class FibonacciSequence {
   private snapshot: Array<ElementData<number>> = [];
+
   private history: Array<typeof this.snapshot> = [];
   
   private save(): void {
@@ -51,7 +52,7 @@ export class FibonacciSequence {
     return this.peak()!.value + this.subpeak()!.value;
   };
   
-  calculate(index: number): typeof this.history {
+  getCalculationSteps(index: number): typeof this.history {
     
     this.discard();
     
@@ -59,7 +60,7 @@ export class FibonacciSequence {
       throw new Error("Incorrect index value");
     };    
     
-    for (let i = 0; i <= index; i++) {
+    for (let i = 0; i <= index; i += 1) {
       
       if (i < 2) {
         this.snapshot.push(new ElementData<number>(this.next()));
@@ -83,3 +84,5 @@ export class FibonacciSequence {
     return this.history;
   };
 };
+
+export default FibonacciSequence;

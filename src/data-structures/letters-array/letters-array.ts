@@ -1,10 +1,11 @@
-import { ElementColors } from "../utils/constants";
-import { ElementData } from "../utils/element-data";
+import ElementData from "../../utils/element-data";
+import { ElementColors } from "../../utils/constants";
 
 
 
-export class LettersArray {
+class LettersArray {
   private snapshot: Array<ElementData<string>>;
+
   private history: Array<typeof this.snapshot>;
   
   constructor(fromString: string) {
@@ -32,7 +33,7 @@ export class LettersArray {
     this.history = [];
   };
   
-  private size(): number {
+  size(): number {
     return this.snapshot.length;
   };
   
@@ -54,7 +55,7 @@ export class LettersArray {
     this.snapshot[from] = temp;  
   };
   
-  reverse(): typeof this.history {
+  getReversalSteps(): typeof this.history {
     
     this.discard();
     
@@ -64,7 +65,7 @@ export class LettersArray {
     
     this.save();
     
-    for (let i = 0; i < this.medianIndex(); i++) {
+    for (let i = 0; i < this.medianIndex(); i += 1) {
       this.snapshot[i].color = ElementColors.Changing;
       this.snapshot[this.opposite(i)].color = ElementColors.Changing;
       this.save();
@@ -87,3 +88,5 @@ export class LettersArray {
     return this.history;
   };
 };
+
+export default LettersArray;

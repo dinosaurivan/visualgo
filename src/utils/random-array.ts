@@ -1,4 +1,4 @@
-import { ElementData } from "./element-data";
+import ElementData from "./element-data";
 import { DEFAULT_ARRAY_SIZE, MAX_ARRAY_VALUE, MIN_ARRAY_VALUE } from "./constants";
 
 

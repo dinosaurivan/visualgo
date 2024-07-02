@@ -1,5 +1,5 @@
 // libraries 
-import { ChangeEvent, FC, FormEvent, useEffect, useMemo, useState } from "react";
+import React, { ChangeEventHandler, JSX, FormEvent, MouseEventHandler, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Column, Input, RadioInput, SolutionLayout } from "../../ui";
@@ -11,17 +11,17 @@ import styles from "./sorting.module.css";
 import useForm from "../../hooks/use-form";
 
 // utils
-import { ElementData } from "../../utils/element-data";
+import ElementData from "../../utils/element-data";
+import sequentialUpdate from "../../utils/sequential-update";
 import { randomNumbersArray } from "../../utils/random-array";
-import { sequentialUpdate } from "../../utils/sequential-update";
 import { DEFAULT_ARRAY_SIZE, Direction, MAX_ARRAY_SIZE, MIN_ARRAY_SIZE, SortingActions } from "../../utils/constants";
 
 // data structures 
-import { NumbersArray } from "../../data-structures/numbers-array";
+import { NumbersArray } from "../../data-structures";
 
 
 
-export const SortingPage: FC = () => {
+export default function SortingPage(): JSX.Element {
   
   const [inputValue, setInputValue] = useState("");
   const [isInputValid, setIsInputValid] = useState(true);  
@@ -31,48 +31,60 @@ export const SortingPage: FC = () => {
   const [direction, setDirection] = useState(Direction.Ascending);
   const [isInProgress, setIsInProgress] = useState(false);  
   
-  const changeAlgorithm = (event: ChangeEvent<HTMLInputElement>): void => {
+  const changeAlgorithm: ChangeEventHandler<HTMLInputElement> = async (event) => {
     setAction(event.target.value as SortingActions);
   };    
   
-  const [state, setState] = useState<Array<ElementData<number>>>(randomNumbersArray(Number(inputValue)));
-  const [history, setHistory] = useState<Array<typeof state>>([]);
+  const [step, setStep] = useState<Array<ElementData<number>>>(randomNumbersArray(Number(inputValue)));
+  const [steps, setSteps] = useState<Array<typeof step>>([]);
   
-  const onSubmit = (event: FormEvent): void => {
+  const onAscendingSort: MouseEventHandler<HTMLButtonElement> = async (event) => {
     event.preventDefault();
-    const numbersArray = new NumbersArray(state);
+    setDirection(Direction.Ascending);
+    const numbersArray = new NumbersArray(step);
     if (action === SortingActions.Bubble) {
-      setHistory(numbersArray.bubbleSort(direction));
+      setSteps(numbersArray.getBubbleSortSteps(Direction.Ascending));
     } else if (action === SortingActions.Selection) {
-      setHistory(numbersArray.selectionSort(direction));
+      setSteps(numbersArray.getSelectionSortSteps(Direction.Ascending));
     };
   };
   
-  const onReset = (event: FormEvent): void => {
+  const onDescendingSort: MouseEventHandler<HTMLButtonElement> = async (event) => {
     event.preventDefault();
-    const numbersArray = new NumbersArray(state);
-    setHistory(numbersArray.refresh(Number(inputValue) || DEFAULT_ARRAY_SIZE));
+    setDirection(Direction.Descending);
+    const numbersArray = new NumbersArray(step);
+    if (action === SortingActions.Bubble) {
+      setSteps(numbersArray.getBubbleSortSteps(Direction.Descending));
+    } else if (action === SortingActions.Selection) {
+      setSteps(numbersArray.getSelectionSortSteps(Direction.Descending));
+    };
+  };
+  
+  const onRefresh = (event: FormEvent): void => {
+    event.preventDefault();
+    const numbersArray = new NumbersArray(step);
+    setSteps(numbersArray.getRefreshSteps(Number(inputValue) || DEFAULT_ARRAY_SIZE));
   };
   
   useEffect(
     () => {
       let isMounted = true;
-      if (history.length > 0) {
+      if (steps.length > 0) {
         setIsInProgress(true);
-        sequentialUpdate<number>(history, setState, setIsInProgress, () => isMounted);
+        sequentialUpdate<number>(steps, setStep, setIsInProgress, () => isMounted);
       };
       return () => {
         isMounted = false;
       };      
     }, 
-    [history]
+    [steps]
   );  
   
   const content = useMemo(
     () => (
       <ul className={styles.list}>
         {
-          state.map(
+          step.map(
             ({value, color}, index) => (
               <li className={styles.item} key={index}>
                 <Column 
@@ -85,13 +97,13 @@ export const SortingPage: FC = () => {
         }
       </ul>
     ),
-    [state]
+    [step]
   );    
   
   return (
     <SolutionLayout title="Сортировка массива">
-      <section className={styles.container}>
-        <form className={styles.form} onSubmit={onSubmit} onReset={onReset}>
+      <section className={styles.container} data-testid="sorting-page">
+        <form className={styles.form} onSubmit={onRefresh}>
           <RadioInput
             label="Выбор"
             value={SortingActions.Selection}
@@ -106,24 +118,24 @@ export const SortingPage: FC = () => {
             extraClass={styles.smallLeftMargin}
           />          
           <Button
-            type="submit"
-            sorting={Direction.Ascending}
+            type="button"
             text="По возрастанию"
+            onClick={onAscendingSort}
+            sorting={Direction.Ascending}
             disabled={isInProgress && direction !== Direction.Ascending}
             isLoader={isInProgress && direction === Direction.Ascending}            
-            onClick={() => { setDirection(Direction.Ascending); }}
             extraClass={styles.mediumLeftMargin}
           />
           <Button
-            type="submit"
-            sorting={Direction.Descending}
+            type="button"
             text="По убыванию"
+            onClick={onDescendingSort}
+            sorting={Direction.Descending}
             disabled={isInProgress && direction !== Direction.Descending}
             isLoader={isInProgress && direction === Direction.Descending}            
-            onClick={() => { setDirection(Direction.Descending); }}
           />      
           <Button
-            type="reset"
+            type="submit"
             text="Новый массив"
             disabled={!isInputValid || isInProgress}
             extraClass={styles.largeLeftMargin}

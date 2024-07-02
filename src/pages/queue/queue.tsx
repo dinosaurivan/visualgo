@@ -1,5 +1,5 @@
 // libraries
-import { FC, FormEvent, useEffect, useMemo, useState } from "react";
+import React, { JSX, FormEventHandler, MouseEventHandler, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Circle, Input, SolutionLayout } from "../../ui";
@@ -11,16 +11,16 @@ import styles from "./queue.module.css";
 import useForm from "../../hooks/use-form";
 
 // utils
-import { ElementData } from "../../utils/element-data";
-import { sequentialUpdate } from "../../utils/sequential-update";
+import ElementData from "../../utils/element-data";
+import sequentialUpdate from "../../utils/sequential-update";
 import { DEFAULT_QUEUE_SIZE_LIMIT, ElementCaptions, MAX_ELEMENT_LENGTH, QueueActions } from "../../utils/constants";
 
 // data structures 
-import { Queue } from "../../data-structures/queue";
+import { Queue } from "../../data-structures";
 
 
 
-export const QueuePage: FC = () => {
+export default function QueuePage(): JSX.Element {
   
   const [inputValue, setInputValue] = useState("");
   const [isInputValid, setIsInputValid] = useState(false);
@@ -30,42 +30,51 @@ export const QueuePage: FC = () => {
   const [isInProgress, setIsInProgress] = useState(false);
   
   const initialState = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT);
-  const [state, setState] = useState<Array<ElementData<string | undefined>>>(initialState.toArray());
-  const [history, setHistory] = useState<Array<typeof state>>([]);
+  const [step, setStep] = useState<Array<ElementData<string | undefined>>>(initialState.toArray());
+  const [steps, setSteps] = useState<Array<typeof step>>([]);
   
-  const onSubmit = (action: QueueActions) => async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+  const onEnqueue: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
-    const queue = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT, state);
-    if (action === QueueActions.Enqueue) {
-      setHistory(queue.enqueue(inputValue));
-    } else if (action === QueueActions.Dequeue) {
-      setHistory(queue.dequeue());
-    } else if (action === QueueActions.Clear) {
-      setHistory(queue.clear());
-    };
+    setAction(QueueActions.Enqueue);
+    const queue = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT, step);
+    setSteps(queue.getEnqueueSteps(inputValue));
     setInputValue("");
     setIsInputValid(false);
+  };  
+  
+  const onDequeue: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(QueueActions.Dequeue);
+    const queue = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT, step);
+    setSteps(queue.getDequeueSteps());
+  };  
+  
+  const onClear: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(QueueActions.Clear);
+    const queue = new Queue<string>(DEFAULT_QUEUE_SIZE_LIMIT, step);
+    setSteps(queue.getClearSteps());
   };  
   
   useEffect(
     () => {
       let isMounted = true;
-      if (history.length > 0) {
+      if (steps.length > 0) {
         setIsInProgress(true);
-        sequentialUpdate<string | undefined>(history, setState, setIsInProgress, () => isMounted);
+        sequentialUpdate<string | undefined>(steps, setStep, setIsInProgress, () => isMounted);
       };
       return () => {
         isMounted = false;
       };      
     }, 
-    [history]
+    [steps]
   );  
   
   const content = useMemo(
     () => (
       <ul className={styles.list}>
         {
-          state.map(
+          step.map(
             ({value, color, isHead, isTail}, index) => (
               <li className={styles.item} key={index}>
                 <Circle
@@ -81,40 +90,53 @@ export const QueuePage: FC = () => {
         }
       </ul>
     ),
-    [state]
+    [step]
   );  
   
   return (
     <SolutionLayout title="Очередь">
-      <section className={styles.container}>
-        <form className={styles.form} onSubmit={onSubmit(action)}>
+      <section className={styles.container} data-testid="queue-page">
+        <form className={styles.form} onSubmit={onEnqueue} data-testid="form">
           <Input 
             maxLength={MAX_ELEMENT_LENGTH}
             isLimitText={true}     
             value={inputValue}
             placeholder="Введите значение"
+            data-testid="input"
             onChange={onChange(setInputValue, setIsInputValid, false)}
           />
           <Button
             type="submit"
             text="Добавить"
-            disabled={!isInputValid || (isInProgress && action !== QueueActions.Enqueue)}
+            data-testid="enqueue-button"
             isLoader={isInProgress && action === QueueActions.Enqueue}            
-            onClick={() => { setAction(QueueActions.Enqueue); }}
+            disabled={
+              !isInputValid ||
+              (isInProgress && action !== QueueActions.Enqueue) ||
+              step.every((element) => element.value !== undefined)
+            }
           />
           <Button
-            type="submit"
+            type="button"
             text="Удалить"
-            disabled={state.every((element) => element.value === undefined) || (isInProgress && action !== QueueActions.Dequeue)}
+            onClick={onDequeue}
+            data-testid="dequeue-button"
             isLoader={isInProgress && action === QueueActions.Dequeue}            
-            onClick={() => { setAction(QueueActions.Dequeue); }}
+            disabled={
+              (isInProgress && action !== QueueActions.Dequeue) ||
+              step.every((element) => element.value === undefined)
+            }
           />          
           <Button
-            type="submit"
+            type="button"
             text="Очистить"
-            disabled={state.every((element) => element.value === undefined) || (isInProgress && action !== QueueActions.Clear)}
+            onClick={onClear}
+            data-testid="clear-button"
             isLoader={isInProgress && action === QueueActions.Clear}            
-            onClick={() => { setAction(QueueActions.Clear); }}
+            disabled={
+              (isInProgress && action !== QueueActions.Clear) ||
+              step.every((element) => element.value === undefined)
+            }
             extraClass={styles.leftMargin}
           />                    
         </form>

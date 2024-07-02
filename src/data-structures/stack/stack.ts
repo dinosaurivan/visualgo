@@ -1,10 +1,11 @@
-import { ElementColors } from "../utils/constants";
-import { ElementData } from "../utils/element-data";
+import ElementData from "../../utils/element-data";
+import { ElementColors } from "../../utils/constants";
 
 
 
-export class Stack<T> {
+class Stack<T> {
   private snapshot: Array<ElementData<T>>;
+  
   private history: Array<typeof this.snapshot>;
   
   constructor(fromArray: Array<ElementData<T>> = []) {
@@ -46,14 +47,14 @@ export class Stack<T> {
     return this.snapshot[this.size() - 2];
   };  
   
-  clear(): typeof this.history {
+  getClearSteps(): typeof this.history {
     this.discard();
     this.snapshot = [];
     this.save();
     return this.history;
   };
   
-  push(value: T): typeof this.history {
+  getPushSteps(value: T): typeof this.history {
     
     this.discard();
     
@@ -70,7 +71,7 @@ export class Stack<T> {
     return this.history;
   };
   
-  pop(): typeof this.history {
+  getPopSteps(): typeof this.history {
     
     this.discard();
     
@@ -91,3 +92,5 @@ export class Stack<T> {
     return this.history;
   };
 };
+
+export default Stack;

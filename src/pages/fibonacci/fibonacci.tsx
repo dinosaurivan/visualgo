@@ -1,5 +1,5 @@
 // libraries
-import { FC, FormEvent, useEffect, useMemo, useState } from "react";
+import React, { JSX, FormEvent, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Circle, Input, SolutionLayout } from "../../ui";
@@ -11,16 +11,16 @@ import styles from "./fibonacci.module.css";
 import useForm from "../../hooks/use-form";
 
 // utils
-import { ElementData } from "../../utils/element-data";
+import ElementData from "../../utils/element-data";
 import { MAX_FIBONACCI_LENGTH } from "../../utils/constants";
-import { sequentialUpdate } from "../../utils/sequential-update";
+import sequentialUpdate from "../../utils/sequential-update";
 
 // data structures 
-import { FibonacciSequence } from "../../data-structures/fibonacci-sequence";
+import { FibonacciSequence } from "../../data-structures";
 
 
 
-export const FibonacciPage: FC = () => {
+export default function FibonacciPage(): JSX.Element {
   
   const [inputValue, setInputValue] = useState("");
   const [isInputValid, setIsInputValid] = useState(false);
@@ -28,13 +28,13 @@ export const FibonacciPage: FC = () => {
   
   const [isInProgress, setIsInProgress] = useState(false);
   
-  const [state, setState] = useState<Array<ElementData<number>>>([]);
-  const [history, setHistory] = useState<Array<typeof state>>([]);
+  const [step, setStep] = useState<Array<ElementData<number>>>([]);
+  const [steps, setSteps] = useState<Array<typeof step>>([]);
   
   const onSubmit = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
     const sequence = new FibonacciSequence();
-    setHistory(sequence.calculate(Number(inputValue)));
+    setSteps(sequence.getCalculationSteps(Number(inputValue)));
     setInputValue("");    
     setIsInputValid(false);
   };
@@ -42,22 +42,22 @@ export const FibonacciPage: FC = () => {
   useEffect(
     () => {
       let isMounted = true;
-      if (history.length > 0) {
+      if (steps.length > 0) {
         setIsInProgress(true);
-        sequentialUpdate<number>(history, setState, setIsInProgress, () => isMounted);
+        sequentialUpdate<number>(steps, setStep, setIsInProgress, () => isMounted);
       };
       return () => {
         isMounted = false;
       };      
     }, 
-    [history]
+    [steps]
   );  
   
   const content = useMemo(
     () => (
       <ul className={styles.list}>
         {
-          state.map(
+          step.map(
             ({value, color}, index) => (
               <li className={styles.item} key={index}>
                 <Circle 
@@ -71,24 +71,26 @@ export const FibonacciPage: FC = () => {
         }
       </ul>
     ),
-    [state]
+    [step]
   );  
   
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
-      <section className={styles.container}>
-        <form className={styles.form} onSubmit={onSubmit}>
+      <section className={styles.container} data-testid="fibonacci-page">
+        <form className={styles.form} onSubmit={onSubmit} data-testid="form">
           <Input 
             type="number"          
             min={0}
             max={MAX_FIBONACCI_LENGTH}
             isLimitText={true}     
             value={inputValue}
+            data-testid="input"
             onChange={onChange(setInputValue, setIsInputValid, false)}
           />
           <Button
             type="submit"
             text="Рассчитать"
+            data-testid="calculate-button"
             disabled={!isInputValid}
             isLoader={isInProgress}
           />

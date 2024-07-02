@@ -12,9 +12,12 @@ type OnChangeCallbackType = (
 function useForm() {
   
   const onChange = useCallback<OnChangeCallbackType>(
-    (valueSetter, validitySetter, allowEmpty) => (event) => {
-      valueSetter(event.target.value);
-      validitySetter(event.target.validity.valid && (allowEmpty ? true : event.target.value.length > 0));
+    (valueSetter, validitySetter, allowEmpty) => ({ target }) => {
+      valueSetter(target.value);
+      validitySetter(
+        target.validity.valid && 
+        (allowEmpty ? true : target.value.length > 0)
+      );
     },
     []
   );

@@ -1,23 +1,14 @@
-import { ElementColors } from "../utils/constants";
-import { ElementData } from "../utils/element-data";
+import ListNode from "./list-node";
+import ElementData from "../../utils/element-data";
+import { ElementColors } from "../../utils/constants";
 
 
 
-class ListNode<T> {
-  element: ElementData<T | undefined>;
-  next?: ListNode<T>;
-  
-  constructor(element: ElementData<T | undefined>, next?: ListNode<T>) {
-    this.element = element;
-    this.next = next;
-  };
-};
-
-
-
-export class LinkedList<T> {
+class LinkedList<T> {
   private head?: ListNode<T>;
+  
   private history: Array<Array<ElementData<T | undefined>>>;
+  
   private size: number;
   
   constructor(fromArray: Array<ElementData<T>> = []) {
@@ -26,13 +17,13 @@ export class LinkedList<T> {
     this.size = 0;
     fromArray.forEach(
       (element) => {
-        this.push(element.value!);
+        this.getPushSteps(element.value!);
       }
     );
   };
   
   toArray(): Array<ElementData<T | undefined>> {
-    let result: Array<ElementData<T | undefined>> = [];
+    const result: Array<ElementData<T | undefined>> = [];
     let current = this.head;
     while (current !== undefined) {
       const deepCopy = new ElementData<T | undefined>(
@@ -65,7 +56,7 @@ export class LinkedList<T> {
     return this.history;
   };
   
-  unshift(value: T): typeof this.history {
+  getUnshiftSteps(value: T): typeof this.history {
     
     this.discard();
     
@@ -89,12 +80,12 @@ export class LinkedList<T> {
     
     this.head.element.color = ElementColors.Default;
     this.save();
-    this.size++;
+    this.size += 1;
     
     return this.history;
   };
   
-  shift(): typeof this.history {
+  getShiftSteps(): typeof this.history {
     
     this.discard();
     
@@ -118,12 +109,12 @@ export class LinkedList<T> {
     
     this.head = this.head.next;
     this.save();
-    this.size--;
+    this.size -= 1;
     
     return this.history;
   };  
   
-  push(value: T): typeof this.history {
+  getPushSteps(value: T): typeof this.history {
     
     this.discard();
     
@@ -169,12 +160,12 @@ export class LinkedList<T> {
       this.save();      
     };    
     
-    this.size++;
+    this.size += 1;
     
     return this.history;
   };
   
-  pop(): typeof this.history {
+  getPopSteps(): typeof this.history {
     
     this.discard();
     
@@ -224,12 +215,12 @@ export class LinkedList<T> {
       
     };
     
-    this.size--;
+    this.size -= 1;
     
     return this.history;
   };  
   
-  insert(value: T, index: number): typeof this.history {
+  getInsertionSteps(value: T, index: number): typeof this.history {
     
     this.discard();
     
@@ -238,18 +229,18 @@ export class LinkedList<T> {
     };
     
     if (index === 0) {
-      return this.unshift(value);
+      return this.getUnshiftSteps(value);
     };
     
     if (index === this.size) {
-      return this.push(value);
+      return this.getPushSteps(value);
     };
     
     let current = this.head;
     current!.element.valueAbove = value;
     this.save();
     
-    for (let i = 0; i < index-1; i++) {
+    for (let i = 0; i < index-1; i += 1) {
       current!.element.valueAbove = undefined;        
       current = current!.next;
       current!.element.valueAbove = value;
@@ -268,12 +259,12 @@ export class LinkedList<T> {
     current!.next.element.color = ElementColors.Default;
     this.save();
     
-    this.size++;
+    this.size += 1;
     
     return this.history;
   };
   
-  remove(index: number): typeof this.history {
+  getRemovalSteps(index: number): typeof this.history {
     
     this.discard();
     
@@ -282,11 +273,11 @@ export class LinkedList<T> {
     };
     
     if (index === 0) {
-      return this.shift();
+      return this.getShiftSteps();
     };
     
     if (index === this.size-1) {
-      return this.pop();
+      return this.getPopSteps();
     };
     
     let current = this.head;
@@ -294,7 +285,7 @@ export class LinkedList<T> {
     this.save();    
     current!.element.color = ElementColors.Default;
     
-    for (let i = 0; i < index-1; i++) {
+    for (let i = 0; i < index-1; i += 1) {
       current = current!.next;
       current!.element.color = ElementColors.Changing;
       this.save();
@@ -311,8 +302,10 @@ export class LinkedList<T> {
     current!.next = current!.next!.next;
     this.save();
     
-    this.size++;
+    this.size += 1;
     
     return this.history;    
   };
 };
+
+export default LinkedList;

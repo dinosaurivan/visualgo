@@ -2,16 +2,16 @@
 import { Dispatch, SetStateAction } from "react";
 
 // utils 
-import { sleep } from "./sleep";
+import sleep from "./sleep";
 import { Delay } from "./constants";
-import { ElementData } from "./element-data";
+import ElementData from "./element-data";
 
 
 
-export const sequentialUpdate = async <T>(
+const sequentialUpdate = async <T>(
   
-  history: Array<Array<ElementData<T>>>, 
-  stateSetter: Dispatch<SetStateAction<Array<ElementData<T>>>>,
+  steps: Array<Array<ElementData<T>>>, 
+  stepSetter: Dispatch<SetStateAction<Array<ElementData<T>>>>,
   inProgressSetter: Dispatch<SetStateAction<boolean>>,
   componentIsMounted: () => boolean,
   
@@ -19,15 +19,17 @@ export const sequentialUpdate = async <T>(
   
   let isFirstIteration = true;
   
-  for (const snapshot of history) {
+  for (const step of steps) {
     
     await sleep(isFirstIteration ? Delay.None : Delay.Medium);
     isFirstIteration = false;
     
     if (componentIsMounted()) {
-      stateSetter(snapshot);
+      stepSetter(step);
     };
   };
   
   inProgressSetter(false);
 };
+
+export default sequentialUpdate;

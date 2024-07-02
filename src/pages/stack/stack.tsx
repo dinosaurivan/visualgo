@@ -1,5 +1,5 @@
 // libraries
-import { FC, FormEvent, useEffect, useMemo, useState } from "react";
+import React, { JSX, FormEventHandler, MouseEventHandler, useEffect, useMemo, useState } from "react";
 
 // components 
 import { Button, Circle, Input, SolutionLayout } from "../../ui";
@@ -11,16 +11,16 @@ import styles from "./stack.module.css";
 import useForm from "../../hooks/use-form";
 
 // utils
-import { ElementData } from "../../utils/element-data";
-import { sequentialUpdate } from "../../utils/sequential-update";
+import ElementData from "../../utils/element-data";
+import sequentialUpdate from "../../utils/sequential-update";
 import { ElementCaptions, MAX_ELEMENT_LENGTH, StackActions } from "../../utils/constants";
 
 // data structures 
-import { Stack } from "../../data-structures/stack";
+import { Stack } from "../../data-structures";
 
 
 
-export const StackPage: FC = () => {
+export default function StackPage(): JSX.Element {
   
   const [inputValue, setInputValue] = useState("");
   const [isInputValid, setIsInputValid] = useState(false);
@@ -29,42 +29,51 @@ export const StackPage: FC = () => {
   const [action, setAction] = useState(StackActions.Push);
   const [isInProgress, setIsInProgress] = useState(false);
   
-  const [state, setState] = useState<Array<ElementData<string>>>([]);
-  const [history, setHistory] = useState<Array<typeof state>>([]);
+  const [step, setStep] = useState<Array<ElementData<string>>>([]);
+  const [steps, setSteps] = useState<Array<typeof step>>([]);
   
-  const onSubmit = (action: StackActions) => async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+  const onPush: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
-    const stack = new Stack<string>(state);
-    if (action === StackActions.Push) {
-      setHistory(stack.push(inputValue));
-    } else if (action === StackActions.Pop) {
-      setHistory(stack.pop());
-    } else if (action === StackActions.Clear) {
-      setHistory(stack.clear());
-    };
+    setAction(StackActions.Push);
+    const stack = new Stack<string>(step);
+    setSteps(stack.getPushSteps(inputValue));
     setInputValue("");
     setIsInputValid(false);
   };  
   
+  const onPop: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(StackActions.Pop);
+    const stack = new Stack<string>(step);
+    setSteps(stack.getPopSteps());
+  };  
+  
+  const onClear: MouseEventHandler<HTMLButtonElement> = async (event) => {
+    event.preventDefault();
+    setAction(StackActions.Clear);
+    const stack = new Stack<string>(step);
+    setSteps(stack.getClearSteps());
+  };    
+  
   useEffect(
     () => {
       let isMounted = true;
-      if (history.length > 0) {
+      if (steps.length > 0) {
         setIsInProgress(true);
-        sequentialUpdate<string>(history, setState, setIsInProgress, () => isMounted);
+        sequentialUpdate<string>(steps, setStep, setIsInProgress, () => isMounted);
       };
       return () => {
         isMounted = false;
       };      
     }, 
-    [history]
+    [steps]
   );
   
   const content = useMemo(
     () => (
       <ul className={styles.list}>
         {
-          state.map(
+          step.map(
             ({value, color, isHead}, index) => (
               <li className={styles.item} key={index}>
                 <Circle 
@@ -79,40 +88,43 @@ export const StackPage: FC = () => {
         }
       </ul>
     ),
-    [state]
+    [step]
   );
   
   return (
     <SolutionLayout title="Стек">
-      <section className={styles.container}>
-        <form className={styles.form} onSubmit={onSubmit(action)}>
+      <section className={styles.container} data-testid="stack-page">
+        <form className={styles.form} onSubmit={onPush} data-testid="form">
           <Input 
             maxLength={MAX_ELEMENT_LENGTH}
             isLimitText={true}     
             value={inputValue}
             placeholder="Введите значение"
+            data-testid="input"
             onChange={onChange(setInputValue, setIsInputValid, false)}
           />
           <Button
             type="submit"
             text="Добавить"
+            data-testid="push-button"
             disabled={!isInputValid || (isInProgress && action !== StackActions.Push)}
             isLoader={isInProgress && action === StackActions.Push}            
-            onClick={() => { setAction(StackActions.Push); }}
           />
           <Button
-            type="submit"
+            type="button"
             text="Удалить"
-            disabled={state.length === 0 || (isInProgress && action !== StackActions.Pop)}
+            onClick={onPop}
+            data-testid="pop-button"
+            disabled={step.length === 0 || (isInProgress && action !== StackActions.Pop)}
             isLoader={isInProgress && action === StackActions.Pop}            
-            onClick={() => { setAction(StackActions.Pop); }}
           />          
           <Button
-            type="submit"
+            type="button"
             text="Очистить"
-            disabled={state.length === 0 || (isInProgress && action !== StackActions.Clear)}
+            onClick={onClear}
+            data-testid="clear-button"
+            disabled={step.length === 0 || (isInProgress && action !== StackActions.Clear)}
             isLoader={isInProgress && action === StackActions.Clear}            
-            onClick={() => { setAction(StackActions.Clear); }}
             extraClass={styles.leftMargin}
           />                    
         </form>
