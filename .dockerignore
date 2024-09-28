@@ -1,0 +1,23 @@
+# compiled output
+build/
+
+# tests
+cypress/
+cypress.config.js
+
+# dependencies
+node_modules/
+
+# version history
+.git
+.gitignore
+
+# linting
+eslint.config.mjs
+
+# miscellanea
+.DS_Store
+.vscode
+
+# docs
+README.md
