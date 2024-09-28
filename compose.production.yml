@@ -1,0 +1,17 @@
+name: visualgo
+
+networks:
+  default:
+    name: visualgo-default
+
+services:
+  visualgo:
+    image: ivanjsx/visualgo:latest
+    container_name: visualgo
+    platform: "linux/amd64"
+    restart: always
+    ports:
+      - name: web
+        host_ip: 127.0.0.1
+        published: "8002"
+        target: 80
