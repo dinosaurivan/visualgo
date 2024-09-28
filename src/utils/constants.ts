@@ -60,5 +60,5 @@ export enum LinkedListActions {
 
 export enum Delay {
   None = 0,
-  Medium = 1000,
+  Medium = 500,
 };
