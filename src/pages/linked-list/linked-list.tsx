@@ -135,7 +135,7 @@ export default function LinkedListPage(): JSX.Element {
   );    
   
   return (
-    <SolutionLayout title="Связный список">
+    <SolutionLayout title="Linked List">
       <section className={styles.container} data-testid="linked-list-page">
         <div className={styles.forms}>
           <form className={styles.form} onSubmit={onUnshift} data-testid="value-form">
@@ -143,20 +143,20 @@ export default function LinkedListPage(): JSX.Element {
               maxLength={MAX_ELEMENT_LENGTH}
               isLimitText={true}     
               value={valueInput}
-              placeholder="Введите значение"
+              placeholder="Enter a value"
               data-testid="value-input"
               onChange={onChange(setValueInput, setIsValueValid, false)}
             />
             <Button
               type="submit"
-              text="Добавить в head"
+              text="Insert to head"
               data-testid="unshift-button"
               disabled={!isValueValid || (isInProgress && action !== LinkedListActions.Unshift)}
               isLoader={isInProgress && action === LinkedListActions.Unshift}            
             />
             <Button
               type="button"
-              text="Добавить в tail"
+              text="Insert to tail"
               onClick={onPush}
               data-testid="push-button"
               disabled={!isValueValid || (isInProgress && action !== LinkedListActions.Push)}
@@ -164,7 +164,7 @@ export default function LinkedListPage(): JSX.Element {
             />
             <Button
               type="button"
-              text="Удалить из head"
+              text="Remove from head"
               onClick={onShift}
               data-testid="shift-button"
               disabled={step.length === 0 || (isInProgress && action !== LinkedListActions.Shift)}
@@ -172,7 +172,7 @@ export default function LinkedListPage(): JSX.Element {
             />          
             <Button
               type="button"
-              text="Удалить из tail"
+              text="Remove from tail"
               onClick={onPop}
               data-testid="pop-button"
               disabled={step.length === 0 || (isInProgress && action !== LinkedListActions.Pop)}
@@ -185,20 +185,20 @@ export default function LinkedListPage(): JSX.Element {
               min={0}
               max={step.length}
               value={indexInput}
-              placeholder="Введите индекс"
+              placeholder="Enter an index"
               data-testid="index-input"
               onChange={onChange(setIndexInput, setIsIndexValid, false)}
             />
             <Button
               type="submit"
-              text="Добавить по индексу"
+              text="Insert by index"
               data-testid="insert-button"
               disabled={!isValueValid || !isIndexValid || (isInProgress && action !== LinkedListActions.Insert)}
               isLoader={isInProgress && action === LinkedListActions.Insert}            
             />
             <Button
               type="button"
-              text="Удалить по индексу"
+              text="Remove by index"
               onClick={onRemove}
               data-testid="remove-button"
               disabled={!isIndexValid || Number(indexInput) >= step.length || (isInProgress && action !== LinkedListActions.Remove)}

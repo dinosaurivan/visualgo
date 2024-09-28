@@ -75,7 +75,7 @@ export default function FibonacciPage(): JSX.Element {
   );  
   
   return (
-    <SolutionLayout title="Последовательность Фибоначчи">
+    <SolutionLayout title="Fibonacci Sequence">
       <section className={styles.container} data-testid="fibonacci-page">
         <form className={styles.form} onSubmit={onSubmit} data-testid="form">
           <Input 
@@ -89,7 +89,7 @@ export default function FibonacciPage(): JSX.Element {
           />
           <Button
             type="submit"
-            text="Рассчитать"
+            text="Calculate Sequence"
             data-testid="calculate-button"
             disabled={!isInputValid}
             isLoader={isInProgress}

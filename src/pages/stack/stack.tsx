@@ -92,27 +92,27 @@ export default function StackPage(): JSX.Element {
   );
   
   return (
-    <SolutionLayout title="Стек">
+    <SolutionLayout title="Stack">
       <section className={styles.container} data-testid="stack-page">
         <form className={styles.form} onSubmit={onPush} data-testid="form">
           <Input 
             maxLength={MAX_ELEMENT_LENGTH}
             isLimitText={true}     
             value={inputValue}
-            placeholder="Введите значение"
+            placeholder="Enter a value"
             data-testid="input"
             onChange={onChange(setInputValue, setIsInputValid, false)}
           />
           <Button
             type="submit"
-            text="Добавить"
+            text="Push to stack"
             data-testid="push-button"
             disabled={!isInputValid || (isInProgress && action !== StackActions.Push)}
             isLoader={isInProgress && action === StackActions.Push}            
           />
           <Button
             type="button"
-            text="Удалить"
+            text="Pop from stack"
             onClick={onPop}
             data-testid="pop-button"
             disabled={step.length === 0 || (isInProgress && action !== StackActions.Pop)}
@@ -120,7 +120,7 @@ export default function StackPage(): JSX.Element {
           />          
           <Button
             type="button"
-            text="Очистить"
+            text="Clear stack"
             onClick={onClear}
             data-testid="clear-button"
             disabled={step.length === 0 || (isInProgress && action !== StackActions.Clear)}

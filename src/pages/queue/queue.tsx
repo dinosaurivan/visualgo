@@ -94,20 +94,20 @@ export default function QueuePage(): JSX.Element {
   );  
   
   return (
-    <SolutionLayout title="Очередь">
+    <SolutionLayout title="Queue">
       <section className={styles.container} data-testid="queue-page">
         <form className={styles.form} onSubmit={onEnqueue} data-testid="form">
           <Input 
             maxLength={MAX_ELEMENT_LENGTH}
             isLimitText={true}     
             value={inputValue}
-            placeholder="Введите значение"
+            placeholder="Enter a value"
             data-testid="input"
             onChange={onChange(setInputValue, setIsInputValid, false)}
           />
           <Button
             type="submit"
-            text="Добавить"
+            text="Add to queue"
             data-testid="enqueue-button"
             isLoader={isInProgress && action === QueueActions.Enqueue}            
             disabled={
@@ -118,7 +118,7 @@ export default function QueuePage(): JSX.Element {
           />
           <Button
             type="button"
-            text="Удалить"
+            text="Remove from queue"
             onClick={onDequeue}
             data-testid="dequeue-button"
             isLoader={isInProgress && action === QueueActions.Dequeue}            
@@ -129,7 +129,7 @@ export default function QueuePage(): JSX.Element {
           />          
           <Button
             type="button"
-            text="Очистить"
+            text="Clear queue"
             onClick={onClear}
             data-testid="clear-button"
             isLoader={isInProgress && action === QueueActions.Clear}            

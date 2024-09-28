@@ -101,17 +101,17 @@ export default function SortingPage(): JSX.Element {
   );    
   
   return (
-    <SolutionLayout title="Сортировка массива">
+    <SolutionLayout title="Array Sorting">
       <section className={styles.container} data-testid="sorting-page">
         <form className={styles.form} onSubmit={onRefresh}>
           <RadioInput
-            label="Выбор"
+            label="Selection"
             value={SortingActions.Selection}
             checked={action === SortingActions.Selection}
             onChange={changeAlgorithm}            
           />
           <RadioInput
-            label="Пузырёк"
+            label="Bubble"
             value={SortingActions.Bubble}
             checked={action === SortingActions.Bubble}
             onChange={changeAlgorithm}            
@@ -119,7 +119,7 @@ export default function SortingPage(): JSX.Element {
           />          
           <Button
             type="button"
-            text="По возрастанию"
+            text="Ascending"
             onClick={onAscendingSort}
             sorting={Direction.Ascending}
             disabled={isInProgress && direction !== Direction.Ascending}
@@ -128,7 +128,7 @@ export default function SortingPage(): JSX.Element {
           />
           <Button
             type="button"
-            text="По убыванию"
+            text="Descending"
             onClick={onDescendingSort}
             sorting={Direction.Descending}
             disabled={isInProgress && direction !== Direction.Descending}
@@ -136,13 +136,13 @@ export default function SortingPage(): JSX.Element {
           />      
           <Button
             type="submit"
-            text="Новый массив"
+            text="New array"
             disabled={!isInputValid || isInProgress}
             extraClass={styles.largeLeftMargin}
           />               
           <Input 
             type="number"          
-            placeholder="число элементов"
+            placeholder="Size"
             min={MIN_ARRAY_SIZE}
             max={MAX_ARRAY_SIZE}
             value={inputValue}

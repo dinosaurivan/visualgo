@@ -75,7 +75,7 @@ export default function StringPage(): JSX.Element {
   );
   
   return (
-    <SolutionLayout title="Строка">
+    <SolutionLayout title="String Reversal">
       <section className={styles.container} data-testid="string-page">
         <form className={styles.form} onSubmit={onSubmit} data-testid="form">
           <Input 
@@ -88,7 +88,7 @@ export default function StringPage(): JSX.Element {
           />
           <Button 
             type="submit"
-            text="Развернуть"
+            text="Reverse it"
             data-testid="reverse-button"            
             disabled={!isInputValid}
             isLoader={isInProgress}

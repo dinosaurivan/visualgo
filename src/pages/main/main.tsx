@@ -12,12 +12,12 @@ const MainPage: FC<MainPageProps> = ({ extraClass = "" }) => (
   <main className={`${styles.content} ${extraClass}`} data-testid="main-page">
     <div className={styles.title_box}>
       <h1 className={`text text_type_h1 text_color_h1 ${styles.title}`}>
-        МБОУ АЛГОСОШ
+        VISU ALGO
       </h1>
       <p
         className={`text text_type_fibonacci text_color_secondary ${styles.fibonacci_title}`}
       >
-        им. Фибоначчи
+        interactive visualizer
       </p>
     </div>
     <div className={styles.cards_box}>
@@ -44,7 +44,7 @@ const MainPage: FC<MainPageProps> = ({ extraClass = "" }) => (
       <p
         className={`text text_type_ticker text_color_secondary ${styles.ticker_text}`}
       >
-        Вдохновлено школами, в которых не учили алгоритмам
+        Inspired by the book Grokking Algorithms by Aditya Bhargava
       </p>
       <div className={styles.dot_box}>
         <p className={styles.dot} />
@@ -53,7 +53,7 @@ const MainPage: FC<MainPageProps> = ({ extraClass = "" }) => (
     <p
       className={`text text_type_column text_color_input mt-14 ${styles.copyright}`}
     >
-      © Сделано в Практикуме.
+      © Ivan Shanin
     </p>
   </main>
 );
