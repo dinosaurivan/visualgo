@@ -8,7 +8,7 @@ From the **developer's perspective**, this project serves as a learning exercise
 
 ## See It In Action
 
-User-facing, the project can be accessed at [visual.ivanjsx.com](https://visual.ivanjsx.com).
+User-facing, the project is optimized for **desktop viewing** in your preferred browser at [visual.ivanjsx.com](https://visual.ivanjsx.com).
 
 For developers, executing the tests requires running the project locally. Follow the instructions below:
 
