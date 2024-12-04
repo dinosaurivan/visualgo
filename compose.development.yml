@@ -19,5 +19,5 @@ services:
     ports:
       - name: web
         host_ip: 127.0.0.1
-        published: "8002"
+        published: "3002"
         target: 80
